@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI  from 'element-ui'
 import './plugins/element.js'
 import 'element-ui/lib/theme-chalk/index.css';
+import './assets/css/normlize.css'
 
 Vue.use(ElementUI);
 Vue.use(VueAxios,axios)

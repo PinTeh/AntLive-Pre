@@ -1,43 +1,52 @@
 <template>
-  <div class="root">
-    <el-row :gutter="20" type="flex" class="row-bg" justify="center">
-      <el-col :span="14">
-        <el-card :body-style="{ padding: '0px' }" shadow="always">
-          <div class="author-info-content">
-            <div style="width:70px;float:left;">
-              <el-image class="author-info-avatar" :src="url2" :fit="fit"></el-image>
-            </div>
-            <div class="author-info">
-              <p class="author-info-title">Porsche的直播间</p>
-              <p class="author-info-name">Panamara Turbos</p>
-            </div>
-          </div>
-          <div class="live-content"></div>
-          <div class="present-content">
-            <el-image class="present-item" :src="url" :fit="fit"></el-image>
-            <el-image class="present-item" :src="url3" :fit="fit"></el-image>
-            <el-image class="present-item" :src="url" :fit="fit"></el-image>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="4">
-        <el-card :body-style="{ padding: '0px' }" shadow="always">
-          <div class="rank"></div>
-          <div class="danmu"></div>
-          <div class="send-message-content">
-            <div class="send-message-box">
-              <el-input  v-model="input" placeholder="请输入内容"></el-input>
-            </div>
-            <!-- <input class="send-message-box" v-model="input" placeholder="请输入内容"  /> -->
-            <!-- <button class="send-message-btn">发送</button> -->
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-  </div>
+  <el-container>
+    <el-header>
+      <Header />
+    </el-header>
+    <el-main >
+      <div class="root">
+        <el-row :gutter="20" type="flex" class="row-bg" justify="center" style="margin-top:0px;">
+          <el-col :span="14">
+            <el-card :body-style="{ padding: '0px' }" shadow="always">
+              <div class="author-info-content">
+                <div style="width:70px;float:left;">
+                  <el-image class="author-info-avatar" :src="url2" :fit="fit"></el-image>
+                </div>
+                <div class="author-info">
+                  <p class="author-info-title">Porsche的直播间</p>
+                  <p class="author-info-name">Panamara Turbos</p>
+                </div>
+              </div>
+              <div class="live-content"></div>
+              <div class="present-content">
+                <el-image class="present-item" :src="url" :fit="fit"></el-image>
+                <el-image class="present-item" :src="url3" :fit="fit"></el-image>
+                <el-image class="present-item" :src="url" :fit="fit"></el-image>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="4">
+            <el-card :body-style="{ padding: '0px' }" shadow="always">
+              <div class="rank"></div>
+              <div class="danmu"></div>
+              <div class="send-message-content">
+                <div class="send-message-box">
+                  <el-input  v-model="input" placeholder="请输入内容"></el-input>
+                </div>
+                <!-- <input class="send-message-box" v-model="input" placeholder="请输入内容"  /> -->
+                <!-- <button class="send-message-btn">发送</button> -->
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+    </el-main>
+  </el-container>
+  
 </template>
 
 <script>
+import Header from '../components/Header'
 export default {
   name: "index",
   data() {
@@ -47,15 +56,18 @@ export default {
       url3: "http://image.imhtb.cn/飞机1.png",
       input: ""
     };
+  },
+  components:{
+    Header
   }
 };
 </script>
 
 <style>
 .row-bg {
-  padding: 10px 0;
-  background-color: #d1d1d1;
-  margin-top: 50px;
+  /* padding: 10px 0; */
+  /* background: rgb(236, 236, 236); */
+  /* margin-top: 50px; */
 }
 .bg-purple {
   background: #d3dce6;
