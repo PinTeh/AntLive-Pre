@@ -2,13 +2,15 @@
   <div style="width:1200px;margin:0 auto;">
     <el-container>
       <el-header style="height:auto;">
-          <UserInfo></UserInfo>
+          <UserInfo :nick="userInfo.nick||''" :portrait="userInfo.portrait || ''" :level="userInfo.ulevel || 1" :uid="userInfo.uid || ''" :starNumber="userInfo.point||0" :diamondNumber="userInfo.gold||0"></UserInfo>
       </el-header>
       <el-container>
         <el-aside width="250px">
             <UserInfoNav />
         </el-aside>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -23,7 +25,20 @@ export default {
   components: {
     UserInfo,
     UserInfoNav
-  }
+  },
+   data(){
+    return {
+      isLogin: false,
+      userInfo: { //保存用户信息
+        nick: "PinTeh",
+        ulevel: 89,
+        uid: 123456,
+        gold: 68,
+        point: 99,
+        portrait: 'http://image.imhtb.cn/avatar.png'
+      }
+    }
+  },
 };
 </script>
 
@@ -36,13 +51,6 @@ export default {
 .el-container {
   margin:30px 0 30px 0;
 }
-
-/* .el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  padding: 5px;
-} */
 
 .el-main {
   background-color: #75b5f5;
