@@ -1,9 +1,10 @@
 <template>
   <div class="main-header">
     <div class="main-header-nav">
-        <a class="nav-a" href="#">登录</a>
-        <a class="nav-a" href="#">注册</a>
-        <a class="nav-a" href="#" @click='handleClick'>测试</a>
+      <a class="nav-a" href="/" style="float:left;">首页</a>
+      <a class="nav-a" href="#">登录</a>
+      <a class="nav-a" href="#">注册</a>
+      <a class="nav-a" href="#" @click="handleClick">测试</a>
     </div>
   </div>
 </template>
@@ -20,10 +21,10 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-    handleClick(){
-        this.$router.push({
-            path:'/center'
-        })
+    handleClick() {
+      this.$router.push({
+        path: "/center"
+      });
     }
   }
 };
@@ -42,18 +43,19 @@ export default {
   background: rgb(144, 144, 233);
   margin: 0 auto;
 }
-.nav-a{
-    line-height: 50px;
-    float: right;
-    background: rgb(214, 124, 124);
-    margin: 0 5px 0 0;
-    width: 60px;
-    text-decoration: none;
-    color: black;
+.nav-a {
+  line-height: 50px;
+  float: right;
+  /* background: rgb(214, 124, 124); */
+  margin: 0 5px 0 0;
+  width: 60px;
+  text-decoration: none;
+  color: black;
 }
 
-.nav-a :hover{
-    background: rgb(240, 102, 102);
-    color: rgb(45, 252, 4);
+.nav-a:hover {
+  /* 主题颜色 */
+  background: rgb(252, 70, 25);
+  color: white;
 }
 </style>

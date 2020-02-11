@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:500px;">
       auth-center
   </div>
 </template>

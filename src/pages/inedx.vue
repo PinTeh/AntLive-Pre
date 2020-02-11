@@ -17,7 +17,9 @@
                   <p class="author-info-name">Panamara Turbos</p>
                 </div>
               </div>
-              <div class="live-content"></div>
+              <div class="live-content">
+                <Live :url="live_config.url"/>
+              </div>
               <div class="present-content">
                 <el-image class="present-item" :src="url" :fit="fit"></el-image>
                 <el-image class="present-item" :src="url3" :fit="fit"></el-image>
@@ -47,6 +49,7 @@
 
 <script>
 import Header from '../components/Header'
+import Live from '../components/Live'
 export default {
   name: "index",
   data() {
@@ -54,16 +57,20 @@ export default {
       url: "http://image.imhtb.cn/飞机.png",
       url2: "http://image.imhtb.cn/avatar.png",
       url3: "http://image.imhtb.cn/飞机1.png",
-      input: ""
+      input: "",
+      live_config:{
+        url:'http://play.imhtb.cn/live/333.flv'
+      }
     };
   },
   components:{
-    Header
+    Header,
+    Live
   }
 };
 </script>
 
-<style>
+<style scoped>
 .row-bg {
   /* padding: 10px 0; */
   /* background: rgb(236, 236, 236); */
