@@ -37,6 +37,7 @@ export default {
   /* position:fixed;
   top:0px; */
   text-align: center;
+  width: 100%;
 }
 .main-header-nav {
   width: 70%;

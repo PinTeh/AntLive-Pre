@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>
+    <el-header style="padding:0px">
       <Header />
     </el-header>
     <el-main >
