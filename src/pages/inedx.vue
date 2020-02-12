@@ -21,9 +21,9 @@
                 <Live :url="live_config.url"/>
               </div>
               <div class="present-content">
-                <el-image class="present-item" :src="url" :fit="fit"></el-image>
-                <el-image class="present-item" :src="url3" :fit="fit"></el-image>
-                <el-image class="present-item" :src="url" :fit="fit"></el-image>
+                <el-image class="present-item" :src="url" ></el-image>
+                <el-image class="present-item" :src="url3" ></el-image>
+                <el-image class="present-item" :src="url" ></el-image>
               </div>
             </el-card>
           </el-col>
@@ -71,11 +71,11 @@ export default {
 </script>
 
 <style scoped>
-.row-bg {
-  /* padding: 10px 0; */
-  /* background: rgb(236, 236, 236); */
-  /* margin-top: 50px; */
-}
+/* .row-bg {
+  padding: 10px 0; 
+  background: rgb(236, 236, 236); 
+  margin-top: 50px;
+} */
 .bg-purple {
   background: #d3dce6;
   height: 550px;
@@ -164,7 +164,8 @@ export default {
   border-radius: 4px;
   border: 1px solid rgb(221, 221, 221);
 }
-.present-item :hover {
+.present-item:hover {
   border: 1px solid rgb(243, 130, 0);
+  cursor: pointer;
 }
 </style>
