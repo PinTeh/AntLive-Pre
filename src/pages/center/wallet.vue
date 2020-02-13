@@ -1,6 +1,6 @@
 <template>
-  <div style="height:500px;text-align:left;padding:10px 20px 0 20px;">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+  <div style="height:500px;text-align:left;">
+    <el-tabs v-model="activeName" @tab-click="handleClick" style="margin:0px 20px 0 20px;"> 
       <el-tab-pane label="账户余额" name="first">
         <div style="height:100px;width:100%;">
           <span>账户余额</span>

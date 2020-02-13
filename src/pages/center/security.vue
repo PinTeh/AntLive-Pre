@@ -2,38 +2,29 @@
   <div style="height:500px">
     <el-row>
       <el-col :span="12">
-        <div style="height:200px;width:100%;text-align:left;">
-          <div class="img-container">
-            <el-image class="icon" :src="url"></el-image>
-          </div>
-          <div style="float:left;margin-top:30px;">
-            <p style="font-size:18px;">我的邮箱</p>
-            <p>绑定邮箱可以接收通知</p>
-            <el-button size="mini">去完善</el-button>
-          </div>
-        </div>
+        <SecurityItem />
       </el-col>
       <el-col :span="12">
-        <div style="height:200px;width:100%;text-align:left;">
-          <div class="img-container">
-            <el-image class="icon" :src="url"></el-image>
-          </div>
-          <div style="float:left;margin-top:30px;">
-            <p style="font-size:18px;">我的邮箱</p>
-            <p>绑定邮箱可以接收通知</p>
-            <el-button size="mini">去完善</el-button>
-          </div>
-        </div>
+        <SecurityItem />
       </el-col>
     </el-row>
-
-    
+        <el-row>
+      <el-col :span="12">
+        <SecurityItem />
+      </el-col>
+      <el-col :span="12">
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import SecurityItem from "../../components/SecurityItem";
 export default {
   name: "security",
+  components: {
+    SecurityItem
+  },
   data() {
     return {
       url: "http://image.imhtb.cn/avatar.png"

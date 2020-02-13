@@ -1,12 +1,18 @@
 <template>
-    <div>
-        history
+    <div style="height:500px;">
+        <FollowItem />
+        <FollowItem />
+        <FollowItem />
     </div>
 </template>
 
 <script>
+import FollowItem from '../../components/FollowItem'
 export default {
-    name:'history'
+    name:'history',
+    components:{
+        FollowItem
+    }
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div style="height:500px;text-align:center;">
-    <el-row style="margin-top:40px;">
+    <el-row style="margin-top:0px;">
       <el-col :span="8">
         <el-upload
           class="upload-demo"
@@ -31,7 +31,7 @@
           <div class="el-upload__tip" slot="tip">上传证件正面照</div>
         </el-upload>
       </el-col>
-      <el-col :span="8">
+      <!-- <el-col :span="8">
         <el-upload
           class="upload-demo"
           drag
@@ -45,7 +45,7 @@
           </div>
           <div class="el-upload__tip" slot="tip">上传证件背面照</div>
         </el-upload>
-      </el-col>
+      </el-col> -->
     </el-row>
 
     <el-form
@@ -102,7 +102,5 @@ export default {
 </script>
 
 <style>
-.el-upload-dragger{
-    width: 280px;
-}
+
 </style>
