@@ -2,8 +2,8 @@
   <div class="main-header">
     <div class="main-header-nav">
       <a class="nav-a" href="/" style="float:left;">首页</a>
-      <a class="nav-a" href="#">登录</a>
-      <a class="nav-a" href="#">注册</a>
+      <a class="nav-a" href="#" @click="handleLogin">登录</a>
+      <!-- <a class="nav-a" href="#" @click="handleRegister">注册</a> -->
       <a class="nav-a" href="#" @click="handleClick">测试</a>
     </div>
   </div>
@@ -24,6 +24,16 @@ export default {
     handleClick() {
       this.$router.push({
         path: "/center"
+      });
+    },
+    handleLogin() {
+      this.$router.push({
+        path: "/login"
+      });
+    },
+    handleRegister() {
+      this.$router.push({
+        path: "/register"
       });
     }
   }

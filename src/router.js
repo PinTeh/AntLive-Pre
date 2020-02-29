@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Index from './pages/inedx.vue'
-import Cart from './pages/cart.vue'
 import UserCenter from './pages/center.vue'
 import Security from './pages/center/security'
 import Identify from './pages/center/identify'
@@ -17,16 +15,31 @@ import Punishment from './pages/center/punishment'
 
 Vue.use(VueRouter)
 
-const routes = [
+const routes = [    
     {
         path: '/',
-        name: 'index',
-        component: Index
+        name: 'center',
+        component: ()=>import("./pages/index-center")
+    },
+    {
+        path: '/live/:id',
+        name: 'live',
+        component: ()=>import("./pages/live")
     },
     {
         path: '/cart',
         name: 'cart',
-        component: Cart
+        component: ()=>import("./pages/cart")
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: ()=>import("./pages/login")
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: ()=>import("./pages/register")
     },
     {
         path: '/center',
@@ -90,6 +103,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+    mode: 'history',
     routes
 })
 

@@ -1,0 +1,14 @@
+{
+    "code": 0,
+    "msg": "SUCCESS",
+    "data": {
+        "id": 1,
+        "title": "王牌3星1v4",
+        "cover": "https://images.unsplash.com/photo-1582917205301-bbb4afb5501f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+        "user": {
+            "id": 1,
+            "name": "PinTeh",
+            "avatar": "http://image.imhtb.cn/avatar.png"
+        }
+    }
+}

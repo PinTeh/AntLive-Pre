@@ -10,15 +10,15 @@
             <el-card :body-style="{ padding: '0px' }" shadow="always">
               <div class="author-info-content">
                 <div style="width:70px;float:left;">
-                  <el-image class="author-info-avatar" :src="url2" :fit="fit"></el-image>
+                  <el-image class="author-info-avatar" :src="info.user.avatar" :fit="fit"></el-image>
                 </div>
                 <div class="author-info">
-                  <p class="author-info-title">Porsche的直播间</p>
-                  <p class="author-info-name">Panamara Turbos</p>
+                  <p class="author-info-title">{{info.title}}</p>
+                  <p class="author-info-name">{{info.user.name}}</p>
                 </div>
               </div>
               <div class="live-content">
-                <Live :url="live_config.url"/>
+                <LivePlayer :liveUrl="url"/>
               </div>
               <div class="present-content">
                 <el-image class="present-item" :src="url" ></el-image>
@@ -49,7 +49,7 @@
 
 <script>
 import Header from '../components/Header'
-import Live from '../components/Live'
+import LivePlayer from '../components/LivePlayer'
 export default {
   name: "index",
   data() {
@@ -60,12 +60,24 @@ export default {
       input: "",
       live_config:{
         url:'http://play.imhtb.cn/live/333.flv'
-      }
+      },
+      info:{}
     };
   },
   components:{
     Header,
-    Live
+    LivePlayer
+  },
+  mounted(){
+    this.init();
+  },
+  methods:{
+    init(){
+      this.axios.get('/mock/room-info.json').then((res)=>{
+        let r = res.data;
+        this.info = r.data;
+      })
+    }
   }
 };
 </script>
