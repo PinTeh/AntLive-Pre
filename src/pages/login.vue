@@ -10,7 +10,7 @@
           </span>
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
-          <el-form-item prop="username" class="login-item">
+          <el-form-item prop="account" class="login-item">
             <span class="loginTips">
               <icon-svg icon-class="iconuser" />
             </span>
@@ -19,7 +19,7 @@
               class="area"
               type="text"
               placeholder="用户名"
-              v-model="loginForm.username"
+              v-model="loginForm.account"
             ></el-input>
           </el-form-item>
           <el-form-item prop="password" class="login-item">
@@ -66,27 +66,26 @@
       </section>
     </transition>
     <div class="bottom-div">
-      <p>Copyright  2020 PinTeh</p>
+      <p>Copyright 2020 PinTeh</p>
     </div>
   </div>
 </template>
 
 <script>
+import store from "../store";
 import logoImg from "@/assets/logo.png";
-// import { login } from "@/api/user";
-// import { setToken } from '@/utils/auth'
 export default {
+  name:'login',
   data() {
     return {
       logo: logoImg,
       loginForm: {
-        username: "",
+        account: "794409767@qq.com",
         password: ""
       },
       rules: {
-        username: [
+        account: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 2, max: 8, message: "长度在 2 到 8 个字符", trigger: "blur" }
         ],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
@@ -104,13 +103,14 @@ export default {
     submitForm(loginForm) {
       this.$refs[loginForm].validate(valid => {
         if (valid) {
-          // let userinfo = this.loginForm;
-          // login(userinfo).then(res => {
-          // 	let userList = res.data.userList;
-          // 	setToken("Token",userList.token)
-          // 	this.$router.push({ path: '/' })
-          // 	this.$store.dispatch('initLeftMenu'); //设置左边菜单始终为展开状态
-          // })
+          let userinfo = this.loginForm;
+          store
+            .dispatch("login", userinfo)
+            .then(() => {
+              this.$router.push("/");
+            });
+        } else {
+          return false;
         }
       });
     },
@@ -119,38 +119,38 @@ export default {
         path: "/register"
       });
     },
-    handleToHome(){
+    handleToHome() {
       this.$router.push({
-        path:'/'
-      })
+        path: "/"
+      });
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.bottom-div{
+.bottom-div {
   text-align: center;
   height: 20px;
   width: 100%;
-  bottom:30px;
+  bottom: 30px;
   position: absolute;
-  p{
+  p {
     font-size: 14px;
     color: #7e7e7e;
   }
 }
-.register{
+.register {
+  text-decoration: none;
+  text-align: right;
+  a {
     text-decoration: none;
-    text-align: right;
-    a{
-        text-decoration: none;
-        padding: 5px;
-        color:#666666;
-    }
-    a:visited{
-        color:#666666;
-    }
+    padding: 5px;
+    color: #666666;
+  }
+  a:visited {
+    color: #666666;
+  }
 }
 .login_page {
   position: absolute;

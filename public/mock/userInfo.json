@@ -1,0 +1,12 @@
+{
+    "code": 0,
+    "msg": "SUCCESS",
+    "data": {
+        "token": "b23nasdop123mlldmflkn2lp.1i1kjbvhb5vh12jlk3.13kh265kj1b24k",
+        "userInfo": {
+            "id": 1,
+            "name": "PinTeh",
+            "avatar": "http://image.imhtb.cn/avatar.png"
+        }
+    }
+}

@@ -14,6 +14,7 @@
 <script>
 import Header from '../components/Header'
 import LiveRoom from '../components/LiveRoom'
+import authApi from '../api'
 export default {
     components:{
         LiveRoom,
@@ -32,16 +33,21 @@ export default {
                 }
             },
             {
-                id:1,
+                id:2,
                 title:"Porsche Panamera",
                 cover:'https://images.unsplash.com/photo-1579599709180-375ce2a5db8b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2125&q=80',
                 user:{
-                    id:1,
+                    id:2,
                     name:'Porsche',
                     avatar:'http://image.imhtb.cn/avatar.png'
                 }
             }]
         }
+    },
+    mounted(){
+        authApi.foo(1).then(res => {
+            console.log(res.data,"res.data")
+        })
     }
 }
 </script>

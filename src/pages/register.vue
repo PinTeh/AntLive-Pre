@@ -60,7 +60,7 @@
                 ></el-input>
               </el-col>
               <el-col :span="8">
-                <el-button @click="handleGetCode">获取验证码</el-button>
+                <el-button @click="handleGetCode">{{buttonDesc}}</el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -100,18 +100,18 @@
 
 <script>
 import logoImg from "@/assets/logo.png";
-// import { login } from "@/api/user";
-// import { setToken } from '@/utils/auth'
+import store from '../store'
 export default {
   data() {
     return {
       logo: logoImg,
       loginForm: {
-        account: "",
+        account: "794409767@qq.com",
         password: "",
         password_confirm: "",
         code: ""
       },
+      buttonDesc:"获取验证码",
       rules: {
         account: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
@@ -134,13 +134,10 @@ export default {
     submitForm(loginForm) {
       this.$refs[loginForm].validate(valid => {
         if (valid) {
-          // let userinfo = this.loginForm;
-          // login(userinfo).then(res => {
-          // 	let userList = res.data.userList;
-          // 	setToken("Token",userList.token)
-          // 	this.$router.push({ path: '/' })
-          // 	this.$store.dispatch('initLeftMenu'); //设置左边菜单始终为展开状态
-          // })
+          let userinfo = this.loginForm;
+          store.dispatch('register',userinfo).then(()=>{
+            this.$router.push('/login')
+          })
         }
       });
     },
@@ -149,7 +146,14 @@ export default {
         path: "/register"
       });
     },
-    handleGetCode() {}
+    handleGetCode() {
+      let time = 60
+      setInterval(() => {
+        time = time - 1
+        this.buttonDesc = time + "s"
+      }, 1000);
+      store.dispatch('sendCode',this.loginForm.account)
+    }
   }
 };
 </script>

@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import Api from '../api'
 import UserInfo from "../components/UserInfo";
 import UserInfoNav from "../components/UserInfoNav";
 import Header from "../components/Header";
@@ -46,17 +47,24 @@ export default {
   },
   data() {
     return {
-      isLogin: false,
       userInfo: {
         //保存用户信息
-        nick: "PinTeh",
+        nick: "",
         ulevel: 89,
-        uid: 123456,
+        uid: '',
         gold: 68,
         point: 99,
-        portrait: "http://image.imhtb.cn/avatar.png"
+        portrait: ''
       }
     };
+  },
+  mounted(){
+    Api.getUserInfo().then(res => {
+      let ret = res.data.data;
+      this.userInfo.nick = ret.nickName;
+      this.userInfo.uid = ret.id;
+      this.userInfo.portrait = ret.avatar;
+    })
   }
 };
 </script>
