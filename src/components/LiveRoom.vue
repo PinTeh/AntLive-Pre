@@ -4,8 +4,8 @@
     <div style="padding: 14px;">
       <span class="title">{{room.title}}</span>
       <div class="bottom clearfix">
-        <img class="avatar" :src="room.user.avatar" />
-        <time class="time">{{room.user.name}}</time>
+        <img class="avatar" :src="room.userInfo.avatar" />
+        <time class="time">{{room.userInfo.name}}</time>
       </div>
     </div>
   </el-card>
@@ -27,7 +27,7 @@
         });
         }
     }
-    };
+  };
 </script>
 
 <style lang="less" >

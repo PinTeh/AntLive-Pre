@@ -42,6 +42,11 @@ const routes = [
         component: ()=>import("./pages/register")
     },
     {
+        path: '/recharge',
+        name:'recharge',
+        component: ()=>import("./pages/recharge")
+    },
+    {
         path: '/center',
         name: 'center',
         component: UserCenter,
@@ -97,7 +102,8 @@ const routes = [
             {
                 path: 'punishment',
                 component: Punishment
-            }
+            },
+            
         ]
     },
 ]

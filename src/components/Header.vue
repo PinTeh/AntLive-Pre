@@ -9,9 +9,9 @@
             <el-avatar
               style="vertical-align:middle;margin:0 5px 0 10px;"
               size="small"
-              src="http://image.imhtb.cn/avatar.png"
+              :src="this.$store.state.userInfo.avatar"
             ></el-avatar>
-            <span style="padding:5px;font-size:15px;">PinTeh</span>
+            <span style="padding:5px;font-size:15px;">{{this.$store.state.userInfo.nickName || 'AntLive'}}</span>
             <i style="padding:0 10px 0 0;" class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">

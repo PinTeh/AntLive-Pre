@@ -14,7 +14,7 @@
 <script>
 import Header from '../components/Header'
 import LiveRoom from '../components/LiveRoom'
-import authApi from '../api'
+import Api from '../api'
 export default {
     components:{
         LiveRoom,
@@ -22,31 +22,12 @@ export default {
     },
     data(){
         return {
-            room_list:[{
-                id:1,
-                title:"王牌3星1v4",
-                cover:'https://images.unsplash.com/photo-1582917205301-bbb4afb5501f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-                user:{
-                    id:1,
-                    name:'PinTeh',
-                    avatar:'http://image.imhtb.cn/avatar.png'
-                }
-            },
-            {
-                id:2,
-                title:"Porsche Panamera",
-                cover:'https://images.unsplash.com/photo-1579599709180-375ce2a5db8b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2125&q=80',
-                user:{
-                    id:2,
-                    name:'Porsche',
-                    avatar:'http://image.imhtb.cn/avatar.png'
-                }
-            }]
+            room_list:[]
         }
     },
     mounted(){
-        authApi.foo(1).then(res => {
-            console.log(res.data,"res.data")
+        Api.getLivingRoomInfo().then(res => {
+            this.room_list = res.data.data;
         })
     }
 }

@@ -81,7 +81,7 @@ export default {
       logo: logoImg,
       loginForm: {
         account: "794409767@qq.com",
-        password: ""
+        password: "123123"
       },
       rules: {
         account: [

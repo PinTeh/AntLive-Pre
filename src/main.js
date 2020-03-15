@@ -8,14 +8,23 @@ import './plugins/element.js'
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/normlize.css'
 import store from './store/index'
+// import SocketIO from 'socket.io-client';
+// import VueSocketIO from 'vue-socket.io'
 
-Vue.use(ElementUI);
+Vue.use(ElementUI)
 Vue.use(VueAxios,axios)
+// Vue.use(new VueSocketIO({
+//   debug: true,
+//   connection: SocketIO('http://127.0.0.1:9000/live/chat/1') 
+// }))
+
+
+
 Vue.config.productionTip = false
 
 
 router.beforeEach((to,from,next)=>{
-  console.log(store.state,"store.state")
+  //console.log(store.state,"store.state")
   next()
 })
 

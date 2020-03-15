@@ -3,27 +3,30 @@
     <el-header style="padding:0px">
       <Header />
     </el-header>
-    <el-main >
+    <el-main>
       <div class="root">
         <el-row :gutter="20" type="flex" class="row-bg" justify="center" style="margin-top:0px;">
           <el-col :span="14">
             <el-card :body-style="{ padding: '0px' }" shadow="always">
               <div class="author-info-content">
                 <div style="width:70px;float:left;">
-                  <el-image class="author-info-avatar" :src="info.user.avatar" :fit="fit"></el-image>
+                  <el-image class="author-info-avatar" :src="info.userInfo.avatar" :fit="'fit'"></el-image>
                 </div>
                 <div class="author-info">
                   <p class="author-info-title">{{info.title}}</p>
-                  <p class="author-info-name">{{info.user.name}}</p>
+                  <p class="author-info-name">{{info.userInfo.name}}</p>
                 </div>
               </div>
               <div class="live-content">
-                <LivePlayer :liveUrl="url"/>
+                <LivePlayer :liveUrl="info.rtmpUrl" />
               </div>
               <div class="present-content">
-                <el-image class="present-item" :src="url" ></el-image>
-                <el-image class="present-item" :src="url3" ></el-image>
-                <el-image class="present-item" :src="url" ></el-image>
+                <el-image
+                  v-for="item in presents"
+                  :key="item.id"
+                  class="present-item"
+                  :src="item.icon"
+                ></el-image>
               </div>
             </el-card>
           </el-col>
@@ -33,7 +36,7 @@
               <div class="danmu"></div>
               <div class="send-message-content">
                 <div class="send-message-box">
-                  <el-input  v-model="input" placeholder="请输入内容"></el-input>
+                  <el-input v-model="input" placeholder="请输入内容"></el-input>
                 </div>
                 <!-- <input class="send-message-box" v-model="input" placeholder="请输入内容"  /> -->
                 <!-- <button class="send-message-btn">发送</button> -->
@@ -44,50 +47,75 @@
       </div>
     </el-main>
   </el-container>
-  
 </template>
 
 <script>
-import Header from '../components/Header'
-import LivePlayer from '../components/LivePlayer'
+import Api from "../api";
+import Header from "../components/Header";
+import LivePlayer from "../components/LivePlayer";
+import { getToken } from '../utils/auth'
 export default {
   name: "index",
   data() {
     return {
-      url: "http://image.imhtb.cn/飞机.png",
-      url2: "http://image.imhtb.cn/avatar.png",
-      url3: "http://image.imhtb.cn/飞机1.png",
       input: "",
-      live_config:{
-        url:'http://play.imhtb.cn/live/333.flv'
+      info: {
+        title: "",
+        userInfo: {
+          nick: "",
+          avatar: ""
+        }
       },
-      info:{}
+      presents: [],
+      socket: ""
     };
   },
-  components:{
+  components: {
     Header,
     LivePlayer
   },
-  mounted(){
+  mounted() {
     this.init();
   },
-  methods:{
-    init(){
-      this.axios.get('/mock/room-info.json').then((res)=>{
-        let r = res.data;
-        this.info = r.data;
-      })
+  methods: {
+    init() {
+      let rid = this.$route.params.id;
+      Api.getRoomInfo(rid).then(res => {
+        this.info = res.data.data;
+      });
+      Api.getPresentInfo().then(res => {
+        this.presents = res.data.data;
+      });
+      // 实例化socket
+      this.socket = new WebSocket("ws://localhost:9000/live/chat/"+rid+"/" + getToken());
+      // 监听socket连接
+      this.socket.onopen = this.open;
+      // 监听socket错误信息
+      this.socket.onerror = this.error;
+      // 监听socket消息
+      this.socket.onmessage = this.getMessage;
+    },
+    open() {
+      console.log("socket连接成功");
+    },
+    error() {
+      console.log("连接错误");
+    },
+    getMessage(msg) {
+      console.log(msg,"msg")
+      console.log(msg.data,"msg.data");
+    },
+    send() {
+      this.socket.send("tt");
+    },
+    close() {
+      console.log("socket已经关闭");
     }
   }
 };
 </script>
 
 <style scoped>
-/* .row-bg {
-  padding: 10px 0; 
-  background: rgb(236, 236, 236); 
-  margin-top: 50px;
-} */
 .bg-purple {
   background: #d3dce6;
   height: 550px;
