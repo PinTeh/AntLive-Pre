@@ -1,37 +1,65 @@
 <template>
   <div style="height:500px;text-align:left;">
-    <el-tabs v-model="activeName" @tab-click="handleClick" style="margin:0px 20px 0 20px;">
+    <el-tabs v-model="activeName" style="margin:0px 20px 0 20px;">
       <el-tab-pane label="账户余额" name="first">
         <div style="height:500px;width:100%;">
           <span>金豆余额</span>
-          <i></i>
-          <h1 class="wallet-ret">{{(balance)|getBalance}}</h1>
-          <p>金豆有什么用？</p>
-          <p>金豆是AntLive世界中非常重要的物品</p>
-          <ul>
-            <li>金豆用于对优秀的主播进行打赏支持，这是对主播的一种肯定</li>
-            <li>金豆还可用于、购买标识、参与活动等</li>
-          </ul>
-          <p>如何获得金豆？</p>
-          <ul>
-            <li>
-              点击右边的充值即可~
-              <a href="#">立即充值</a>
-            </li>
-          </ul>
+          <br />
+          <div class="wallent-div">
+            <i class="wallent-icon"></i>
+            <span class="wallet-balance">{{(balance)|getBalance}}</span>
+          </div>
+
+          <div class="wallent-tips-div">
+            <p>金豆有什么用？</p>
+            <p>金豆是AntLive世界中非常重要的物品</p>
+            <ul>
+              <li>金豆用于对优秀的主播进行打赏支持，这是对主播的一种肯定</li>
+              <li>金豆还可用于、购买标识、参与活动等</li>
+            </ul>
+            <p>如何获得金豆？</p>
+            <ul>
+              <li>
+                充钱
+                <a href="#" @click="handleToRecharge">立即充值</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="账户充值" name="second">
-        <el-input-number v-model="num" :step="1000" controls-position="right"></el-input-number>
-        <br />
-        <el-button @click="handleRecharge">充值</el-button>
+      <el-tab-pane label="账户充值" name="second" style="text-align:center;">
+        <div style="height:260px;width:850px;">
+          <RechargeItem
+            v-for="item in rechargeData"
+            :key="item.index"
+            @click.native="handleItemSelect(item.index,item.num)"
+            :num="item.num"
+            :select="checkIndex==item.index?true:false"
+          />
+          <RechargeItem @click.native="checkIndex = -1"
+            :select="checkIndex==-1?true:false">
+            <template v-slot:content>
+                <el-input-number type="number" size="small" v-model="num" :step="1000" controls-position="right"></el-input-number> <span>金豆</span>
+                <span style="display:block;margin-top:8px;"> ￥{{num/1000}}.00 </span>
+            </template>
+          </RechargeItem>
+          <br />
+        </div>
+        <el-button @click="handleRecharge" style="margin:0 auto;width:100px">充值</el-button>
       </el-tab-pane>
-      <el-tab-pane label="消费记录" name="third">
-        <el-table :data="tableData" border style="width: 100%" header-row-style="font-size:14px;">
-          <el-table-column prop="date" label="日期"></el-table-column>
-          <el-table-column prop="order" label="订单号"></el-table-column>
-          <el-table-column prop="balance" label="金额"></el-table-column>
-          <el-table-column prop="type" label="充值类型"></el-table-column>
+      <el-tab-pane label="账单记录" name="third">
+        <el-table :data="tableData" border style="width: 100%" header-row-style="font-size:14px">
+          <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
+          <el-table-column width="180" prop="createTime" label="日期" align="center"></el-table-column>
+          <el-table-column prop="orderNo" label="订单号" align="center"></el-table-column>
+          <el-table-column prop="billChange" width="80" label="金额" align="center"></el-table-column>
+          <el-table-column prop="type" width="80" label="类型" align="center">
+            <template slot-scope="scope">
+              {{scope.row.type===0 ? '充值':'支出'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="balance" width="80" label="余额" align="center"></el-table-column>
+          <el-table-column prop="mark" label="备注" align="center"></el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
@@ -40,62 +68,99 @@
 
 <script>
 import Api from "../../api";
+import RechargeItem from "../../components/RechargeItem";
 export default {
   name: "wallet",
   data() {
     return {
-      activeName: "third",
+      activeName: "first",
       balance: 0,
       num: 1000,
-      tableData: [
+      tableData: [],
+      checkIndex: 0,
+      rechargeData: [
         {
-          date: "2020-03-16 01:28:54",
-          order: "43514162138742",
-          balance: 648,
-          type:"系统充值"
+          index: 0,
+          num: 10000
         },
         {
-          date: "2020-03-16 01:28:54",
-          order: "67456745674657",
-          balance: 324,
-          type:"系统充值"
+          index: 1,
+          num: 64000
         },
-         {
-          date: "2020-03-16 01:28:54",
-          order: "23456345739947",
-          balance: 68,
-          type:"系统充值"
+        {
+          index: 2,
+          num: 128000
         },
+        {
+          index: 3,
+          num: 648000
+        },
+        {
+          index: 4,
+          num: 1296000
+        }
       ]
     };
   },
+  components: {
+    RechargeItem
+  },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
     handleRecharge() {
       let routeUrl = this.$router.resolve({
         path: "/recharge",
         query: { m: this.num }
       });
       window.open(routeUrl.href, "_blank");
+    },
+    handleToRecharge() {
+      this.activeName = "second";
+    },
+    handleItemSelect(c,n){
+      this.checkIndex = c
+      this.num = n
     }
   },
   mounted() {
     Api.getBalance().then(r => {
       this.balance = r.data.data;
     });
+    Api.getBillList().then(r => {
+      this.tableData = r.data.data;
+    });
   },
   filters: {
     getBalance: v => {
-      return "￥" + v;
+      return v * 1000;
     }
   }
 };
 </script>
 
 <style>
-.wallet-ret {
+.wallent-div {
+  margin: 20px 0 0 0;
+  height: 30px;
+  display: flex;
+}
+.wallet-balance {
   color: #fa7900;
+  line-height: 25px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: 18px;
+}
+.wallent-icon {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-image: url("../../assets/img/dou.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+}
+.wallent-tips-div {
+  font-size: 15px;
+  color: rgb(83, 83, 83);
+  margin: 20px 0 0 0;
 }
 </style>

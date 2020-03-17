@@ -110,4 +110,10 @@ export default {
             }
         })
     },
+    getBillList(){
+        return request({
+            url:'/bill/list',
+            method:'get'
+        })
+    },
 }

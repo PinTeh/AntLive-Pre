@@ -6,8 +6,8 @@ import { getToken } from './auth'
  import router from '../router'
 
 const instance = axios.create({
-    //baseURL:'http://localhost:9000',
-    baseURL:'http://www.imhtb.cn',
+    baseURL:'http://localhost:9000',
+    //baseURL:'http://www.imhtb.cn',
     timeout:5000,
     withCredentials:true
 })

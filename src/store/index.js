@@ -8,7 +8,11 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state:{
         userInfo:'',
-        token:''
+        token:'',
+        webSocket:{
+            rid:'',
+            socket:''
+        }
     },
     getters:{
         foo(state){
@@ -23,6 +27,9 @@ const store = new Vuex.Store({
         },
         setStateToken(state,v){
             state.token = v
+        },
+        setWebSocket(state,v){
+            state.webSocket = v
         }
     },
     actions:{
