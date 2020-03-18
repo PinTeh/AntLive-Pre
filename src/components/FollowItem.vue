@@ -1,9 +1,9 @@
 <template>
   <div class="item-container">
-      <el-image :src="src" class="item-img"></el-image><br>
+      <el-image :src="item.cover" fit="cover" class="item-img"></el-image><br>
      <div style="text-align:left;margin-left:5px;">
-       <span style="line-height:30px;width:220px;">[央视新闻]长镜头下的</span><br>
-      <i class="el-icon-user">央视新闻</i>
+       <span style="line-height:30px;width:220px;">[{{item.name}}]{{item.title}}</span><br>
+      <i class="el-icon-user">{{item.name}}</i>
      </div>
   </div>
 </template>
@@ -15,7 +15,8 @@ export default {
       return {
         src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
       }
-    }
+    },
+    props:['item']
 }
 </script>
 

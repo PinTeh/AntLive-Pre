@@ -16,12 +16,23 @@
                 <p class="author-info-name">{{info.userInfo.name}}</p>
               </div>
               <div class="author-follow">
-                  <el-button v-if="isFollow" round disabled style="padding:8px 20px 8px 20px;font-size:13px;" >已关注</el-button>
-                  <el-button v-else round style="padding:8px 20px 8px 20px;font-size:13px;" >关注</el-button>
+                <el-button
+                  @click="handleFollow(false)"
+                  v-if="isFollow"
+                  round
+                  disabled
+                  style="padding:8px 20px 8px 20px;font-size:13px;"
+                >已关注</el-button>
+                <el-button
+                  @click="handleFollow(true)"
+                  v-else
+                  round
+                  style="padding:8px 20px 8px 20px;font-size:13px;"
+                >关注</el-button>
               </div>
             </div>
             <div class="live-content">
-              <!-- <LivePlayer :liveUrl="info.rtmpUrl" /> -->
+              <LivePlayer :liveUrl="info.rtmpUrl" />
             </div>
             <div class="present-content">
               <el-image
@@ -50,14 +61,14 @@
               </ul>
             </div>
             <div class="send-message-content">
-                <el-input v-model="input" :disabled="this.isLogin" placeholder>
-                  <el-button slot="append" :disabled="this.isLogin" @click="handleSend">发送</el-button>
-                </el-input>
+              <el-input v-model="input" :disabled="this.isLogin" placeholder>
+                <el-button slot="append" :disabled="this.isLogin" @click="handleSend">发送</el-button>
+              </el-input>
             </div>
           </el-card>
         </div>
       </div>
-          <div style="height:100px;width:100%;"></div>
+      <div style="height:100px;width:100%;"></div>
     </el-main>
   </el-container>
 </template>
@@ -65,7 +76,7 @@
 <script>
 import Api from "../api";
 import Header from "../components/Header";
-// import LivePlayer from "../components/LivePlayer";
+import LivePlayer from "../components/LivePlayer";
 import { getToken } from "../utils/auth";
 import store from "../store";
 export default {
@@ -74,13 +85,15 @@ export default {
     return {
       input: "",
       info: {
+        id: "",
         title: "",
         userInfo: {
           nick: "",
           avatar: ""
         },
+        rtmpUrl:''
       },
-      isFollow:false,
+      isFollow: false,
       presents: [],
       socket: "",
       messageList: [
@@ -97,13 +110,27 @@ export default {
     }
   },
   components: {
-    Header
-    // LivePlayer
+    Header,
+    LivePlayer
   },
   mounted() {
     this.init();
   },
   methods: {
+    handleFollow(flag) {
+      if (flag) {
+        Api.saveWatch({
+          rid: this.info.id,
+          type: 1
+        }).then(() => {
+          this.isFollow = true;
+        });
+      } else {
+        Api.delWatch(this.info.id).then(()=>{
+          this.isFollow = false;
+        })
+      }
+    },
     init() {
       let rid = this.$route.params.id;
       Api.getRoomInfo(rid).then(res => {
@@ -134,7 +161,7 @@ export default {
 
       setTimeout(() => {
         var div = document.getElementById("danmu-list");
-        div.scrollTop = div.scrollHeight
+        div.scrollTop = div.scrollHeight;
       }, 0);
     },
     initWebSocket(rid) {
@@ -153,7 +180,7 @@ export default {
         }
         console.log("初始化ws");
         this.socket = new WebSocket(
-          "ws://localhost:9000/live/chat/" + rid + "/" + getToken()
+          "ws://119.23.255.187:9000/live/chat/" + rid + "/" + getToken()
         );
         this.socket.onopen = this.open;
         this.socket.onclose = this.onclose;
@@ -261,7 +288,7 @@ export default {
   height: 80px;
   width: 700px;
   position: relative;
-      display: inline-block;
+  display: inline-block;
 }
 .author-info-title {
   padding: 7px;
@@ -283,7 +310,7 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.author-follow{
+.author-follow {
   height: 80px;
   width: 100px;
   line-height: 80px;
@@ -307,10 +334,8 @@ export default {
   background: rgb(247, 247, 247);
 }
 .send-message-content {
-  height: 60px;
-  line-height: 60px;
   vertical-align: middle;
-   padding: 0 10px 0 10px; 
+  padding: 10px 10px 10px 10px;
 }
 
 .send-message-box {

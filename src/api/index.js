@@ -71,6 +71,12 @@ export default {
             }
         })
     },
+    getRoomSettingInfo(){
+        return request({
+            url:'/room/setting/info',
+            method:'get',
+        })
+    },
     getPresentInfo(){
         return request({
             url:'/present',
@@ -116,4 +122,44 @@ export default {
             method:'get'
         })
     },
+    getWatctList(type){
+        return request({
+            url:'/watch/list',
+            method:'get',
+            params:{
+                type
+            }
+        })
+    },
+    saveWatch(data){
+        return request({
+            url:'/watch',
+            method:'post',
+            data
+        })
+    },
+    delWatch(id){
+        return request({
+            url:'/watch',
+            method:'delete',
+            params:{
+                id
+            }
+        })
+    },
+    liveOpen(){
+        return request({
+            url:'/live/open',
+            method:'post'
+        })
+    },
+    liveClose(rid){
+        return request({
+            url:'/live/on_done',
+            method:'post',
+            params:{
+                name:rid
+            }
+        })
+    }
 }
