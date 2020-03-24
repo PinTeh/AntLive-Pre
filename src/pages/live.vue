@@ -35,12 +35,24 @@
               <LivePlayer :liveUrl="info.rtmpUrl" />
             </div>
             <div class="present-content">
-              <el-image
+              <el-popconfirm
                 v-for="item in presents"
                 :key="item.id"
-                class="present-item"
-                :src="item.icon"
-              ></el-image>
+                confirmButtonText="是的"
+                cancelButtonText="不了"
+                icon="el-icon-info"
+                iconColor="green"
+                title="确定要赠送礼物吗？"
+                @onConfirm="handlePresent(item.id)"
+              >
+                <el-image
+                  
+                  class="present-item"
+                  :src="item.icon"
+                  slot="reference"
+                ></el-image>
+
+              </el-popconfirm>
             </div>
           </el-card>
         </div>
@@ -91,7 +103,7 @@ export default {
           nick: "",
           avatar: ""
         },
-        rtmpUrl:''
+        rtmpUrl: ""
       },
       isFollow: false,
       presents: [],
@@ -117,6 +129,26 @@ export default {
     this.init();
   },
   methods: {
+    handlePresent(id){
+      Api.sendPresent({
+        rid:this.info.id,
+        number:1,
+        pid:id
+      }).then((ret)=>{
+        if(ret.data.code==0){
+          this.$notify({
+          title: '成功',
+          message: '赠送成功',
+          type: 'success'
+        });
+        }else{
+          this.$notify.error({
+          title: '错误',
+          message: '赠送失败'
+        });
+        }
+      })
+    },
     handleFollow(flag) {
       if (flag) {
         Api.saveWatch({
@@ -126,9 +158,9 @@ export default {
           this.isFollow = true;
         });
       } else {
-        Api.delWatch(this.info.id).then(()=>{
+        Api.delWatch(this.info.id).then(() => {
           this.isFollow = false;
-        })
+        });
       }
     },
     init() {

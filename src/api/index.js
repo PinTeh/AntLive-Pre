@@ -161,5 +161,12 @@ export default {
                 name:rid
             }
         })
+    },
+    sendPresent(data){
+        return request({
+            url:'/present/send',
+            method:'post',
+            data
+        })
     }
 }

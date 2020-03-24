@@ -6,8 +6,8 @@ import { getToken } from './auth'
  import router from '../router'
 
 const instance = axios.create({
-    //baseURL:'http://localhost:9000',
-    baseURL:'http://www.imhtb.cn:9000',
+    baseURL:'http://localhost:9000',
+   // baseURL:'http://www.imhtb.cn:9000',
     timeout:5000,
     withCredentials:true
 })
@@ -29,7 +29,7 @@ instance.interceptors.response.use(res=>{
                 //location.reload()
                 router.push('/login')
             })
-        }else{
+        }else if(ret.code == Code.ERROR){
             Message.error(ret.msg)
         }
     }
