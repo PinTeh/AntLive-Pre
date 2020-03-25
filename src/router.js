@@ -12,6 +12,8 @@ import Overview from './pages/center/overview'
 import GiftList from './pages/center/gift-list'
 import DanMu from './pages/center/dan-mu'
 import Punishment from './pages/center/punishment'
+import AdminCenter from './pages/admin'
+import AdminDashboard from './pages/admin/dashboard'
 
 Vue.use(VueRouter)
 
@@ -45,6 +47,25 @@ const routes = [
         path: '/recharge',
         name:'recharge',
         component: ()=>import("./pages/recharge")
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: AdminCenter,
+        children:[
+            {
+                path:'',
+                component:AdminDashboard
+            },
+            {
+                path:'dashboard',
+                component:AdminDashboard
+            },
+            {
+                path:'user-manage',
+                component:()=>import("./pages/admin/user-manage")
+            }
+        ]
     },
     {
         path: '/center',

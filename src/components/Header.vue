@@ -21,6 +21,7 @@
         </el-dropdown>
       </a>
       <a class="nav-a" href="#" @click="handleClick">测试</a>
+      <a class="nav-a" href="#" @click="handleClickAdmin">管理</a>
     </div>
   </div>
 </template>
@@ -42,6 +43,11 @@ export default {
     handleClick() {
       this.$router.push({
         path: "/center"
+      });
+    },
+    handleClickAdmin(){
+      this.$router.push({
+        path: "/admin"
       });
     },
     handleLogin() {

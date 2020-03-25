@@ -4,8 +4,8 @@
       <section class="form_contianer">
         <div class="titleArea rflex">
           <span class="title">
-            Ant
-            <i>Live</i>
+            Live
+            <i>Register</i>
           </span>
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">

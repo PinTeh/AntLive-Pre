@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="center-div">
     <Header></Header>
     <div style="width:1200px;margin:0 auto;">
       <el-container>
@@ -70,20 +70,20 @@ export default {
 </script>
 
 <style scoped>
-.el-header {
+.center-div .el-header {
   padding: 0px;
 }
 
-.el-container {
+.center-div .el-container {
   margin: 30px 0 30px 0;
 }
 
-.el-main {
+.center-div .el-main {
   text-align: center;
   margin-left: 20px;
   padding: 0px;
 }
-.el-menu {
+.center-div .el-menu {
   border: none;
 }
 </style>
