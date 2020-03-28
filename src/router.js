@@ -64,6 +64,30 @@ const routes = [
             {
                 path:'user-manage',
                 component:()=>import("./pages/admin/user-manage")
+            },
+            {
+                path:'user-auth',
+                component:()=>import("./pages/admin/auth-manage")
+            },
+            {
+                path:'data-analysis',
+                component:()=>import("./pages/admin/user-manage")
+            },
+            {
+                path:'system-settings',
+                component:()=>import("./pages/admin/system-settings")
+            },
+            {
+                path:'live-room-manage',
+                component:()=>import("./pages/admin/live-room-manage")
+            },
+            {
+                path:'bill',
+                component:()=>import("./pages/admin/bill-manage")
+            },
+            {
+                path:'live-info-manage',
+                component:()=>import("./pages/admin/live-info-manage")
             }
         ]
     },

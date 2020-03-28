@@ -77,18 +77,43 @@ export default {
           path: "user-manage",
           title: "会员中心"
         },
+        
         {
           index: 3,
+          icon: "el-icon-coordinate",
+          path: "user-auth",
+          title: "身份验证"
+        },
+        {
+          index: 4,
+          icon: "el-icon-bangzhu",
+          path: "live-room-manage",
+          title: "直播管理"
+        },        
+        {
+          index: 5,
+          icon: "el-icon-data-analysis",
+          path: "live-info-manage",
+          title: "直播数据"
+        },
+        {
+          index: 6,
+          icon: "el-icon-partly-cloudy",
+          path: "bill",
+          title: "流水账单"
+        },
+        {
+          index: 9,
+          icon: "el-icon-menu",
+          path: "system-settings",
+          title: "系统设置"
+        },
+        {
+          index: 10,
           icon: "el-icon-data-analysis",
           path: "data-analysis",
           title: "数据统计"
         },
-        {
-          index: 4,
-          icon: "el-icon-menu",
-          path: "system-settings",
-          title: "系统设置"
-        }
       ]
     };
   },
@@ -148,9 +173,10 @@ export default {
     background: #fff;
     color: #333;
     text-align: center;
-    line-height: 40px;
-    height: 40px !important;
-    font-size: 13px;
+    line-height: 35px;
+    height: 35px !important;
+    font-size: 12px;
+    border-top: solid 2px rgb(245, 245, 245);
   }
   .el-aside {
     background-color: #fff;

@@ -168,5 +168,65 @@ export default {
             method:'post',
             data
         })
-    }
+    },
+    getDashboardData(){
+        return request({
+            url:'/admin/dashboard/data',
+            method:'get'
+        })
+    },
+    adminGetUserList(page,limit){
+        return request({
+            url:'/admin/user/list',
+            method:'get',
+            params:{
+                page,
+                limit
+            }
+        })
+    },
+    adminGetRoomList(page,limit){
+        return request({
+            url:'/admin/room/list',
+            method:'get',
+            params:{
+                page,
+                limit
+            }
+        })
+    },
+    adminAuthInfoList(page,limit){
+        return request({
+            url:'/admin/auth/list',
+            method:'get',
+            params:{
+                page,
+                limit
+            }
+        })
+    },
+    adminBillList(page,limit,type,dateRange){
+        return request({
+            url:'/admin/bill/list',
+            method:'get',
+            params:{
+                page,
+                limit,
+                type,
+                dateRange
+            }
+        })
+    },
+    adminLiveInfoList(page,limit,rid,dateRange){
+        return request({
+            url:'/admin/liveInfo/list',
+            method:'get',
+            params:{
+                page,
+                limit,
+                rid,
+                dateRange
+            }
+        })
+    },
 }
