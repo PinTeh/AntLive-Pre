@@ -116,10 +116,15 @@ export default {
             }
         })
     },
-    getBillList(){
+    getBillList(month,page,limit){
         return request({
             url:'/bill/list',
-            method:'get'
+            method:'get',
+            params:{
+                page,
+                limit,
+                month
+            }
         })
     },
     getWatctList(type){
@@ -175,13 +180,15 @@ export default {
             method:'get'
         })
     },
-    adminGetUserList(page,limit){
+    adminGetUserList(page,limit,uid,disabled){
         return request({
             url:'/admin/user/list',
             method:'get',
             params:{
                 page,
-                limit
+                limit,
+                uid,
+                disabled
             }
         })
     },
@@ -198,6 +205,16 @@ export default {
     adminAuthInfoList(page,limit){
         return request({
             url:'/admin/auth/list',
+            method:'get',
+            params:{
+                page,
+                limit
+            }
+        })
+    },
+    adminPresentList(page,limit){
+        return request({
+            url:'/admin/present/list',
             method:'get',
             params:{
                 page,
@@ -229,4 +246,10 @@ export default {
             }
         })
     },
+    openLive(){
+        return request({
+            url:'/tencent/live/open',
+            method:'get',
+        })
+    }
 }

@@ -8,6 +8,7 @@
       <el-table-column prop="positiveUrl" label="正面照" width="180" align="center"></el-table-column>
       <el-table-column prop="reverseUrl" label="反面照" align="center"></el-table-column>
       <el-table-column prop="cardNo" label="身份证号" width="180" align="center"></el-table-column>
+      <el-table-column prop="createTime" label="申请时间"  align="center"></el-table-column>
       <el-table-column prop="status" label="当前认证" align="center">
         <template slot-scope="scope">{{scope.row.status===0 ? '未认证':'已认证'}}</template>
       </el-table-column>
@@ -22,9 +23,9 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="10"
+      :page-size="limit"
       layout="prev, pager, next, jumper"
-      :total="100"
+      :total="total"
       style="margin-top:10px;"
     ></el-pagination>
   </div>

@@ -6,14 +6,14 @@
         <el-button slot="append" @click="handleSearchButton" icon="el-icon-search"></el-button>
       </el-input> 
        <span>直播状态</span>
-      <el-select v-model="liveStatus" placeholder="直播状态" size="small" @change="handleSelectChange" clearable="true">
-        <el-option key="0" label="收入" value="0"></el-option>
-        <el-option key="1" label="支出" value="1"></el-option>
+      <el-select v-model="liveStatus" placeholder="直播状态" size="small" @change="handleSelectChange" :clearable="true">
+        <el-option key="0" label="未开播" value="0"></el-option>
+        <el-option key="1" label="直播中" value="1"></el-option>
       </el-select>
        <span>封禁状态</span>
-      <el-select v-model="liveDisabled" placeholder="封禁状态" size="small" @change="handleSelectChange" clearable="true">
-        <el-option key="0" label="收入" value="0"></el-option>
-        <el-option key="1" label="支出" value="1"></el-option>
+      <el-select v-model="liveDisabled" placeholder="封禁状态" size="small" @change="handleSelectChange" :clearable="true">
+        <el-option key="0" label="未封禁" value="0"></el-option>
+        <el-option key="1" label="封禁中" value="1"></el-option>
       </el-select>
     </div>
     <el-table :data="tableData" style="width: 100%" class="room-table">
@@ -82,6 +82,12 @@ export default {
     this.page();
   },
   methods: {
+    handleSearchButton(){
+
+    },
+    handleSelectChange(){
+
+    },
     handleSizeChange(val) {
       this.limit = val;
     },
@@ -116,6 +122,6 @@ export default {
   }
 }
 .room-table .cell {
-  max-height: 24px !important;
+  max-height: 53px !important;
 }
 </style>

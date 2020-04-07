@@ -54,7 +54,6 @@ export default {
   },
   mounted(){
       Api.getRoomSettingInfo().then(res=>{
-          console.log(res.data.data)
           let ret = res.data.data;
           this.formData.title = ret.title;
           this.formData.notice = ret.notice;

@@ -88,6 +88,10 @@ const routes = [
             {
                 path:'live-info-manage',
                 component:()=>import("./pages/admin/live-info-manage")
+            },
+            {
+                path:'present-manage',
+                component:()=>import("./pages/admin/present-manage")
             }
         ]
     },

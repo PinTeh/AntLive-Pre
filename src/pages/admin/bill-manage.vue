@@ -2,7 +2,7 @@
   <div class="bill-manage-container">
     <div class="header-operator">
       <span>类型</span>
-      <el-select v-model="showType" placeholder="收支类型" size="small" @change="handleSelectChange" clearable="true">
+      <el-select v-model="showType" placeholder="收支类型" size="small" @change="handleSelectChange" :clearable="true">
         <el-option key="0" label="收入" value="0"></el-option>
         <el-option key="1" label="支出" value="1"></el-option>
       </el-select>

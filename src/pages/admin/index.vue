@@ -69,7 +69,7 @@ export default {
           index: 1,
           icon: "el-icon-data-board",
           path: "dashboard",
-          title: "仪表盘"
+          title: "首页"
         },
         {
           index: 2,
@@ -113,6 +113,12 @@ export default {
           icon: "el-icon-data-analysis",
           path: "data-analysis",
           title: "数据统计"
+        },
+        {
+          index: 11,
+          icon: "el-icon-data-analysis",
+          path: "present-manage",
+          title: "礼物配置"
         },
       ]
     };

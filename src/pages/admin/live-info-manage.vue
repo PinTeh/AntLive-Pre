@@ -3,7 +3,7 @@
     <div class="header-operator">
       <span>房间号</span>
     <el-input placeholder="请输入房间号" v-model="roomId" style="width:200px" size="small">
-        <el-button slot="append" @click="handleSearchButton" icon="el-icon-search"></el-button>
+        <el-button slot="append" @click="handleSearchButtonClick" icon="el-icon-search"></el-button>
       </el-input>
       <span>范围</span>
       <el-date-picker
@@ -34,7 +34,6 @@
       <el-table-column prop="status" label="当前状态" align="center" show-overflow-tooltip></el-table-column>
     </el-table>
     <el-pagination
-      @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
       :page-size="limit"
@@ -97,11 +96,8 @@ export default {
     handleDateRangeChange() {
       this.page()
     },
-    handleSearchButton() {
+    handleSearchButtonClick() {
       this.page()
-    },
-    handleSizeChange(val) {
-      this.limit = val;
     },
     handleCurrentChange(val) {
       this.currentPage = val;

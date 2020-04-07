@@ -1,5 +1,5 @@
 <template>
-  <div style="height:500px;text-align:left;">
+  <div style="height:auto;text-align:left;">
     <el-tabs v-model="activeName" style="margin:0px 20px 0 20px;">
       <el-tab-pane label="账户余额" name="first">
         <div style="height:500px;width:100%;">
@@ -36,11 +36,17 @@
             :num="item.num"
             :select="checkIndex==item.index?true:false"
           />
-          <RechargeItem @click.native="checkIndex = -1"
-            :select="checkIndex==-1?true:false">
+          <RechargeItem @click.native="checkIndex = -1" :select="checkIndex==-1?true:false">
             <template v-slot:content>
-                <el-input-number type="number" size="small" v-model="num" :step="1000" controls-position="right"></el-input-number> <span>金豆</span>
-                <span style="display:block;margin-top:8px;"> ￥{{num/1000}}.00 </span>
+              <el-input-number
+                type="number"
+                size="small"
+                v-model="num"
+                :step="1000"
+                controls-position="right"
+              ></el-input-number>
+              <span>金豆</span>
+              <span style="display:block;margin-top:8px;">￥{{num/10}}.00</span>
             </template>
           </RechargeItem>
           <br />
@@ -48,19 +54,41 @@
         <el-button @click="handleRecharge" style="margin:0 auto;width:100px">充值</el-button>
       </el-tab-pane>
       <el-tab-pane label="账单记录" name="third">
-        <el-table :data="tableData" border style="width: 100%" header-row-style="font-size:14px">
+        <div style="height:40px">
+          <el-date-picker
+      v-model="query_month"
+      @change="handleQueryChange"
+      value-format="yyyy-MM"
+      type="month"
+      placeholder="按月份查询"
+      size="small">
+    </el-date-picker>
+        </div>
+        <el-table :data="tableData" border style="width: 100%" >
           <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
           <el-table-column width="180" prop="createTime" label="日期" align="center"></el-table-column>
-          <el-table-column prop="orderNo" label="订单号" align="center"></el-table-column>
-          <el-table-column prop="billChange" width="80" label="金额" align="center"></el-table-column>
+          <el-table-column prop="orderNo" label="流水号" align="center"></el-table-column>
+          <el-table-column prop="billChange" width="80" label="存入" align="center">
+            <template slot-scope="scope">{{scope.row.billChange>=0 ? scope.row.billChange:''}}</template>
+          </el-table-column>
+          <el-table-column prop="billChange" width="80" label="支出" align="center">
+            <template slot-scope="scope">{{scope.row.billChange>=0 ? '':Math.abs(scope.row.billChange)}}</template>
+          </el-table-column>
           <el-table-column prop="type" width="80" label="类型" align="center">
-            <template slot-scope="scope">
-              {{scope.row.type===0 ? '充值':'支出'}}
-            </template>
+            <template slot-scope="scope">{{scope.row.type===0 ? '充值':'支出'}}</template>
           </el-table-column>
           <el-table-column prop="balance" width="80" label="余额" align="center"></el-table-column>
           <el-table-column prop="mark" label="备注" align="center"></el-table-column>
         </el-table>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
+          :page-size="limit"
+          layout="prev, pager, next"
+          :total="total"
+          style="margin:10px 0px 10px 0px;text-align:center;"
+        ></el-pagination>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -73,31 +101,35 @@ export default {
   name: "wallet",
   data() {
     return {
-      activeName: "first",
+      activeName: "third",
       balance: 0,
       num: 1000,
       tableData: [],
       checkIndex: 0,
+      query_month:'',
+      limit:10,
+      currentPage:1,
+      total:0,
       rechargeData: [
         {
           index: 0,
-          num: 10000
+          num: 100
         },
         {
           index: 1,
-          num: 64000
+          num: 640
         },
         {
           index: 2,
-          num: 128000
+          num: 1280
         },
         {
           index: 3,
-          num: 648000
+          num: 6480
         },
         {
           index: 4,
-          num: 1296000
+          num: 12960
         }
       ]
     };
@@ -106,6 +138,14 @@ export default {
     RechargeItem
   },
   methods: {
+    handleSizeChange(val) {
+      this.limit = val;
+      this.page();
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.page();
+    },
     handleRecharge() {
       let routeUrl = this.$router.resolve({
         path: "/recharge",
@@ -116,18 +156,27 @@ export default {
     handleToRecharge() {
       this.activeName = "second";
     },
-    handleItemSelect(c,n){
-      this.checkIndex = c
-      this.num = n
+    handleItemSelect(c, n) {
+      this.checkIndex = c;
+      this.num = n;
+    },
+    handleQueryChange(v){
+      this.query_month = v;
+      this.page();
+    },
+    page(){
+      Api.getBillList(this.query_month,this.currentPage,this.limit).then(r => {
+        let ret = r.data.data;
+        this.tableData = ret.records;
+        this.total = ret.total;
+      });
     }
   },
   mounted() {
     Api.getBalance().then(r => {
       this.balance = r.data.data;
     });
-    Api.getBillList().then(r => {
-      this.tableData = r.data.data;
-    });
+    this.page();
   },
   filters: {
     getBalance: v => {
