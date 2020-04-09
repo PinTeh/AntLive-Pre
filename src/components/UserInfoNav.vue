@@ -3,7 +3,7 @@
     :default-active="activeIndex"
     class="el-menu-demo"
     @select="handleSelect"
-    unique-opened="true"
+    :unique-opened="true"
     router="false"
   >
     <el-submenu index="1" >

@@ -1,10 +1,11 @@
 <template>
   <div class="live-settings" >
-    <el-card class="live-settings-card" :body-style="{ padding: '0 0 10px 0'}">
-        <p>直播</p>
+    <el-card class="live-settings-card" :body-style="{ padding: '0 0 10px 0'}" shadow="hover">
+            <p>开播</p>
             <el-divider></el-divider>
-            <p>推流地址：{{pushUrl}}</p>
-            <p>密钥:{{secret}}</p>
+            <span>推流地址：</span><span style="font-size:14px;color:#666;">{{pushUrl}}</span>
+            <p></p>
+            <span>密钥：</span><span style="font-size:14px;color:#666;">{{secret}}</span>
             <el-divider></el-divider>
             <el-button plain @click="handleLiveOpen">我要直播</el-button>
     </el-card>
@@ -42,9 +43,14 @@ export default {
 <style>
 .live-settings {
   /* min-height: 500px; */
-  padding: 20px;
+  height: 500px;
+  padding:0 20px 0 20px;
+  
 }
 .live-settings-card{
     /* margin: 20px; */
+    height: 440px;
+    position: relative;
+    top:20px
 }
 </style>

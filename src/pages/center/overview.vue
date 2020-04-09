@@ -1,7 +1,7 @@
 <template>
-  <div style="height:500px;">
-    <p style="">{{'总时长： ' + time + '分钟'}}</p>
-    <el-table :data="tableData" border style="width: 100%">
+  <div style="height:auto;box-sizing: border-box;padding:20px">
+    <!-- <p style="">{{'总时长： ' + time + '分钟'}}</p> -->
+    <el-table :data="tableData" border style="width: 100%;" size="small">
       <el-table-column label="序号" type="index" align="center" width="100"></el-table-column>
       <el-table-column prop="startTime" label="开始时间" align="center" ></el-table-column>
       <el-table-column prop="endTime" label="结束时间" align="center" ></el-table-column>

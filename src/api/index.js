@@ -126,6 +126,15 @@ export default {
                 month
             }
         })
+    },    
+    getWithdrawalList(page,limit){
+        return request({
+            url:'/bill/withdrawal/list',
+            method:'get',
+            params:{
+                page,
+                limit            }
+        })
     },
     getWatctList(type){
         return request({
@@ -250,6 +259,13 @@ export default {
         return request({
             url:'/tencent/live/open',
             method:'get',
+        })
+    },
+    withdrawal(data){
+        return request({
+            url:'/bill/withdrawal',
+            method:'post',
+            data
         })
     }
 }

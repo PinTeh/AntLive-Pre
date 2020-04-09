@@ -32,7 +32,7 @@
               </div>
             </div>
             <div class="live-content">
-              <LivePlayer :liveUrl="info.rtmpUrl" />
+              <LivePlayer :url="info.liveUrl" />
             </div>
             <div class="present-content">
               <el-popconfirm
@@ -88,7 +88,7 @@
 <script>
 import Api from "../api";
 import Header from "../components/Header";
-import LivePlayer from "../components/LivePlayer";
+import LivePlayer from "../components/FlvLivePlayer";
 import { getToken } from "../utils/auth";
 import store from "../store";
 export default {
@@ -103,7 +103,7 @@ export default {
           nick: "",
           avatar: ""
         },
-        rtmpUrl: ""
+        liveUrl: "http://play.imhtb.cn/live/1.flv"
       },
       isFollow: false,
       presents: [],

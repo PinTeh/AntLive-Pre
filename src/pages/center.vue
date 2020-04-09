@@ -4,7 +4,7 @@
     <div style="width:1200px;margin:0 auto;">
       <el-container>
         <el-header style="height:auto;">
-          <el-card :body-style="{ padding: '0px' }">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <UserInfo
               :nick="userInfo.nick||''"
               :portrait="userInfo.portrait || ''"
@@ -16,7 +16,7 @@
           </el-card>
         </el-header>
         <el-container>
-          <el-card :body-style="{ padding: '0px' }">
+          <el-card :body-style="{ padding: '0px' }" shadow="never">
             <el-aside width="250px">
               <UserInfoNav />
             </el-aside>
