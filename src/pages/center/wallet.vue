@@ -28,7 +28,7 @@
             <ul>
               <li>
                 提现
-                <a href="#" @click="handleToRecharge">去提现</a>
+                <a href="#" @click="handleToWithdrawal">去提现</a>
               </li>
             </ul>
           </div>
@@ -257,6 +257,9 @@ export default {
     },
     handleToRecharge() {
       this.activeName = "second";
+    },
+    handleToWithdrawal() {
+      this.activeName = "fifth";
     },
     handleItemSelect(c, n) {
       this.checkIndex = c;

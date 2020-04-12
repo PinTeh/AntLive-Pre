@@ -112,12 +112,7 @@ export default {
       isFollow: false,
       presents: [],
       socket: '',
-      messageList: [
-        {
-          name: "系统消息",
-          content: "这是一条测试消息~"
-        }
-      ]
+      messageList: []
     };
   },
   computed: {

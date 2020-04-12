@@ -1,5 +1,5 @@
 <template>
-  <div style="height:500px">
+  <div style="height:500px;box-sizing: border-box;padding:15px">
     <el-row>
       <el-col :span="12">
         <SecurityItem :item="items[0]" :checked="checked[0]"/>

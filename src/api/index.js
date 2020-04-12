@@ -147,12 +147,14 @@ export default {
                 limit            }
         })
     },
-    getWatctList(type){
+    getWatctList(type,page,limit){
         return request({
             url:'/watch/list',
             method:'get',
             params:{
-                type
+                type,
+                page,
+                limit
             }
         })
     },
@@ -277,6 +279,24 @@ export default {
             url:'/bill/withdrawal',
             method:'post',
             data
+        })
+    },
+    getStatView(days){
+        return request({
+            url:'/admin/stat/view/list',
+            method:'get',
+            params:{
+                days
+            }
+        })
+    },
+    getStatSpeak(days){
+        return request({
+            url:'/admin/stat/speak/list',
+            method:'get',
+            params:{
+                days
+            }
         })
     }
 }

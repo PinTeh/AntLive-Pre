@@ -2,6 +2,7 @@
   <div style="height:200px;width:100%;text-align:left;">
     <div class="img-container">
       <i class="auth-icon" :class="this.item.icon"></i>
+      <img v-if="checked" class="security-success" src="../assets/img/yes.png"/>
     </div>
     <div style="float:left;margin-top:30px;">
       <p style="font-size:18px;">{{this.item.title}}</p>
@@ -34,5 +35,13 @@ export default {
   text-align: center;
   line-height: 200px;
   vertical-align: middle;
+  position: relative;
+}
+.security-success{
+  width:25px;
+  height:25px;
+  position: absolute;
+  top:95px;
+  left: 90px;
 }
 </style>

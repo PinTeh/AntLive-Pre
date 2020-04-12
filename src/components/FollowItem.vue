@@ -25,10 +25,11 @@ export default {
     height:200px;
     width: 250px;
     /* background: red; */
-    float: left;
-    margin-left: 45px;
-    margin-top: 20px;
+    /* float: left; */
     cursor: pointer;
+    margin-left: 30px;
+    margin-top: 10px;
+    float: left;
 }
 .item-img{
     width:250px;
