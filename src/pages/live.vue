@@ -32,7 +32,9 @@
               </div>
             </div>
             <div class="live-content">
-              <LivePlayer :url="info.liveUrl" />
+              <LivePlayer v-if="info.status===1" :url="spliceLiveUrl" />
+              <div class="not-live" v-else-if="info.status===0">主播正在赶来的路上...</div>
+              <div class="not-live" style="color:#ff8e8e;" v-else>该直播间因违规已被封禁</div>
             </div>
             <div class="present-content">
               <el-popconfirm
@@ -63,9 +65,10 @@
               <ul
                 id="danmu-list"
                 class="infinite-list"
-                v-infinite-scroll="load"
+                
                 style="overflow:auto"
               >
+              <!-- v-infinite-scroll="load" -->
                 <li v-for="(i,index) in messageList" :key="index" class="infinite-list-item">
                   <span class="chat-name">{{i.name}}</span>:
                   <span class="chat-content">{{i.content}}</span>
@@ -95,19 +98,20 @@ export default {
   name: "index",
   data() {
     return {
-      input: "",
+      input: '',
       info: {
-        id: "",
-        title: "",
+        id: '',
+        title: '',
         userInfo: {
-          nick: "",
-          avatar: ""
+          nick: '',
+          avatar: ''
         },
-        liveUrl: "http://play.imhtb.cn/live/1.flv"
+        liveUrl: '',
+        status:''
       },
       isFollow: false,
       presents: [],
-      socket: "",
+      socket: '',
       messageList: [
         {
           name: "系统消息",
@@ -119,6 +123,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.state.userInfo === "";
+    },
+    spliceLiveUrl(){
+      return this.info.liveUrl+this.info.id+".flv"
     }
   },
   components: {
@@ -135,18 +142,17 @@ export default {
         number:1,
         pid:id
       }).then((ret)=>{
-        if(ret.data.code==0){
-          this.$notify({
-          title: '成功',
-          message: '赠送成功',
-          type: 'success'
-        });
-        }else{
+        if(ret.data.code!=0){
           this.$notify.error({
-          title: '错误',
+          title: '错误1',
           message: '赠送失败'
         });
         }
+      }).catch(()=>{
+        this.$notify.error({
+          title: '错误2',
+          message: '赠送失败'
+        });
       })
     },
     handleFollow(flag) {
@@ -212,7 +218,7 @@ export default {
         }
         console.log("初始化ws");
         this.socket = new WebSocket(
-          "ws://119.23.255.187:9000/live/chat/" + rid + "/" + getToken()
+          "ws://127.0.0.1:9000/live/chat/" + rid + "/" + getToken()
         );
         this.socket.onopen = this.open;
         this.socket.onclose = this.onclose;
@@ -234,8 +240,17 @@ export default {
       console.log(msg, "msg");
       let message = JSON.parse(msg.data);
       console.log(message, "message");
+      if(message.op==='PRESENT'){
+        // 礼物特效
+        let p = message.p;
+         this.$notify({
+          title: message.u.name,
+          message: '收到' + p.name + ' * ' + p.number,
+          type: 'success'
+        });
+      }
       this.messageList.push({
-        name: message.u,
+        name: message.u.name,
         content: message.d
       });
       if (this.messageList.length > 20) {
@@ -351,7 +366,7 @@ export default {
 }
 .live-content {
   height: 500px;
-  background: rgb(92, 92, 92);
+  background: rgba(44, 44, 44, 0.685);
 }
 .present-content {
   height: 60px;
@@ -395,5 +410,12 @@ export default {
 .present-item:hover {
   border: 1px solid rgb(243, 130, 0);
   cursor: pointer;
+}
+.not-live{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color:rgb(218, 218, 218);
+  line-height: 500px;
 }
 </style>

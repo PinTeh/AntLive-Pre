@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { setToken,removeToken } from '../utils/auth'
+import { setToken,removeAll,setLocalUserInfo,getLocalUserInfo,getToken } from '../utils/auth'
 import Api from '../api'
 
 Vue.use(Vuex)
@@ -36,6 +36,13 @@ const store = new Vuex.Store({
         foo({commit},e){
             commit("foo",e)
         },
+        init({commit}){
+            return new Promise((resolve) => {
+                commit('setStateToken',getToken())
+                commit('setUserInfo',JSON.parse(getLocalUserInfo()))
+                resolve()
+            })
+        },
         login({commit},e){
             return new Promise((resolve,reject) => {
                 Api.login(e.account,e.password).then((res)=>{
@@ -43,6 +50,7 @@ const store = new Vuex.Store({
                     commit('setStateToken',ret.data.token)
                     commit('setUserInfo',ret.data.user)
                     setToken(ret.data.token)
+                    setLocalUserInfo(JSON.stringify(ret.data.user))
                     resolve()
                 }).catch(error=>{
                     reject(error)
@@ -51,9 +59,9 @@ const store = new Vuex.Store({
         },
         logout({commit}){
             return new Promise(resolve => {
-                commit('setStateToken','')
-                commit('setUserInfo','')
-                removeToken()
+                commit('setStateToken',null)
+                commit('setUserInfo',null)
+                removeAll()
                 resolve()
             })
         },

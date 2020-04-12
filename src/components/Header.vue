@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import store from '../store'
 export default {
   name: "main-header",
   data() {
@@ -36,8 +37,11 @@ export default {
   },
   computed: {
     isLogin() {
-      return this.$store.state.userInfo == ''
+      return this.$store.state.userInfo === '' || this.$store.state.userInfo === null
     }
+  },
+  mounted(){
+    store.dispatch('init')
   },
   methods: {
     handleClick() {

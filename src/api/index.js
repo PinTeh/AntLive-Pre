@@ -126,7 +126,18 @@ export default {
                 month
             }
         })
-    },    
+    },
+    getRoomPresentList(page,limit,dateRange){
+        return request({
+            url:'/room/present/list',
+            method:'get',
+            params:{
+                page,
+                limit,
+                dateRange
+            }
+        })
+    },      
     getWithdrawalList(page,limit){
         return request({
             url:'/bill/withdrawal/list',

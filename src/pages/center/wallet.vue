@@ -127,7 +127,7 @@
           style="margin:10px 0px 10px 0px;text-align:center;"
         ></el-pagination>
       </el-tab-pane>
-      <el-tab-pane label="提现" name="fifth" v-loading="loading" element-loading-text="加载中">
+      <el-tab-pane label="提现" name="fifth" v-loading="loading" element-loading-text="正在快马加鞭提现中">
         <div>
           <div style="margin-left:20px">
             <span>金豆余额</span>
@@ -170,14 +170,14 @@ export default {
   name: "wallet",
   data() {
     return {
-      activeName: "fifth",
+      activeName: 'fifth',
       loading: false,
       balance: 0,
-      num: 1000,
+      num: 100,
       tableData: [],
       withdrawalTableData: [],
       checkIndex: 0,
-      query_month: "",
+      query_month: '',
       limit: 10,
       withdrawalLimit: 10,
       currentPage: 1,
@@ -207,8 +207,8 @@ export default {
         }
       ],
       form: {
-        name: "",
-        acount: "",
+        name: '',
+        acount: '',
         virtualAmount: null
       }
     };
@@ -232,6 +232,7 @@ export default {
           type: "success"
         });
         this.loading = false;
+        this.balance -= this.form.virtualAmount;
         this.resetForm("withdrawal-form");
       });
     },
@@ -287,6 +288,7 @@ export default {
       });
     },
     handleTabsClick(tab) {
+      this.loading = false;
       switch (tab.name) {
         case "first":
           this.getBalance();

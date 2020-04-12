@@ -13,11 +13,12 @@ export default {
   watch: {
     url(v1, v2) {
       console.log(v1, "v1");
+      console.log(v2, "v2");
       if (flvjs.isSupported()) {
         var videoElement = document.getElementById("videoElement");
         var flvPlayer = flvjs.createPlayer({
           type: "flv",
-          url: v2
+          url: v1
         });
         flvPlayer.attachMediaElement(videoElement);
         flvPlayer.load();
