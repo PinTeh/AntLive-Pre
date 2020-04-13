@@ -1,8 +1,8 @@
 <template>
-  <div style="height:auto;text-align:left;">
+  <div style="height:auto;text-align:left;boder-box:box-sizing;">
     <el-tabs v-model="activeName" style="margin:0px 20px 0 20px;" @tab-click="handleTabsClick">
       <el-tab-pane label="账户余额" name="first">
-        <div style="height:500px;width:100%;">
+        <div style="width:100%;padding:10px;">
           <span>金豆余额</span>
           <br />
           <div class="wallent-div">
@@ -170,7 +170,7 @@ export default {
   name: "wallet",
   data() {
     return {
-      activeName: 'fifth',
+      activeName: 'first',
       loading: false,
       balance: 0,
       num: 100,

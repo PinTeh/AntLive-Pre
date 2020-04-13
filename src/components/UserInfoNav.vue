@@ -4,7 +4,7 @@
     class="el-menu-demo"
     @select="handleSelect"
     :unique-opened="true"
-    router="false"
+    
   >
     <el-submenu index="1" >
       <template slot="title">
@@ -53,8 +53,8 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       this.$router.push({
-        path: "/center/" + keyPath
-      });
+        path: "/center/" + keyPath[1]
+      }).catch(()=>{});
     }
   }
 };

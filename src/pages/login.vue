@@ -11,9 +11,9 @@
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
           <el-form-item prop="account" class="login-item">
-            <span class="loginTips">
+            <!-- <span class="loginTips">
               <icon-svg icon-class="iconuser" />
-            </span>
+            </span> -->
             <el-input
               @keyup.enter.native="submitForm('loginForm')"
               class="area"
@@ -23,9 +23,9 @@
             ></el-input>
           </el-form-item>
           <el-form-item prop="password" class="login-item">
-            <span class="loginTips">
+            <!-- <span class="loginTips">
               <icon-svg icon-class="iconLock" />
-            </span>
+            </span> -->
             <el-input
               @keyup.enter.native="submitForm('loginForm')"
               class="area"
@@ -51,7 +51,7 @@
           <div class="sanFangArea">
             <p class="title">第三方账号登录</p>
             <ul class="rflex">
-              <li @click="loginByWechat">
+              <!-- <li @click="loginByWechat">
                 <icon-svg icon-class="iconwechat" />
               </li>
               <li>
@@ -59,7 +59,7 @@
               </li>
               <li>
                 <icon-svg icon-class="iconGithub" />
-              </li>
+              </li> -->
             </ul>
           </div>
         </el-form>
@@ -156,7 +156,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url(../assets/img/login.svg) no-repeat center center;
+  // background: url(../assets/img/login.svg) no-repeat center center;
   background-size: 100% 100%;
 }
 .form_contianer {

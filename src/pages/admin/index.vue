@@ -134,7 +134,7 @@ export default {
       });
       this.$router.push({
         path: "/admin/" + key
-      });
+      }).catch(() => {});
     },
     handleFold() {
       this.isCollapse = !this.isCollapse;
