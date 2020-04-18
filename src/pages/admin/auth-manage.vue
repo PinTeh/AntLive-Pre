@@ -5,10 +5,36 @@
       <el-table-column prop="id" label="标识" width="80" align="center"></el-table-column>
       <el-table-column prop="userId" label="用户id" width="80" align="center"></el-table-column>
       <el-table-column prop="realName" label="真实姓名" width="100" align="center"></el-table-column>
-      <el-table-column prop="positiveUrl" label="正面照" width="180" align="center"></el-table-column>
-      <el-table-column prop="reverseUrl" label="反面照" align="center"></el-table-column>
+      <el-table-column prop="positiveUrl" label="正面照" width="180" align="center">
+        <template slot-scope="scope">
+          <el-image
+            style="width: auto; height: 40px"
+            :src="scope.row.positiveUrl"
+            :preview-src-list="(scope.row.positiveUrl).split('_')"
+            fit="contain"
+          >
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
+        </template>
+      </el-table-column>
+      <el-table-column prop="reverseUrl" label="反面照" align="center">
+        <template slot-scope="scope">
+          <el-image
+            style="width: auto; height: 40px"
+            :src="scope.row.reverseUrl"
+            :preview-src-list="(scope.row.reverseUrl).split('_')"
+            fit="contain"
+          >
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
+        </template>
+      </el-table-column>
       <el-table-column prop="cardNo" label="身份证号" width="180" align="center"></el-table-column>
-      <el-table-column prop="createTime" label="申请时间"  align="center"></el-table-column>
+      <el-table-column prop="createTime" label="申请时间" align="center"></el-table-column>
       <el-table-column prop="status" label="当前认证" align="center">
         <template slot-scope="scope">{{scope.row.status===0 ? '未认证':'已认证'}}</template>
       </el-table-column>
@@ -32,40 +58,28 @@
 </template>
 
 <script>
-import Api from '../../api'
+import Api from "../../api";
 export default {
   name: "auth-manage",
   data() {
     return {
-      total:0,
-      limit:10,
-      tableData: [
-        {
-          id: 1,
-          userId: 1,
-          realName: "静态数据",
-          positiveUrl: "正面地址",
-          reverseUrl: "http://www.baidu.com",
-          cardNo: "450702200201272523",
-          status: 0,
-          createTime: "",
-          updateTime: ""
-        }
-      ],
+      total: 0,
+      limit: 10,
+      tableData: [],
       currentPage: 1
     };
   },
-  mounted(){
+  mounted() {
     this.page();
   },
   methods: {
     handleSizeChange(val) {
       this.limit = val;
-      this.page()
+      this.page();
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.page()
+      this.page();
     },
     page() {
       Api.adminAuthInfoList(this.currentPage, this.limit).then(res => {
@@ -81,7 +95,6 @@ export default {
 <style lang="less">
 .user-manage-container {
   background: #fff;
-    padding:20px;
-
+  padding: 20px;
 }
 </style>

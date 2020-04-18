@@ -1,56 +1,70 @@
 <template>
   <div class="admin-container">
     <el-container style="height:100%;">
-      <el-header>
-        <div class="header-div">
-          Ant
+      <el-aside>
+        <div class="el-aside-logo">
+          <div v-if="!isCollapse">
+            Ant
           <i>Live</i>
-          <el-dropdown @command="handleCommand" class="header-dropdown">
-            <span class="el-dropdown-link">
-              <el-avatar size="small" style="vertical-align:middle;margin-top:-8px;" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-              您好，管理员
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">个人信息</el-dropdown-item>
-              <el-dropdown-item command="c" divided>退出</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          </div>
+          <div style="margin-left:-15px;" v-else>
+            <i>A</i>
+          </div>
         </div>
-      </el-header>
-      <el-container>
-        <el-aside>
-          <el-menu
-            :default-active="activeIndex"
-            class="el-menu-vertical-demo"
-            @select="handleSelect"
-            text-color="#666"
-            active-text-color="rgb(255, 95, 86)"
-            :collapse="isCollapse"
+        <el-menu
+          :default-active="activeIndex"
+          class="el-menu-vertical"
+          @select="handleSelect"
+          text-color="rgb(191, 203, 217)"
+          active-text-color="rgb(64, 158, 255)"
+          :collapse="isCollapse"
+        >
+          <el-menu-item
+            v-for="item in menu"
+            :key="item.index"
+            :title="item.title"
+            :index="item.path"
           >
-            <el-menu-item
-              v-for="item in menu"
-              :key="item.index"
-              :title="item.title"
-              :index="item.path"
-            >
-              <i :class="item.icon"></i>
-              <span slot="title">{{item.title}}</span>
-            </el-menu-item>
-          </el-menu>
-        </el-aside>
-        <el-container>
-          <el-main>
-            <el-breadcrumb class="el-breadcrumb-nav" separator-class="el-icon-arrow-right">
-              <el-breadcrumb-item>
-                <i @click="handleFold" :class="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'"></i>
-              </el-breadcrumb-item>
-              <el-breadcrumb-item :to="{ path: '/' }">{{this.select_title}}</el-breadcrumb-item>
-            </el-breadcrumb>
-            <router-view></router-view>
-          </el-main>
-          <el-footer>@CopyRight PinTeh</el-footer>
-        </el-container>
+            <i :class="item.icon"></i>
+            <span slot="title">{{item.title}}</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-header>
+          <div class="header-div">
+            <!-- Ant
+            <i>Live</i> -->
+            <i @click="handleFold" v-if="!isCollapse" style="font-size:23px" class="el-icon-s-fold"></i>
+            <i @click="handleFold" v-else style="font-size:23px" class="el-icon-s-unfold"></i>
+            <el-dropdown @command="handleCommand" class="header-dropdown">
+              <span class="el-dropdown-link">
+                <el-avatar
+                  size="small"
+                  style="vertical-align:middle;margin-top:-8px;"
+                  src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                ></el-avatar>您好，管理员
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="a">个人信息</el-dropdown-item>
+                <el-dropdown-item command="c" divided>退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <i style="font-size:23px;float:right;line-height:45px;margin-right:20px;" class="el-icon-full-screen"></i>
+          </div>
+          <el-breadcrumb class="el-breadcrumb-nav" separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item>
+              <!-- <i @click="handleFold" :class="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'"></i> -->
+            </el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' }">{{this.select_title}}</el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-header>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+        <el-footer>@CopyRight PinTeh</el-footer>
       </el-container>
     </el-container>
   </div>
@@ -77,7 +91,7 @@ export default {
           path: "user-manage",
           title: "会员中心"
         },
-        
+
         {
           index: 3,
           icon: "el-icon-coordinate",
@@ -89,7 +103,7 @@ export default {
           icon: "el-icon-bangzhu",
           path: "live-room-manage",
           title: "直播管理"
-        },        
+        },
         {
           index: 5,
           icon: "el-icon-data-analysis",
@@ -125,7 +139,7 @@ export default {
           icon: "el-icon-data-analysis",
           path: "live-ban-manage",
           title: "小黑屋"
-        },
+        }
       ]
     };
   },
@@ -138,17 +152,19 @@ export default {
           return;
         }
       });
-      this.$router.push({
-        path: "/admin/" + key
-      }).catch(() => {});
+      this.$router
+        .push({
+          path: "/admin/" + key
+        })
+        .catch(() => {});
     },
     handleFold() {
       this.isCollapse = !this.isCollapse;
       console.log("click");
     },
     handleCommand(command) {
-        this.$message('click on item ' + command);
-      }
+      this.$message("click on item " + command);
+    }
   }
 };
 </script>
@@ -160,26 +176,33 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  .el-breadcrumb-nav{
-    margin: 0px 0px 10px 5px;
+  .el-breadcrumb-nav {
+    margin: 10px 0px 10px 5px;
   }
-  .header-dropdown{
-      float: right;
+  .header-dropdown {
+    float: right;
   }
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
+  .el-menu-vertical:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
+    background:rgb(48, 65, 86);
+    border: none;
   }
   .header-div {
+    border-bottom: 1px solid #e0e0e0;
+    padding:0px 20px 0px 20px;
     i {
-      color: lightcoral;
+      color: rgb(102, 102, 102);
       font-style: normal;
     }
   }
   .el-header {
     background-color: #fff;
-    line-height: 60px;
-    border-bottom: 2px solid rgb(235, 235, 235);
+    line-height: 45px;
+    height:auto !important;
+    padding:0px;
+    border-bottom: 1px solid #d8dce5;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
   }
   .el-footer {
     background: #fff;
@@ -191,16 +214,34 @@ export default {
     border-top: solid 2px rgb(245, 245, 245);
   }
   .el-aside {
-    background-color: #fff;
     color: #333;
-    line-height: 200px;
+    // line-height: 200px;
     width: auto !important;
+    background:rgb(48, 65, 86)
   }
   .el-main {
     background-color: #e9eef3;
     color: #333;
     text-align: center;
-    padding: 10px;
+    padding: 10px 5px 0px 5px;
+  }
+  .el-menu{
+    border:none;
+    background-color: rgb(48, 65, 86) !important;
+  }
+  .el-menu-item:focus,.el-menu-item:hover{
+    background-color: #263445 !important;
+  }
+  .el-aside-logo{
+    line-height: 60px;
+    height:60px;
+    padding-left: 40px;
+    color: rgb(221, 221, 221);
+    background-color: rgb(38, 52, 70);
+    i{
+      color: lightcoral;
+      font-style: normal;
+    }
   }
 }
 </style>
