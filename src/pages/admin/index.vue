@@ -120,6 +120,12 @@ export default {
           path: "present-manage",
           title: "礼物配置"
         },
+        {
+          index: 12,
+          icon: "el-icon-data-analysis",
+          path: "live-ban-manage",
+          title: "小黑屋"
+        },
       ]
     };
   },

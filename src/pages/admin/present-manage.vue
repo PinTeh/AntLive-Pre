@@ -71,5 +71,7 @@ export default {
 <style lang="less">
 .user-manage-container {
   background: #fff;
+    padding:20px;
+
 }
 </style>

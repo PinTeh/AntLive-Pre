@@ -1,102 +1,145 @@
 <template>
   <div>
-    <div v-if="unAuth" class="identify" style="height:500px;text-align:center;">
-      <el-row style="margin-top:0px;">
-        <el-col :span="8">
-          <el-upload
-            class="upload-demo"
-            drag
-            action="https://jsonplaceholder.typicode.com/posts/"
-            multiple
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              将文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">上传手持证件照</div>
-          </el-upload>
-        </el-col>
-        <el-col :span="8">
-          <el-upload
-            class="upload-demo"
-            drag
-            action="https://jsonplaceholder.typicode.com/posts/"
-            multiple
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              将文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">上传证件正面照</div>
-          </el-upload>
-        </el-col>
-        <el-col :span="8">
-          <el-upload class="upload-demo" drag action="/posts/" multiple>
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              将文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">上传证件背面照</div>
-          </el-upload>
-        </el-col>
-      </el-row>
+    <el-steps :active="active" finish-status="success" simple style="margin-top: 10px">
+  <el-step title="填写认证信息" icon="el-icon-edit"></el-step>
+  <el-step title="等待官方认证" icon="el-icon-upload"></el-step>
+  <el-step title="认证成功" icon="el-icon-success"></el-step>
+    </el-steps>
+    <div class="identify" style="height:445px;text-align:center;" v-loading="loading">
+      <div v-if="active==0">
+        <el-row style="margin-top:0px;">
+          <el-col :span="8">
+            <el-upload
+              class="upload-demo"
+              drag
+              :action="uploadAction + '?tag=foo'"
+              :on-success="onSuccess"
+              :on-error="onError"
+              :list-type="picture-card"
+            >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">
+                将文件拖到此处，或
+                <em>点击上传</em>
+              </div>
+              <div class="el-upload__tip" slot="tip">上传手持证件照</div>
+            </el-upload>
+          </el-col>
+          <el-col :span="8">
+            <el-upload
+              class="upload-demo"
+              drag
+              :action="uploadAction + '?tag=pos'"
+              :on-success="onSuccess"
+              :on-error="onError"
+            >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">
+                将文件拖到此处，或
+                <em>点击上传</em>
+              </div>
+              <div class="el-upload__tip" slot="tip">上传证件正面照</div>
+            </el-upload>
+          </el-col>
+          <el-col :span="8">
+            <el-upload
+              class="upload-demo"
+              drag
+              :action="uploadAction + '?tag=rev'"
+              :on-success="onSuccess"
+              :on-error="onError"
+            >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">
+                将文件拖到此处，或
+                <em>点击上传</em>
+              </div>
+              <div class="el-upload__tip" slot="tip">上传证件背面照</div>
+            </el-upload>
+          </el-col>
+        </el-row>
 
-      <el-form
-        ref="form"
-        :model="form"
-        label-width="80px"
-        style="width:400px;display:inline-block;margin-top:20px;"
-      >
-        <el-form-item label="姓名">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="证件号码">
-          <el-input v-model="form.no"></el-input>
-        </el-form-item>
-        <el-form-item></el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">立马认证</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-
-    <div v-else class="identify" style="height:500px;text-align:center;">
-      您已认证成功
+        <el-form
+          ref="form"
+          :model="form"
+          label-width="80px"
+          style="width:400px;display:inline-block;margin-top:20px;"
+        >
+          <el-form-item label="姓名">
+            <el-input v-model="form.realName"></el-input>
+          </el-form-item>
+          <el-form-item label="证件号码">
+            <el-input v-model="form.cardNo"></el-input>
+          </el-form-item>
+          <el-form-item></el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm">立马认证</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div v-else-if="active==1" class="identify" style="height:445px;text-align:center;font-size:17px;color:#3f74a8">
+        <span style="line-height:400px"><i class="el-icon-help" style="margin-right:10px"></i>正在认证中</span>
+      </div>
+      <div v-else-if="active==1" class="identify" style="height:445px;text-align:center;font-size:17px;color:#139715">
+        <span style="line-height:400px"><i class="el-icon-help" style="margin-right:10px"></i>您已成功认证</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Api from "../../api";
 export default {
   name: "identify",
   data() {
     return {
       unAuth: true,
+      loading: false,
       form: {
-        name: "",
-        no: ""
+        realName: "",
+        cardNo: "",
+        handUrl: "",
+        positiveUrl: "",
+        reverseUrl: ""
       },
       rules: {
         name: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
         no: [{ required: true, message: "请输入活动名称", trigger: "blur" }]
-      }
+      },
+      uploadAction: "http://localhost:9000/upload",
+      active: 1
     };
   },
   methods: {
-    onSubmit() {
-        this.unAuth = false;
-    },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          this.unAuth = false;
-        } else {
-          console.log("error submit!!");
-          return false;
+    onSuccess(response, file, fileList) {
+      if (response.code == 0) {
+        switch (response.msg) {
+          case "foo":
+            this.form.handUrl = response.data;
+            break;
+          case "pos":
+            this.form.positiveUrl = response.data;
+            break;
+          case "rev":
+            this.form.reverseUrl = response.data;
+            break;
+          default:
+            break;
         }
+      }
+      console.log(response, file, fileList);
+    },
+    onError(err) {
+      console.log(err);
+    },
+    onSubmit() {
+      this.unAuth = false;
+    },
+    submitForm() {
+      this.loading = true;
+      Api.auth(this.form).then(() => {
+        this.loading = false;
+        this.active = 1;
       });
     }
   }
@@ -105,8 +148,8 @@ export default {
 
 <style >
 .identify .el-upload-dragger {
-  width: 270px;
-  height: 170px;
+  width: 260px;
+  height: 150px;
 }
 .upload-demo {
   margin-top: 30px;

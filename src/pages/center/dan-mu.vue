@@ -50,6 +50,8 @@ export default {
         });
 
         this.plot = new Line("c1", {
+          width:900,
+          height:350,
           title: {
             visible: false,
             text: "带数据点的折线图"
@@ -59,11 +61,12 @@ export default {
             text: "人气指数统计"
           },
           data: this.plotData,
-          smooth: false,
+          smooth: true,
           padding: "auto",
           xField: "date",
           yField: "value",
           seriesField: "type",
+          forceFit:true,
           point: {
             visible: true
           },
@@ -93,8 +96,7 @@ export default {
             data.map(v => {
               this.packageViewObject(v);
             });
-          });
-          if (!isOnlyChnageDays) {
+            if (!isOnlyChnageDays) {
             this.plot.updateConfig({
               description: {
                 visible: true,
@@ -109,6 +111,8 @@ export default {
             console.log("ok")
             this.plot.changeData(this.plotData);
           }
+          });
+          
           break;
         case "speak":
           Api.getStatSpeak(this.days).then(res => {
@@ -148,7 +152,7 @@ export default {
       total["type"] = "总人气";
       this.plotData.push(member);
       this.plotData.push(visitor);
-      this.plotData.push(total);
+      //this.plotData.push(total);
     }
   }
 };

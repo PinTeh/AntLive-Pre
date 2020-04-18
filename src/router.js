@@ -92,6 +92,10 @@ const routes = [
             {
                 path:'present-manage',
                 component:()=>import("./pages/admin/present-manage")
+            },
+            {
+                path:'live-ban-manage',
+                component:()=>import("./pages/admin/live-ban-manage")
             }
         ]
     },

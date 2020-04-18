@@ -136,6 +136,8 @@ export default {
 <style lang="less">
 .bill-manage-container {
   background: #fff;
+    padding:20px;
+
   .el-table .warning-row {
     background: rgba(32, 255, 125, 0.089);
   }

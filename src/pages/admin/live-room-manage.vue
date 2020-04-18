@@ -109,6 +109,8 @@ export default {
 <style lang="less">
 .user-manage-container {
   background: #fff;
+    padding:20px;
+
   .header-operator {
     text-align: left;
     padding: 10px 0px 5px 0px;

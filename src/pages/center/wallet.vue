@@ -2,7 +2,7 @@
   <div style="height:auto;text-align:left;boder-box:box-sizing;">
     <el-tabs v-model="activeName" style="margin:0px 20px 0 20px;" @tab-click="handleTabsClick">
       <el-tab-pane label="账户余额" name="first">
-        <div style="width:100%;padding:10px;">
+        <div style="width:100%;padding:10px;margin-bottom:30px;">
           <span>金豆余额</span>
           <br />
           <div class="wallent-div">
@@ -103,6 +103,16 @@
         ></el-pagination>
       </el-tab-pane>
       <el-tab-pane label="提现记录" name="fourth">
+        <div style="height:40px">
+          <el-date-picker
+            v-model="withdrawal_query_month"
+            @change="handleWithdrawalQueryChange"
+            value-format="yyyy-MM"
+            type="month"
+            placeholder="按月份查询"
+            size="small"
+          ></el-date-picker>
+        </div>
         <el-table :data="withdrawalTableData" border style="width: 100%" size="small">
           <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
           <!-- <el-table-column prop="account" label="提现账号" align="center"></el-table-column> -->
@@ -178,6 +188,7 @@ export default {
       withdrawalTableData: [],
       checkIndex: 0,
       query_month: '',
+      withdrawal_query_month: '',
       limit: 10,
       withdrawalLimit: 10,
       currentPage: 1,
@@ -269,6 +280,10 @@ export default {
       this.query_month = v;
       this.page();
     },
+    handleWithdrawalQueryChange(v) {
+      this.withdrawal_query_month = v;
+      this.withdrawalPage();
+    },
     getBalance() {
       Api.getBalance().then(r => {
         this.balance = r.data.data;
@@ -284,7 +299,7 @@ export default {
       );
     },
     withdrawalPage() {
-      Api.getWithdrawalList(this.currentPage, this.limit).then(r => {
+      Api.getWithdrawalList(this.withdrawal_query_month,this.currentPage, this.limit).then(r => {
         let ret = r.data.data;
         this.withdrawalTableData = ret.records;
         this.whithdrawalTotal = ret.total;

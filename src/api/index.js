@@ -1,19 +1,19 @@
 import request from '@/utils/request'
 
 export default {
-    login(account,password){
+    login(account, password) {
         const data = {
             account,
             password
         }
 
         return request({
-            url:'/login',
-            method:'post',
+            url: '/login',
+            method: 'post',
             data
         })
     },
-    logout(){
+    logout() {
         return request.post('/logout')
     },
     // getUserInfo(token){
@@ -25,188 +25,212 @@ export default {
     //         }
     //     })
     // },
-    foo(rid){
+    foo(rid) {
         return request({
-            url:'/live/info',
-            method:'get',
-            params:{
+            url: '/live/info',
+            method: 'get',
+            params: {
                 rid
             }
         })
     },
-    register(data){
+    register(data) {
         return request({
-            url:'/register',
-            method:'post',
+            url: '/register',
+            method: 'post',
             data
         })
     },
-    sendCode(account){
+    sendCode(account) {
         return request({
-            url:'/code',
-            method:'post',
-            params:{
+            url: '/code',
+            method: 'post',
+            params: {
                 account
             }
         })
     },
-    getSecurityInfo(){
+    auth(data) {
         return request({
-            url:'/getSecurityInfo',
-            method:'get'
+            url: '/auth',
+            method: 'post',
+            data
         })
     },
-    getUserInfo(){
+    getSecurityInfo() {
         return request({
-            url:'/getUserInfo',
-            method:'get'
+            url: '/getSecurityInfo',
+            method: 'get'
         })
     },
-    getRoomInfo(rid){
+    getUserInfo() {
         return request({
-            url:'/room',
-            method:'get',
-            params:{
+            url: '/getUserInfo',
+            method: 'get'
+        })
+    },
+    getRoomInfo(rid) {
+        return request({
+            url: '/room',
+            method: 'get',
+            params: {
                 rid
             }
         })
     },
-    getRoomSettingInfo(){
+    getRoomSettingInfo() {
         return request({
-            url:'/room/setting/info',
-            method:'get',
+            url: '/room/setting/info',
+            method: 'get',
         })
     },
-    getPresentInfo(){
+    getPresentInfo() {
         return request({
-            url:'/present',
-            method:'get'
+            url: '/present',
+            method: 'get'
         })
     },
-    getLivingRoomInfo(cid){
+    getLivingRoomInfo(cid) {
         return request({
-            url:'/room/living',
-            method:'get',
-            params:{
+            url: '/room/living',
+            method: 'get',
+            params: {
                 cid
             }
         })
     },
-    getLiveStatInfo(rid){
+    getLiveStatInfo(rid) {
         return request({
-            url:'/live/info',
-            method:'get',
-            params:{
+            url: '/live/info',
+            method: 'get',
+            params: {
                 rid
             }
         })
     },
-    getBalance(){
+    getBalance() {
         return request({
-            url:'/bill',
-            method:'get',
+            url: '/bill',
+            method: 'get',
         })
     },
-    recharge(num){
+    recharge(num) {
         return request({
-            url:'/bill/recharge',
-            method:'get',
-            params:{
+            url: '/bill/recharge',
+            method: 'get',
+            params: {
                 num
             }
         })
     },
-    getBillList(month,page,limit){
+    getCategory(page,limit){
         return request({
-            url:'/bill/list',
-            method:'get',
-            params:{
+            url: '/category/list',
+            method: 'get',
+            params: {
+                page,
+                limit            }
+        })
+    },
+    getBillList(month, page, limit) {
+        return request({
+            url: '/bill/list',
+            method: 'get',
+            params: {
                 page,
                 limit,
                 month
             }
         })
     },
-    getRoomPresentList(page,limit,dateRange){
+    getRoomPresentList(page, limit, dateRange) {
         return request({
-            url:'/room/present/list',
-            method:'get',
-            params:{
+            url: '/room/present/list',
+            method: 'get',
+            params: {
                 page,
                 limit,
                 dateRange
             }
         })
-    },      
-    getWithdrawalList(page,limit){
+    },
+    getWithdrawalList(month, page, limit) {
         return request({
-            url:'/bill/withdrawal/list',
-            method:'get',
-            params:{
+            url: '/bill/withdrawal/list',
+            method: 'get',
+            params: {
                 page,
-                limit            }
+                limit, month
+            }
         })
     },
-    getWatctList(type,page,limit){
+    getWatctList(type, page, limit) {
         return request({
-            url:'/watch/list',
-            method:'get',
-            params:{
+            url: '/watch/list',
+            method: 'get',
+            params: {
                 type,
                 page,
                 limit
             }
         })
     },
-    saveWatch(data){
+    saveWatch(data) {
         return request({
-            url:'/watch',
-            method:'post',
+            url: '/watch',
+            method: 'post',
             data
         })
     },
-    delWatch(id){
+    delWatch(id) {
         return request({
-            url:'/watch',
-            method:'delete',
-            params:{
+            url: '/watch',
+            method: 'delete',
+            params: {
                 id
             }
         })
     },
-    liveOpen(){
+    liveOpen() {
         return request({
-            url:'/live/open',
-            method:'post'
+            url: '/live/open',
+            method: 'post'
         })
     },
-    liveClose(rid){
+    liveClose(rid) {
         return request({
-            url:'/live/on_done',
-            method:'post',
-            params:{
-                name:rid
+            url: '/live/on_done',
+            method: 'post',
+            params: {
+                name: rid
             }
         })
     },
-    sendPresent(data){
+    sendPresent(data) {
         return request({
-            url:'/present/send',
-            method:'post',
+            url: '/present/send',
+            method: 'post',
             data
         })
     },
-    getDashboardData(){
+    saveRoomInfo(data) {
         return request({
-            url:'/admin/dashboard/data',
-            method:'get'
+            url: '/room/info/save',
+            method: 'post',
+            data
         })
     },
-    adminGetUserList(page,limit,uid,disabled){
+    getDashboardData() {
         return request({
-            url:'/admin/user/list',
-            method:'get',
-            params:{
+            url: '/admin/dashboard/data',
+            method: 'get'
+        })
+    },
+    adminGetUserList(page, limit, uid, disabled) {
+        return request({
+            url: '/admin/user/list',
+            method: 'get',
+            params: {
                 page,
                 limit,
                 uid,
@@ -214,41 +238,41 @@ export default {
             }
         })
     },
-    adminGetRoomList(page,limit){
+    adminGetRoomList(page, limit) {
         return request({
-            url:'/admin/room/list',
-            method:'get',
-            params:{
+            url: '/admin/room/list',
+            method: 'get',
+            params: {
                 page,
                 limit
             }
         })
     },
-    adminAuthInfoList(page,limit){
+    adminAuthInfoList(page, limit) {
         return request({
-            url:'/admin/auth/list',
-            method:'get',
-            params:{
+            url: '/admin/auth/list',
+            method: 'get',
+            params: {
                 page,
                 limit
             }
         })
     },
-    adminPresentList(page,limit){
+    adminPresentList(page, limit) {
         return request({
-            url:'/admin/present/list',
-            method:'get',
-            params:{
+            url: '/admin/present/list',
+            method: 'get',
+            params: {
                 page,
                 limit
             }
         })
     },
-    adminBillList(page,limit,type,dateRange){
+    adminBillList(page, limit, type, dateRange) {
         return request({
-            url:'/admin/bill/list',
-            method:'get',
-            params:{
+            url: '/admin/bill/list',
+            method: 'get',
+            params: {
                 page,
                 limit,
                 type,
@@ -256,11 +280,11 @@ export default {
             }
         })
     },
-    adminLiveInfoList(page,limit,rid,dateRange){
+    adminLiveInfoList(page, limit, rid, dateRange) {
         return request({
-            url:'/admin/liveInfo/list',
-            method:'get',
-            params:{
+            url: '/admin/liveInfo/list',
+            method: 'get',
+            params: {
                 page,
                 limit,
                 rid,
@@ -268,33 +292,43 @@ export default {
             }
         })
     },
-    openLive(){
+    adminLiveBanList(page, limit) {
         return request({
-            url:'/tencent/live/open',
-            method:'get',
+            url: '/admin/live/ban/list',
+            method: 'get',
+            params: {
+                page,
+                limit
+            }
         })
     },
-    withdrawal(data){
+    openLive() {
         return request({
-            url:'/bill/withdrawal',
-            method:'post',
+            url: '/tencent/live/open',
+            method: 'get',
+        })
+    },
+    withdrawal(data) {
+        return request({
+            url: '/bill/withdrawal',
+            method: 'post',
             data
         })
     },
-    getStatView(days){
+    getStatView(days) {
         return request({
-            url:'/admin/stat/view/list',
-            method:'get',
-            params:{
+            url: '/admin/stat/view/list',
+            method: 'get',
+            params: {
                 days
             }
         })
     },
-    getStatSpeak(days){
+    getStatSpeak(days) {
         return request({
-            url:'/admin/stat/speak/list',
-            method:'get',
-            params:{
+            url: '/admin/stat/speak/list',
+            method: 'get',
+            params: {
                 days
             }
         })

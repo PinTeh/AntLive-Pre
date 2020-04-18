@@ -8,7 +8,7 @@
             <UserInfo
               :nick="userInfo.nick||''"
               :portrait="userInfo.portrait || ''"
-              :level="userInfo.ulevel || 1"
+              :level="userInfo.ulevel || 0"
               :uid="userInfo.uid || ''"
               :starNumber="userInfo.point||0"
               :diamondNumber="userInfo.gold||0"
@@ -17,7 +17,7 @@
         </el-header>
         <el-container>
           <el-card :body-style="{ padding: '0px' }" shadow="never">
-            <el-aside width="250px">
+            <el-aside width="250px;">
               <UserInfoNav />
             </el-aside>
           </el-card>
@@ -63,8 +63,14 @@ export default {
       let ret = res.data.data;
       this.userInfo.nick = ret.nickName;
       this.userInfo.uid = ret.id;
+      this.userInfo.ulevel = ret.id;
       this.userInfo.portrait = ret.avatar;
     })
+  },
+  filters:{
+    level_filter(v){
+      return "uid:" + v;
+    }
   }
 };
 </script>
