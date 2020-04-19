@@ -1,7 +1,7 @@
 <template>
   <el-container class="index-center">
     <el-header style="padding:0px">
-      <Header :categorys="categorys" @category-select="handleSelect" />
+      <Header :categorys="this.$store.state.categorys" @category-select="handleSelect" />
     </el-header>
     <el-main style="padding:5px 20px 20px 20px">
       <div class="item-container">
@@ -21,6 +21,7 @@
 import Header from "../components/Header";
 import LiveRoom from "../components/LiveRoom";
 import Api from "../api";
+import store from '../store';
 export default {
   components: {
     LiveRoom,
@@ -35,13 +36,10 @@ export default {
   },
   mounted() {
     this.list();
-    Api.getCategory(1, 100).then(res => {
-      this.categorys = res.data.data.records;
-    });
+    store.dispatch('getCategorys').then(()=>{})
   },
   methods: {
     handleSelect(c) {
-        console.log(c)
       if (c == null) {
         this.current_category = "";
         this.list();

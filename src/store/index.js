@@ -12,7 +12,8 @@ const store = new Vuex.Store({
         webSocket:{
             rid:'',
             socket:''
-        }
+        },
+        categorys:[]
     },
     getters:{
         foo(state){
@@ -30,6 +31,9 @@ const store = new Vuex.Store({
         },
         setWebSocket(state,v){
             state.webSocket = v
+        },
+        setCatrgorys(state,v){
+            state.categorys = v
         }
     },
     actions:{
@@ -84,7 +88,18 @@ const store = new Vuex.Store({
                 })
                 resolve()
             })
-        }
+        },
+        getCategorys({commit}){
+            return new Promise((resolve,reject)=>{
+                Api.getCategory(1, 100).then(res => {
+                    let categorys = res.data.data.records;
+                    commit('setCatrgorys',categorys)
+                  }).catch(error=>{
+                    reject(error)
+                })
+                resolve()
+            })
+        },
     }
 
 })

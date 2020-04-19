@@ -1,6 +1,6 @@
 <template>
   <div class="center-div">
-    <Header></Header>
+    <Header :notIndexPage="true"></Header>
     <div style="width:1200px;margin:0 auto;">
       <el-container>
         <el-header style="height:auto;">

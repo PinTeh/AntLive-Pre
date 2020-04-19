@@ -1,7 +1,7 @@
 <template>
   <el-container style="height:100%;">
     <el-header style="padding:0px">
-      <Header />
+      <Header :notIndexPage="true"/>
     </el-header>
     <el-main style="text-align:center;">
       <div class="live-root">

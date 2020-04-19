@@ -2,7 +2,7 @@
   <div class="main-header">
     <div class="main-header-nav">
       <a class="nav-a" href="#" style="float:left;" @click="handleIndex">首页</a>
-      <el-popover width="260" trigger="hover"  v-model="visible">
+      <el-popover width="260" trigger="hover"  v-model="visible" v-if="!notIndexPage">
         <div class="popover-container">
           <el-button v-for="item in categorys" :key="item.id" style="margin:0px 6px 5px 0px" plain size="mini" @click="handleCategoryClick(item)">{{item.name}}</el-button>
         </div>
@@ -39,7 +39,7 @@
 import store from "../store";
 export default {
   name: "main-header",
-  props:['categorys'],
+  props:['categorys','notIndexPage'],
   data() {
     return {
       activeIndex: "1",
