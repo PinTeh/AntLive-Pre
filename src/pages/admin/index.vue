@@ -52,7 +52,7 @@
                 <el-dropdown-item command="c" divided>退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <i style="font-size:23px;float:right;line-height:45px;margin-right:20px;" class="el-icon-full-screen"></i>
+            <i @click="handleScreenfull" style="font-size:23px;float:right;line-height:45px;margin-right:20px;" class="el-icon-full-screen"></i>
           </div>
           <el-breadcrumb class="el-breadcrumb-nav" separator-class="el-icon-arrow-right">
             <el-breadcrumb-item>
@@ -71,6 +71,8 @@
 </template>
 
 <script>
+import screenfull from 'screenfull';
+
 export default {
   name: "admin-index",
   data() {
@@ -144,6 +146,9 @@ export default {
     };
   },
   methods: {
+    handleScreenfull(){
+      screenfull.toggle()
+    },
     handleSelect(key) {
       this.activeIndex = key;
       this.menu.map(v => {

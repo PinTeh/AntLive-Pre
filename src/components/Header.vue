@@ -2,6 +2,13 @@
   <div class="main-header">
     <div class="main-header-nav">
       <a class="nav-a" href="#" style="float:left;" @click="handleIndex">首页</a>
+      <el-popover width="260" trigger="hover"  v-model="visible">
+        <div class="popover-container">
+          <el-button v-for="item in categorys" :key="item.id" style="margin:0px 6px 5px 0px" plain size="mini" @click="handleCategoryClick(item)">{{item.name}}</el-button>
+        </div>
+        <a class="nav-a" href="#" style="float:left;" slot="reference">分类</a>
+      </el-popover>
+
       <a class="nav-a" v-if="this.isLogin" href="#" @click="handleLogin">登录</a>
       <a class="nav-a" v-else href="#" @click="handleClick">
         <el-dropdown @command="handleCommand">
@@ -11,7 +18,9 @@
               size="small"
               :src="this.$store.state.userInfo.avatar"
             ></el-avatar>
-            <span style="padding:5px;font-size:15px;">{{this.$store.state.userInfo.nickName || 'AntLive'}}</span>
+            <span
+              style="padding:5px;font-size:15px;"
+            >{{this.$store.state.userInfo.nickName || 'AntLive'}}</span>
             <i style="padding:0 10px 0 0;" class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -27,58 +36,66 @@
 </template>
 
 <script>
-import store from '../store'
+import store from "../store";
 export default {
   name: "main-header",
+  props:['categorys'],
   data() {
     return {
-      activeIndex: "1"
+      activeIndex: "1",
+      visible:false
     };
   },
   computed: {
     isLogin() {
-      return this.$store.state.userInfo === '' || this.$store.state.userInfo === null
+      return (
+        this.$store.state.userInfo === "" || this.$store.state.userInfo === null
+      );
     }
   },
-  mounted(){
-    store.dispatch('init')
+  mounted() {
+    store.dispatch("init");
   },
   methods: {
+    handleCategoryClick(v){
+      this.visible = false;
+      this.$emit("category-select",v)
+    },
     handleClick() {
       this.$router.push({
         path: "/center"
-      });
+      }).catch(()=>{});
     },
-    handleClickAdmin(){
+    handleClickAdmin() {
       this.$router.push({
         path: "/admin"
-      });
+      }).catch(()=>{});
     },
     handleLogin() {
       this.$router.push({
         path: "/login"
-      });
+      }).catch(()=>{});
     },
     handleRegister() {
       this.$router.push({
         path: "/register"
-      });
+      }).catch(()=>{});
     },
     handleCommand(command) {
       if (command == "/logout") {
         this.$store.dispatch("logout").then(() => {
-          this.handleIndex()
+          this.handleIndex();
         });
         return;
       }
       this.$router.push({
         path: command
-      });
+      }).catch(()=>{});
     },
-    handleIndex(){
-       this.$router.push({
-            path: "/"
-          });
+    handleIndex() {
+      this.$router.push({
+        path: "/"
+      }).catch(()=>{});
     }
   }
 };
@@ -90,6 +107,9 @@ export default {
   height: 50px;
   text-align: center;
   width: 100%;
+  .category-btn{
+    margin:0px 5px 5px 0px;
+  }
 }
 .main-header-nav {
   width: 70%;
