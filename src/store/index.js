@@ -7,13 +7,14 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state:{
-        userInfo:'',
+        userInfo:null,
         token:'',
         webSocket:{
             rid:'',
             socket:''
         },
-        categorys:[]
+        categorys:[],
+        menu:[]
     },
     getters:{
         foo(state){
@@ -34,6 +35,9 @@ const store = new Vuex.Store({
         },
         setCatrgorys(state,v){
             state.categorys = v
+        },
+        setAdminMenu(state,v){
+            state.menu = v
         }
     },
     actions:{
@@ -53,6 +57,7 @@ const store = new Vuex.Store({
                     let ret = res.data;
                     commit('setStateToken',ret.data.token)
                     commit('setUserInfo',ret.data.user)
+                    commit('setAdminMenu',ret.data.menu)
                     setToken(ret.data.token)
                     setLocalUserInfo(JSON.stringify(ret.data.user))
                     resolve()
@@ -65,6 +70,7 @@ const store = new Vuex.Store({
             return new Promise(resolve => {
                 commit('setStateToken',null)
                 commit('setUserInfo',null)
+                commit('setAdminMenu',null)
                 removeAll()
                 resolve()
             })

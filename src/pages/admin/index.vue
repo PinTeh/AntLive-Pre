@@ -5,7 +5,7 @@
         <div class="el-aside-logo">
           <div v-if="!isCollapse">
             Ant
-          <i>Live</i>
+            <i>Live</i>
           </div>
           <div style="margin-left:-15px;" v-else>
             <i>A</i>
@@ -35,9 +35,16 @@
         <el-header>
           <div class="header-div">
             <!-- Ant
-            <i>Live</i> -->
-            <i @click="handleFold" v-if="!isCollapse" style="font-size:23px" class="el-icon-s-fold"></i>
-            <i @click="handleFold" v-else style="font-size:23px" class="el-icon-s-unfold"></i>
+            <i>Live</i>-->
+            <el-tooltip effect="dark" content="收缩" placement="bottom">
+              <i
+                @click="handleFold"
+                v-if="!isCollapse"
+                style="font-size:23px"
+                class="el-icon-s-fold"
+              ></i>
+              <i @click="handleFold" v-else style="font-size:23px" class="el-icon-s-unfold"></i>
+            </el-tooltip>
             <el-dropdown @command="handleCommand" class="header-dropdown">
               <span class="el-dropdown-link">
                 <el-avatar
@@ -52,7 +59,13 @@
                 <el-dropdown-item command="c" divided>退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <i @click="handleScreenfull" style="font-size:23px;float:right;line-height:45px;margin-right:20px;" class="el-icon-full-screen"></i>
+            <el-tooltip effect="dark" content="全屏" placement="bottom">
+              <i
+                @click="handleScreenfull"
+                style="font-size:23px;float:right;line-height:45px;margin-right:20px;"
+                class="el-icon-full-screen"
+              ></i>
+            </el-tooltip>
           </div>
           <el-breadcrumb class="el-breadcrumb-nav" separator-class="el-icon-arrow-right">
             <el-breadcrumb-item>
@@ -71,7 +84,7 @@
 </template>
 
 <script>
-import screenfull from 'screenfull';
+import screenfull from "screenfull";
 
 export default {
   name: "admin-index",
@@ -141,13 +154,19 @@ export default {
           icon: "el-icon-data-analysis",
           path: "live-ban-manage",
           title: "小黑屋"
+        },
+         {
+          index: 13,
+          icon: "el-icon-data-analysis",
+          path: "message-push",
+          title: "消息推送"
         }
       ]
     };
   },
   methods: {
-    handleScreenfull(){
-      screenfull.toggle()
+    handleScreenfull() {
+      screenfull.toggle();
     },
     handleSelect(key) {
       this.activeIndex = key;
@@ -190,12 +209,12 @@ export default {
   .el-menu-vertical:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
-    background:rgb(48, 65, 86);
+    background: rgb(48, 65, 86);
     border: none;
   }
   .header-div {
     border-bottom: 1px solid #e0e0e0;
-    padding:0px 20px 0px 20px;
+    padding: 0px 20px 0px 20px;
     i {
       color: rgb(102, 102, 102);
       font-style: normal;
@@ -204,10 +223,10 @@ export default {
   .el-header {
     background-color: #fff;
     line-height: 45px;
-    height:auto !important;
-    padding:0px;
+    height: auto !important;
+    padding: 0px;
     border-bottom: 1px solid #d8dce5;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   }
   .el-footer {
     background: #fff;
@@ -222,7 +241,7 @@ export default {
     color: #333;
     // line-height: 200px;
     width: auto !important;
-    background:rgb(48, 65, 86)
+    background: rgb(48, 65, 86);
   }
   .el-main {
     background-color: #e9eef3;
@@ -230,20 +249,21 @@ export default {
     text-align: center;
     padding: 10px 5px 0px 5px;
   }
-  .el-menu{
-    border:none;
+  .el-menu {
+    border: none;
     background-color: rgb(48, 65, 86) !important;
   }
-  .el-menu-item:focus,.el-menu-item:hover{
+  .el-menu-item:focus,
+  .el-menu-item:hover {
     background-color: #263445 !important;
   }
-  .el-aside-logo{
+  .el-aside-logo {
     line-height: 60px;
-    height:60px;
+    height: 60px;
     padding-left: 40px;
     color: rgb(221, 221, 221);
     background-color: rgb(38, 52, 70);
-    i{
+    i {
       color: lightcoral;
       font-style: normal;
     }

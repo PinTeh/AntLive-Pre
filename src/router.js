@@ -49,13 +49,19 @@ const routes = [
         component: ()=>import("./pages/recharge")
     },
     {
+        path: '/403',
+        name:'403',
+        component: ()=>import("./pages/error/403")
+    },
+    {
         path: '/admin',
         name: 'admin',
         component: AdminCenter,
+        meta: { requiresAdmin: true },
         children:[
             {
                 path:'',
-                component:AdminDashboard
+                component:AdminDashboard,
             },
             {
                 path:'dashboard',
@@ -96,6 +102,10 @@ const routes = [
             {
                 path:'live-ban-manage',
                 component:()=>import("./pages/admin/live-ban-manage")
+            },
+            {
+                path:'message-push',
+                component:()=>import("./pages/admin/message-push")
             }
         ]
     },

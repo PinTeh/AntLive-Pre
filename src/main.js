@@ -27,8 +27,19 @@ Vue.config.productionTip = false
 
 
 router.beforeEach((to,from,next)=>{
-  //console.log(store.state,"store.state")
-  next()
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    // console.log(store.state.userInfo.role,"role")
+    if (store.state.userInfo!=null && store.state.userInfo.role == 0) {
+      next({
+        path: '/403',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() 
+  }
 })
 
 new Vue({

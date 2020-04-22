@@ -1,5 +1,18 @@
 <template>
   <div class="user-manage-container">
+        <div class="header-operator">
+      <span>认证状态</span>
+      <el-select
+        v-model="authStatus"
+        placeholder="认证状态"
+        size="small"
+        @change="handleSelectChange"
+        :clearable="true"
+      >
+        <el-option key="0" label="未认证" value="0"></el-option>
+        <el-option key="1" label="已认证" value="1"></el-option>
+      </el-select>
+    </div>
     <el-table :data="tableData" style="width: 100%">
       <!-- <el-table-column label type="index" show-overflow-tooltip width="50" align="center"></el-table-column> -->
       <el-table-column prop="id" label="标识" width="80" align="center"></el-table-column>
@@ -34,11 +47,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="cardNo" label="身份证号" width="180" align="center"></el-table-column>
-      <el-table-column prop="createTime" label="申请时间" align="center"></el-table-column>
+      <el-table-column prop="createTime" label="申请时间" align="center" width="200"></el-table-column>
       <el-table-column prop="status" label="当前认证" align="center">
         <template slot-scope="scope">{{scope.row.status===0 ? '未认证':'已认证'}}</template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="200">
+      <el-table-column label="操作" align="center" >
         <template slot-scope="scope">
           <el-button v-if="scope.row.status===0" type="success" size="mini">通过</el-button>
           <el-button v-else type="danger" size="mini">重置</el-button>
@@ -66,13 +79,18 @@ export default {
       total: 0,
       limit: 10,
       tableData: [],
-      currentPage: 1
+      currentPage: 1,
+      authStatus:''
     };
   },
   mounted() {
     this.page();
   },
   methods: {
+    handleSelectChange() {
+      this.page();
+      console.log(this.authStatus)
+    },
     handleSizeChange(val) {
       this.limit = val;
       this.page();
@@ -82,7 +100,7 @@ export default {
       this.page();
     },
     page() {
-      Api.adminAuthInfoList(this.currentPage, this.limit).then(res => {
+      Api.adminAuthInfoList(this.currentPage, this.limit,this.authStatus).then(res => {
         let ret = res.data.data;
         this.tableData = ret.records;
         this.total = ret.total;
@@ -96,5 +114,16 @@ export default {
 .user-manage-container {
   background: #fff;
   padding: 20px;
+  .header-operator {
+    text-align: left;
+    padding: 10px 0px 5px 0px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.315);
+    span {
+      font-size: 13px;
+      color: rgb(100, 100, 100);
+      margin: 0px 5px 0px 20px;
+    }
+  }
 }
 </style>

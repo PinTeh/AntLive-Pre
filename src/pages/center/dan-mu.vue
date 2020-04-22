@@ -50,8 +50,6 @@ export default {
         });
 
         this.plot = new Line("c1", {
-          width:900,
-          height:350,
           title: {
             visible: false,
             text: "带数据点的折线图"
@@ -66,7 +64,9 @@ export default {
           xField: "date",
           yField: "value",
           seriesField: "type",
-          forceFit:true,
+          // forceFit:true,
+          renderer:"svg",
+          pixelRatio:2,
           point: {
             visible: true
           },
@@ -108,7 +108,6 @@ export default {
             });
             this.plot.render();
           } else {
-            console.log("ok")
             this.plot.changeData(this.plotData);
           }
           });

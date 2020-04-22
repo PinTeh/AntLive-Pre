@@ -248,13 +248,14 @@ export default {
             }
         })
     },
-    adminAuthInfoList(page, limit) {
+    adminAuthInfoList(page, limit,status) {
         return request({
             url: '/admin/auth/list',
             method: 'get',
             params: {
                 page,
-                limit
+                limit,
+                status
             }
         })
     },

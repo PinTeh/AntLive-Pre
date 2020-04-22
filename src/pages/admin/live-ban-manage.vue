@@ -85,7 +85,7 @@ export default {
   .header-operator {
     text-align: left;
     padding: 10px 0px 5px 0px;
-    height: 20px;
+    height: 40px;
     background: rgba(255, 255, 255, 0.315);
     span {
       font-size: 13px;

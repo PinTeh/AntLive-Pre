@@ -66,17 +66,7 @@ export default {
   name: "user-manage",
   data() {
     return {
-      tableData: [
-        {
-          id: "10086",
-          nickName: "PinTah",
-          mobile: "3478919234",
-          email: "794409767@qq.com",
-          sex: "男",
-          isValidated: 1,
-          disabled: 0
-        }
-      ],
+      tableData: [],
       currentPage: 1,
       limit: 10,
       total: 0,
