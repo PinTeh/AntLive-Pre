@@ -7,7 +7,7 @@
     <div style="float:left;margin-top:30px;">
       <p style="font-size:18px;">{{this.item.title}}</p>
       <p>{{this.item.desc}}</p>
-      <el-button :disabled="checked"  size="mini">{{!checked?'去完善':'已认证'}}</el-button>
+      <el-button :disabled="checked" @click="handleClick" size="mini">{{!checked?'去完善':'已认证'}}</el-button>
     </div>
   </div>
 </template>
@@ -15,7 +15,12 @@
 <script>
 export default {
   name: "security-item",
-  props:["item","checked"]
+  props:["item","checked"],
+  methods:{
+    handleClick(){
+      this.$emit("handleClick")
+    }
+  }
 };
 </script>
 

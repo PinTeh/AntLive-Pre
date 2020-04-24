@@ -53,8 +53,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" >
         <template slot-scope="scope">
-          <el-button v-if="scope.row.status===0" type="success" size="mini">通过</el-button>
-          <el-button v-else type="danger" size="mini">重置</el-button>
+          <el-button @click="handlePass(scope.row)" v-if="scope.row.status===0" type="success" size="mini">通过</el-button>
+          <el-button @click="handlePass(scope.row)" v-else type="danger" size="mini">重置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -87,6 +87,18 @@ export default {
     this.page();
   },
   methods: {
+    handlePass(v){
+      let ids = (v.id + "").split(",");
+      if (v.status == 0) {
+        Api.authPass(ids, "pass").then(() => {
+          this.page();
+        });
+      } else if (v.status == 1) {
+        Api.authPass(ids, "reset").then(() => {
+          this.page();
+        });
+      }
+    },
     handleSelectChange() {
       this.page();
       console.log(this.authStatus)

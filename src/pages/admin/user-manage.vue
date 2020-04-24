@@ -43,8 +43,13 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.disabled===0" type="danger" size="mini">封禁</el-button>
-          <el-button v-else size="mini">解封</el-button>
+          <el-button
+            @click="handleBlock(scope.row)"
+            v-if="scope.row.disabled===0"
+            type="danger"
+            size="mini"
+          >封禁</el-button>
+          <el-button @click="handleBlock(scope.row)" v-else size="mini">解封</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -78,6 +83,18 @@ export default {
     this.page();
   },
   methods: {
+    handleBlock(v) {
+      let id = (v.id + "").split(",");
+      if (v.disabled == 0) {
+        Api.userBlock(id, "block").then(() => {
+          this.page();
+        });
+      } else if (v.disabled == 1) {
+        Api.userBlock(id, "unblock").then(() => {
+          this.page();
+        });
+      }
+    },
     handleInputClear() {
       this.page();
     },

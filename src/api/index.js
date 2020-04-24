@@ -57,6 +57,24 @@ export default {
             data
         })
     },
+    userBlock(ids,type){
+        return request({
+            url: '/admin/user/block/'+type,
+            method: 'post',
+            data:{
+                ids
+            }
+        })
+    },
+    authPass(ids,type){
+        return request({
+            url: '/auth/pass/'+type,
+            method: 'post',
+            data:{
+                ids
+            }
+        })
+    },
     getSecurityInfo() {
         return request({
             url: '/getSecurityInfo',

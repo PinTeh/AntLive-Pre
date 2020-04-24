@@ -10,7 +10,7 @@
     </el-row>
         <el-row>
       <el-col :span="12">
-        <SecurityItem :item="items[2]" :checked="checked[2]"/>
+        <SecurityItem :item="items[2]" :checked="checked[2]" @handleClick="handle2Click"/>
       </el-col>
       <el-col :span="12">
       </el-col>
@@ -51,6 +51,11 @@ export default {
     Api.getSecurityInfo().then(res=>{
       this.checked = res.data.data;
     })
+  },
+  methods:{
+    handle2Click(){
+      this.$router.push("/center/identify").catch(()=>{})
+    }
   }
 };
 </script>

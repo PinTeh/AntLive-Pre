@@ -14,19 +14,29 @@ export default {
     url(v1, v2) {
       console.log(v1, "v1");
       console.log(v2, "v2");
+    }
+  },
+  mounted() {
+    if(this.url){
+      this.init(this.url)
+    }else{
+      console.log("推流参数为空")
+    }
+  },
+  methods:{
+    init(v){
       if (flvjs.isSupported()) {
         var videoElement = document.getElementById("videoElement");
         var flvPlayer = flvjs.createPlayer({
           type: "flv",
-          url: v1
+          url: v
         });
         flvPlayer.attachMediaElement(videoElement);
         flvPlayer.load();
         flvPlayer.play();
       }
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 
