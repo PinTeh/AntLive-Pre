@@ -160,6 +160,12 @@ export default {
           icon: "el-icon-data-analysis",
           path: "message-push",
           title: "消息推送"
+        },
+        {
+          index: 14,
+          icon: "el-icon-data-analysis",
+          path: "system-monitor",
+          title: "系统监控"
         }
       ]
     };

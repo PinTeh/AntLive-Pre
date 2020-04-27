@@ -108,6 +108,12 @@ export default {
             method: 'get'
         })
     },
+    getSystemMonitor(){
+        return request({
+            url: '/admin/monitor',
+            method: 'get'
+        })
+    },
     getLivingRoomInfo(cid) {
         return request({
             url: '/room/living',
