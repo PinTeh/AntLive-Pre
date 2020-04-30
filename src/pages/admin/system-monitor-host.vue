@@ -51,7 +51,7 @@
 import Api from "../../api";
 import { Line } from "@antv/g2plot";
 export default {
-  name: "system-monitor",
+  name: "system-monitor-host",
   data() {
     return {
       total: 0,

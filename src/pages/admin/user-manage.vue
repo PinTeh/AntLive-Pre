@@ -35,13 +35,19 @@
       <el-table-column prop="isValidated" label="身份认证" align="center">
         <template slot-scope="scope">{{scope.row.isValidated===0 ? '未认证':'已认证'}}</template>
       </el-table-column>
-      <el-table-column prop="disabled" label="状态" align="center">
+      <el-table-column prop="disabled" label="封禁状态" align="center">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.disabled===0" type="success" size="mini" effect="plain">正常</el-tag>
-          <el-tag v-else type="danger" effect="plain" size="mini">已封禁</el-tag>
+          <el-switch
+            :value="scope.row.disabled===1"
+            @change="handleBlock(scope.row)"
+            active-color="#ff4949"
+            >
+          </el-switch>
+          <!-- <el-tag v-if="scope.row.disabled===0" type="success" size="mini" effect="plain">正常</el-tag>
+          <el-tag v-else type="danger" effect="plain" size="mini">已封禁</el-tag> -->
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center">
+      <!-- <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button
             @click="handleBlock(scope.row)"
@@ -51,7 +57,7 @@
           >封禁</el-button>
           <el-button @click="handleBlock(scope.row)" v-else size="mini">解封</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"

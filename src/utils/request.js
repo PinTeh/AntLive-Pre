@@ -28,7 +28,12 @@ instance.interceptors.response.use(res=>{
         if(ret.code == Code.UNAUTH){
             store.dispatch('logout').then(()=>{
                 //location.reload()
-                router.push('/login')
+                this.$alert('点击确定重新登录', '账号已过期', {
+                    confirmButtonText: '确定',
+                    callback: () => {
+                        router.push('/login');
+                    }
+                  });
             })
         }
         // else if(ret.code == Code.ERROR){

@@ -87,6 +87,12 @@ export default {
             method: 'get'
         })
     },
+    getRoleList() {
+        return request({
+            url: '/admin/role/list',
+            method: 'get'
+        })
+    },
     getRoomInfo(rid) {
         return request({
             url: '/room',
@@ -106,6 +112,21 @@ export default {
         return request({
             url: '/present',
             method: 'get'
+        })
+    },
+    getMenuList() {
+        return request({
+            url: '/admin/menu/list',
+            method: 'get'
+        })
+    },
+    getMenuListByRole(rid) {
+        return request({
+            url: '/admin/menu/listByRole',
+            method: 'get',
+            params:{
+                rid
+            }
         })
     },
     getSystemMonitor(){
@@ -206,6 +227,13 @@ export default {
             data
         })
     },
+    updateMenu(data){
+        return request({
+            url: '/admin/menu/update',
+            method: 'post',
+            data
+        })
+    },
     delWatch(id) {
         return request({
             url: '/watch',
@@ -219,6 +247,13 @@ export default {
         return request({
             url: '/live/open',
             method: 'post'
+        })
+    },
+    updateRoleMenu(data){
+        return request({
+            url: '/admin/role/menu/update',
+            method: 'post',
+            data
         })
     },
     liveClose(rid) {

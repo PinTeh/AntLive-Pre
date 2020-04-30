@@ -51,12 +51,22 @@
       <el-table-column prop="status" label="当前认证" align="center">
         <template slot-scope="scope">{{scope.row.status===0 ? '未认证':'已认证'}}</template>
       </el-table-column>
-      <el-table-column label="操作" align="center" >
+            <el-table-column prop="status" label="操作" align="center">
+        <template slot-scope="scope">
+              <el-switch
+            :value="scope.row.status===1"
+            @change="handlePass(scope.row)"
+            >
+          </el-switch>
+        </template>
+      </el-table-column>
+            
+      <!-- <el-table-column label="操作" align="center" >
         <template slot-scope="scope">
           <el-button @click="handlePass(scope.row)" v-if="scope.row.status===0" type="success" size="mini">通过</el-button>
           <el-button @click="handlePass(scope.row)" v-else type="danger" size="mini">重置</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"

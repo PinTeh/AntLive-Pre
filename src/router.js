@@ -108,8 +108,16 @@ const routes = [
                 component:()=>import("./pages/admin/message-push")
             },
             {
-                path:'system-monitor',
-                component:()=>import("./pages/admin/system-monitor")
+                path:'system-monitor-host',
+                component:()=>import("./pages/admin/system-monitor-host")
+            },
+            {
+                path:'system-manage-menu',
+                component:()=>import("./pages/admin/system/menu")
+            },
+            {
+                path:'system-manage-role',
+                component:()=>import("./pages/admin/system/role")
             }
         ]
     },

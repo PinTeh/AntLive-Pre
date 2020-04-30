@@ -19,15 +19,25 @@
           active-text-color="rgb(64, 158, 255)"
           :collapse="isCollapse"
         >
-          <el-menu-item
-            v-for="item in menu"
-            :key="item.index"
-            :title="item.title"
-            :index="item.path"
-          >
-            <i :class="item.icon"></i>
-            <span slot="title">{{item.title}}</span>
-          </el-menu-item>
+          <div v-for="item in menus" :key="item.path">
+            <el-submenu :index="item.path" v-if="item.children && item.children.length > 0">
+              <template slot="title">
+                <i :class="item.icon"></i>
+                <span>{{item.label}}</span>
+              </template>
+              <div class="el-group-self">
+                <el-menu-item v-for="sub in item.children" :key="sub.path" :index="sub.path">
+                  <i :class="sub.icon"></i>
+                  <span slot="title">{{sub.label}}</span>
+                </el-menu-item>
+              </div>
+                
+            </el-submenu>
+            <el-menu-item v-else :key="item.path" :title="item.label" :index="item.path">
+              <i :class="item.icon"></i>
+              <span slot="title">{{item.label}}</span>
+            </el-menu-item>
+          </div>
         </el-menu>
       </el-aside>
 
@@ -85,7 +95,7 @@
 
 <script>
 import screenfull from "screenfull";
-
+import Api from "../../api";
 export default {
   name: "admin-index",
   data() {
@@ -155,7 +165,7 @@ export default {
           path: "live-ban-manage",
           title: "小黑屋"
         },
-         {
+        {
           index: 13,
           icon: "el-icon-data-analysis",
           path: "message-push",
@@ -167,10 +177,27 @@ export default {
           path: "system-monitor",
           title: "系统监控"
         }
-      ]
+      ],
+      menus: []
     };
   },
+  mounted() {
+    this.initMenus();
+  },
   methods: {
+    initMenus() {
+      this.$store.dispatch("init");
+      let userInfo = this.$store.state.userInfo;
+      console.log(userInfo);
+      if (userInfo == null) {
+        this.$router.push("/login").catch(()=>{})
+        return;
+      }
+      let roleId = userInfo.roleId;
+      Api.getMenuListByRole(roleId).then(res => {
+        this.menus = res.data.data;
+      });
+    },
     handleScreenfull() {
       screenfull.toggle();
     },
@@ -211,6 +238,9 @@ export default {
   }
   .header-dropdown {
     float: right;
+  }
+  .el-submenu__title:hover {
+    background-color: #263445 !important;
   }
   .el-menu-vertical:not(.el-menu--collapse) {
     width: 200px;
@@ -258,6 +288,9 @@ export default {
   .el-menu {
     border: none;
     background-color: rgb(48, 65, 86) !important;
+  }
+  .el-group-self .el-menu-item {
+    background-color: #202b3a !important;
   }
   .el-menu-item:focus,
   .el-menu-item:hover {
