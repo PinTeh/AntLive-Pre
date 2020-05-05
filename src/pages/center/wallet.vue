@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" style="margin:0px 20px 0 20px;" @tab-click="handleTabsClick">
       <el-tab-pane label="账户余额" name="first">
         <div style="width:100%;padding:10px;margin-bottom:30px;">
-          <span>金豆余额</span>
+          <span>开心果余额</span>
           <br />
           <div class="wallent-div">
             <i class="wallent-icon"></i>
@@ -11,20 +11,19 @@
           </div>
 
           <div class="wallent-tips-div">
-            <p>金豆有什么用？</p>
-            <p>金豆是AntLive世界中非常重要的物品</p>
+            <p>开心果有什么用？</p>
+            <p>开心果是AntLive世界中非常重要的物品</p>
             <ul>
-              <li>金豆用于对优秀的主播进行打赏支持，这是对主播的一种肯定</li>
-              <li>金豆还可用于、购买标识、参与活动等</li>
+              <li>开心果用于对优秀的主播进行打赏支持，这是对主播的一种肯定</li>
             </ul>
-            <p>如何获得金豆？</p>
+            <p>如何获得开心果？</p>
             <ul>
               <li>
                 充钱
                 <a href="#" @click="handleToRecharge">立即充值</a>
               </li>
             </ul>
-            <p>如何将金豆提现？</p>
+            <p>如何将开心果提现？</p>
             <ul>
               <li>
                 提现
@@ -52,7 +51,7 @@
                 :step="100"
                 controls-position="right"
               ></el-input-number>
-              <span>金豆</span>
+              <span>开心果</span>
               <span style="display:block;margin-top:8px;">￥{{num/10}}.00</span>
             </template>
           </RechargeItem>
@@ -116,8 +115,8 @@
         <el-table :data="withdrawalTableData" border style="width: 100%" size="small">
           <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
           <!-- <el-table-column prop="account" label="提现账号" align="center"></el-table-column> -->
-          <el-table-column prop="virtualAmount" label="提现金豆" align="center"></el-table-column>
-          <el-table-column prop="realAmount" label="转换金额" align="center"></el-table-column>
+          <el-table-column prop="virtualAmount" label="提现开心果" align="center"></el-table-column>
+          <el-table-column prop="realAmount" label="折现（￥）" align="center"></el-table-column>
           <el-table-column prop="type" label="平台" align="center"></el-table-column>
           <!-- <el-table-column prop="mark" label="备注" align="center"></el-table-column> -->
           <el-table-column prop="createTime" label="申请时间" align="center" width="170"></el-table-column>
@@ -140,7 +139,7 @@
       <el-tab-pane label="提现" name="fifth" v-loading="loading" element-loading-text="正在快马加鞭提现中">
         <div>
           <div style="margin-left:20px">
-            <span>金豆余额</span>
+            <span>开心果余额</span>
             <br />
             <div class="wallent-div">
               <i class="wallent-icon"></i>
@@ -153,7 +152,7 @@
             label-width="90px"
             style="width:400px;display:inline-block;margin-top:20px;"
           >
-            <el-form-item prop="virtualAmount" label="金豆数额">
+            <el-form-item prop="virtualAmount" label="开心果数额">
               <el-input v-model="form.virtualAmount"></el-input>
             </el-form-item>
             <el-form-item prop="acount" label="支付宝账号">

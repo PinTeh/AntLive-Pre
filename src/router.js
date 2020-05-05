@@ -131,6 +131,10 @@ const routes = [
                 component: Security
             },
             {
+                path: 'info',
+                component: ()=>import("./pages/center/info")
+            },
+            {
                 path: 'security',
                 component: Security
             },

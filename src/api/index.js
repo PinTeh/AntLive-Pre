@@ -50,6 +50,16 @@ export default {
             }
         })
     },
+    bind(data){
+        return request({
+            url: '/bind',
+            method: 'post',
+            params: {
+                account:data.account,
+                code:data.code
+            }
+        })
+    },
     auth(data) {
         return request({
             url: '/auth',
@@ -144,12 +154,14 @@ export default {
             }
         })
     },
-    getLiveStatInfo(rid) {
+    getLiveStatInfo(page,limit,dateRange) {
         return request({
-            url: '/live/info',
+            url: '/live/info/list',
             method: 'get',
             params: {
-                rid
+                page,
+                limit,
+                dateRange
             }
         })
     },
@@ -256,6 +268,29 @@ export default {
             data
         })
     },
+    savePresent(data){
+        return request({
+            url: '/admin/present/save',
+            method: 'post',
+            data
+        })
+    },
+    editPresent(data){
+        return request({
+            url: '/admin/present/edit',
+            method: 'post',
+            data
+        })
+    },
+    removePresent(id){
+        return request({
+            url: '/admin/present/del',
+            method: 'post',
+            params: {
+                id
+            }
+        })
+    },
     liveClose(rid) {
         return request({
             url: '/live/on_done',
@@ -275,6 +310,13 @@ export default {
     saveRoomInfo(data) {
         return request({
             url: '/room/info/save',
+            method: 'post',
+            data
+        })
+    },
+    updateUserInfo(data) {
+        return request({
+            url: '/user/info/update',
             method: 'post',
             data
         })

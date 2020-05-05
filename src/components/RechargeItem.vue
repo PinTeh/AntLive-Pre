@@ -19,7 +19,7 @@
       <span
         :class="this.select ? 'box-card-text-select':''"
         style="font-size:17px;margin:10px;display:block;"
-      >{{this.num}} 金豆</span>
+      >{{this.num}} 开心果</span>
       <span :class="this.select ? 'box-card-text-select':''">￥{{this.num/10 }}.00</span>
     </el-card>
   </div>
