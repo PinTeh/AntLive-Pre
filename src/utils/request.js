@@ -1,46 +1,46 @@
 import axios from 'axios'
 import Code from './code'
-import { Message } from 'element-ui';
+import { Message,MessageBox } from 'element-ui';
 import { getToken } from './auth'
- import store from '../store';
- import router from '../router'
+import store from '../store';
+import router from '../router'
 
 const instance = axios.create({
-    baseURL:'http://localhost:9000',
+    baseURL: 'http://localhost:9000',
     //baseURL:'http://www.imhtb.cn:9000',
-    timeout:20000,
+    timeout: 20000,
     //20s
-    withCredentials:true
+    withCredentials: true
 })
 
 instance.interceptors.request.use(config => {
-    config.headers.token = getToken()
+    config.headers.Authorization = getToken()
     return config
-},error => {
+}, error => {
     Promise.reject(error)
 })
 
-instance.interceptors.response.use(res=>{
+instance.interceptors.response.use(res => {
     let ret = res.data;
-    if(ret.code == Code.SUCCESS){
+    if (ret.code == Code.SUCCESS) {
         return res;
-    }else{
-        if(ret.code == Code.UNAUTH){
-            store.dispatch('logout').then(()=>{
-                //location.reload()
-                this.$alert('点击确定重新登录', '账号已过期', {
-                    confirmButtonText: '确定',
-                    callback: () => {
-                        router.push('/login');
-                    }
-                  });
-            })
-        }
-        // else if(ret.code == Code.ERROR){
-        //     Message.error(ret.msg)
-        // }
+    } else if (ret.code == Code.UNAUTH) {
+        store.dispatch('logout').then(() => {
+            MessageBox.confirm('账号已过期, 点击确定重新登录?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                router.push('/login');
+              })
+        })
+    } else if (ret.code == Code.UNAUTHZ) {
+        Message.error(ret.msg)
     }
-},err => {
+    else if(ret.code == Code.ERROR){
+        Message.error(ret.msg)
+    }
+}, err => {
     Message.warning("请求异常")
     return Promise.reject(err)
 })
