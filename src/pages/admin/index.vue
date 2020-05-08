@@ -12,6 +12,7 @@
           </div>
         </div>
         <el-menu
+          unique-opened	
           :default-active="activeIndex"
           class="el-menu-vertical"
           @select="handleSelect"

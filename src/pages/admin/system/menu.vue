@@ -1,5 +1,8 @@
 <template>
   <el-card>
+    <div style="text-align:left;padding-bottom:10px;">
+      <el-button @click="handleShowDialog" size="small">新建</el-button>
+    </div>
     <el-table
       :data="treeData"
       row-key="id"
@@ -7,13 +10,13 @@
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="label" label="菜单名称"  width="180"></el-table-column>
+      <el-table-column prop="label" label="菜单名称" width="180"></el-table-column>
       <el-table-column label="图标" width="130">
         <template slot-scope="scope">
           <i :class="scope.row.icon"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="icon" label="菜单图标"  width="180"></el-table-column>
+      <el-table-column prop="icon" label="菜单图标" width="180"></el-table-column>
       <el-table-column prop="path" label="路径"></el-table-column>
       <el-table-column label="是否显示" width="130">
         <template slot-scope="scope">
@@ -21,7 +24,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="id" label="#" sortable width="70"></el-table-column>
-      <el-table-column prop="sort" label="排序"  width="70"></el-table-column>
+      <el-table-column prop="sort" label="排序" width="70"></el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
@@ -35,7 +38,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog title="编辑" :visible.sync="dialogFormVisible" width="600px">
+    <el-dialog :title="this.op.title" :visible.sync="dialogFormVisible" width="600px">
       <el-form :model="form" size="small" label-width="100px">
         <el-form-item label="菜单名称">
           <el-input v-model="form.label" autocomplete="off"></el-input>
@@ -76,7 +79,11 @@ export default {
     return {
       treeData: [],
       dialogFormVisible: false,
-      form: {}
+      form: {},
+      op: {
+        title: "",
+        tag: "save"
+      }
     };
   },
   mounted() {
@@ -89,14 +96,40 @@ export default {
       });
     },
     handleEdit(row) {
+      this.op = {
+        title: "编辑",
+        tag: "edit"
+      };
       this.form = row;
       this.dialogFormVisible = true;
     },
+    handleShowDialog() {
+      this.op = {
+        title: "新建",
+        tag: "save"
+      };
+      this.form = {};
+      this.dialogFormVisible = true;
+    },
     handleEditConfirm() {
-      Api.updateMenu(this.form).then(() => {
-        this.dialogFormVisible = false;
-        this.getMenuTree();
-      });
+      if (this.op.tag == "save") {
+        Api.saveMenu(this.form).then(res => {
+          this.$message({
+            message: res.data.msg,
+            type: "success"
+          });
+          this.getMenuTree();
+        });
+      } else if (this.op.tag == "edit") {
+        Api.updateMenu(this.form).then((res) => {
+          this.$message({
+            message: res.data.msg,
+            type: "success"
+          });
+          this.getMenuTree();
+        });
+      }
+      this.dialogFormVisible = false;
     },
     handleDelete(row) {
       console.log(row);

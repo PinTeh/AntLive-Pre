@@ -246,6 +246,35 @@ export default {
             data
         })
     },
+    saveMenu(data){
+        return request({
+            url: '/admin/menu/save',
+            method: 'post',
+            data
+        })
+    },
+    getSystemPushInfo(){
+        return request({
+            url: '/admin/push/info',
+            method: 'get',
+        })
+    },
+    getSystemPushLog(sysPushId){
+        return request({
+            url: '/admin/push/log',
+            method: 'get',
+            params:{
+                sysPushId
+            }
+        })
+    },
+    updateSystemPushInfo(data){
+        return request({
+            url: '/admin/push/update',
+            method: 'post',
+            data
+        })
+    },
     delWatch(id) {
         return request({
             url: '/watch',

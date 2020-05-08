@@ -3,8 +3,8 @@
     <el-row :gutter="20">
       <el-col :span="16">
         <div style="text-align:left;padding-bottom:10px;">
-          <el-button plain @click="dialogFormVisible = true" size="small" type="primary">新建</el-button>
-          <el-button plain size="small" type="danger">删除</el-button>
+          <el-button @click="dialogFormVisible = true" size="small" >新建</el-button>
+          <el-button size="small" type="danger">删除</el-button>
         </div>
         <el-card>
           <div slot="header">
@@ -88,7 +88,12 @@ export default {
         roleId: this.currentSelectRole.id,
         menuIds: this.$refs.tree.getCheckedKeys()
       };
-      Api.updateRoleMenu(data).then(() => {});
+      Api.updateRoleMenu(data).then((res) => {
+        this.$message({
+            message: res.data.msg,
+            type: "success"
+          });
+      });
     },
     handleRowClick(row) {
       this.getMenuTreeByRole(row.id);

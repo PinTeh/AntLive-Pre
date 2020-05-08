@@ -1,6 +1,6 @@
 <template>
   <div class="system-monitor-container">
-    <el-table :data="tableData" style="width: 100%"  v-loading="loading">
+    <el-table :data="tableData" style="width: 100%" v-loading="loading">
       <el-table-column label="序号" type="index" width="50" align="center"></el-table-column>
       <el-table-column
         prop="describeInstancesResponse.instances[0].hostName"
@@ -44,6 +44,8 @@
     </el-table>
 
     <div id="container"></div>
+    <div id="internet"></div>
+    <div id="intranet"></div>
   </div>
 </template>
 
@@ -59,7 +61,9 @@ export default {
       tableData: [],
       currentPage: 1,
       monitorData: [],
-      loading:true
+      monitorDataInternet: [],
+      monitorDataIntranet: [],
+      loading: true
     };
   },
   mounted() {
@@ -72,6 +76,30 @@ export default {
         this.monitorData =
           res.data.data[0].describeInstanceMonitorDataResponse.monitorData;
         this.initLine(this.monitorData);
+        this.monitorData.map(v => {
+          this.monitorDataInternet.push({
+            timeStamp: v.timeStamp,
+            value: v.internetRX,
+            type: "internetRX"
+          });
+          this.monitorDataInternet.push({
+            timeStamp: v.timeStamp,
+            value: v.internetTX,
+            type: "internetTX"
+          });
+          this.monitorDataIntranet.push({
+            timeStamp: v.timeStamp,
+            value: v.intranetRX,
+            type: "intranetRX"
+          });
+          this.monitorDataIntranet.push({
+            timeStamp: v.timeStamp,
+            value: v.intranetTX,
+            type: "intranetTX"
+          });
+        });
+        this.initInternetLine(this.monitorDataInternet);
+        this.initIntranetLine(this.monitorDataIntranet);
         this.loading = false;
       });
     },
@@ -91,6 +119,66 @@ export default {
         renderer: "svg",
         xField: "timeStamp",
         yField: "cpu",
+        smooth: true,
+        xAxis: {
+          label: {
+            formatter: v => {
+              return this.dateFormat("HH:MM", new Date(v));
+            }
+          },
+          tickInterval: 3
+        }
+      });
+
+      linePlot.render();
+    },
+    initInternetLine(data) {
+      const linePlot = new Line(document.getElementById("internet"), {
+        title: {
+          visible: true,
+          text: "网络(外网kbits)"
+        },
+        description: {
+          visible: true,
+          text: "网络(外网kbits)"
+        },
+        padding: "auto",
+        forceFit: true,
+        data,
+        renderer: "svg",
+        xField: "timeStamp",
+        yField: "value",
+        seriesField: "type",
+        smooth: true,
+        xAxis: {
+          label: {
+            formatter: v => {
+              return this.dateFormat("HH:MM", new Date(v));
+            }
+          },
+          tickInterval: 3
+        }
+      });
+
+      linePlot.render();
+    },
+    initIntranetLine(data) {
+      const linePlot = new Line(document.getElementById("intranet"), {
+        title: {
+          visible: true,
+          text: "网络(内网kbits)"
+        },
+        description: {
+          visible: true,
+          text: "网络(内网kbits)"
+        },
+        padding: "auto",
+        forceFit: true,
+        data,
+        renderer: "svg",
+        xField: "timeStamp",
+        yField: "value",
+        seriesField: "type",
         smooth: true,
         xAxis: {
           label: {

@@ -4,7 +4,7 @@
     <div style="width:1200px;margin:0 auto;">
       <el-container>
         <el-header style="height:auto;">
-          <el-card :body-style="{ padding: '0px' }" shadow="hover">
+          <el-card @click.native="handleInfoClick" :body-style="{ padding: '0px' }" shadow="hover" style="cursor:pointer;">
             <UserInfo
               :nick="userInfo.nick||''"
               :portrait="userInfo.portrait || ''"
@@ -70,6 +70,15 @@ export default {
   filters:{
     level_filter(v){
       return "uid:" + v;
+    }
+  },
+  methods:{
+    handleInfoClick(){
+      this.$router.push({
+        path:'/center/info'
+      }).catch(()=>{
+
+      })
     }
   }
 };
