@@ -67,6 +67,12 @@ export default {
             data
         })
     },
+    getAuthInfo(){
+        return request({
+            url: '/auth/info',
+            method: 'get',
+        })
+    },
     userBlock(ids,type){
         return request({
             url: '/admin/user/block/'+type,
@@ -78,7 +84,16 @@ export default {
     },
     authPass(ids,type){
         return request({
-            url: '/auth/pass/'+type,
+            url: '/admin/auth/pass/'+type,
+            method: 'post',
+            data:{
+                ids
+            }
+        })
+    },
+    authDel(ids){
+        return request({
+            url: '/admin/auth/del/',
             method: 'post',
             data:{
                 ids
@@ -97,10 +112,32 @@ export default {
             method: 'get'
         })
     },
+    saveRole(data){
+        return request({
+            url: '/admin/role/save',
+            method: 'post',
+            data
+        })
+    },
     getRoleList() {
         return request({
             url: '/admin/role/list',
             method: 'get'
+        })
+    },
+    getHasRoleUserList(){
+        return request({
+            url: '/admin/user/hasRole/list',
+            method: 'get'
+        })
+    },
+    getRoleListByUserId(uid){
+        return request({
+            url: '/admin/role/listByUserId',
+            method: 'get',
+            params:{
+                uid
+            }
         })
     },
     getRoomInfo(rid) {
@@ -136,6 +173,15 @@ export default {
             method: 'get',
             params:{
                 rid
+            }
+        })
+    },
+    getMenuListByRoleIds(roleIds) {
+        return request({
+            url: '/admin/menu/listByRoleIds',
+            method: 'post',
+            data:{
+                ids:roleIds
             }
         })
     },
@@ -246,6 +292,7 @@ export default {
             data
         })
     },
+
     saveMenu(data){
         return request({
             url: '/admin/menu/save',
@@ -293,6 +340,13 @@ export default {
     updateRoleMenu(data){
         return request({
             url: '/admin/role/menu/update',
+            method: 'post',
+            data
+        })
+    },
+    updateUserRole(data){
+        return request({
+            url: '/admin/user/role/update',
             method: 'post',
             data
         })
@@ -426,6 +480,16 @@ export default {
     adminLiveBanList(page, limit) {
         return request({
             url: '/admin/live/ban/list',
+            method: 'get',
+            params: {
+                page,
+                limit
+            }
+        })
+    },
+    liveDetectList(page, limit){
+        return request({
+            url: '/admin/live/detect/list',
             method: 'get',
             params: {
                 page,

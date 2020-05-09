@@ -10,15 +10,20 @@
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
           <el-form-item prop="account" class="login-item">
-            <span class="loginTips">
-              <icon-svg icon-class="iconuser" />
-            </span>
             <el-input
               @keyup.enter.native="submitForm('loginForm')"
               class="area"
               type="text"
               placeholder="手机或者邮箱"
               v-model="loginForm.account"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="nickName" class="login-item">
+            <el-input
+              @keyup.enter.native="submitForm('loginForm')"
+              class="area"
+              placeholder="别名"
+              v-model="loginForm.nickName"
             ></el-input>
           </el-form-item>
           <el-form-item prop="password" class="login-item">
@@ -34,9 +39,6 @@
             ></el-input>
           </el-form-item>
           <el-form-item prop="password" class="login-item">
-            <span class="loginTips">
-              <icon-svg icon-class="iconLock" />
-            </span>
             <el-input
               @keyup.enter.native="submitForm('loginForm')"
               class="area"
@@ -48,9 +50,6 @@
           <el-form-item prop="code" class="login-item">
             <el-row :gutter="10">
               <el-col :span="16">
-                <span class="loginTips">
-                  <icon-svg icon-class="iconLock" />
-                </span>
                 <el-input
                   @keyup.enter.native="submitForm('loginForm')"
                   class="area"
@@ -70,28 +69,6 @@
           <div class="register">
             <router-link :to="{ path: '/login'}">登录已有账号</router-link>
           </div>
-          <div class="tiparea">
-            <p class="wxtip">温馨提示：</p>
-            <p class="tip">
-              用户名为：admin/editor
-              <span>(可用于切换权限)</span>
-            </p>
-            <p class="tip">密码为：123456</p>
-          </div>
-          <div class="sanFangArea">
-            <p class="title">第三方账号登录</p>
-            <ul class="rflex">
-              <li @click="loginByWechat">
-                <icon-svg icon-class="iconwechat" />
-              </li>
-              <li>
-                <icon-svg icon-class="iconweibo" />
-              </li>
-              <li>
-                <icon-svg icon-class="iconGithub" />
-              </li>
-            </ul>
-          </div>
         </el-form>
       </section>
     </transition>
@@ -100,20 +77,25 @@
 
 <script>
 import logoImg from "@/assets/logo.png";
-import store from '../store'
+import store from "../store";
 export default {
   data() {
     return {
       logo: logoImg,
       loginForm: {
-        account: "794409767@qq.com",
+        account: "@qq.com",
         password: "",
         password_confirm: "",
-        code: ""
+        code: "",
+        nickName: ""
       },
-      buttonDesc:"获取验证码",
+      buttonDesc: "获取验证码",
       rules: {
-        account: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        nickName: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+          { min: 5, max: 16, message: "长度在 5 到 16 个字符", trigger: "blur" }
+        ],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
         password_confirm: [
           { required: true, message: "请输入确认密码", trigger: "blur" }
@@ -135,9 +117,11 @@ export default {
       this.$refs[loginForm].validate(valid => {
         if (valid) {
           let userinfo = this.loginForm;
-          store.dispatch('register',userinfo).then(()=>{
-            this.$router.push('/login')
-          })
+          store.dispatch("register", userinfo).then(res => {
+            if (res.data.code == 0) {
+              this.$router.push("/login");
+            }
+          });
         }
       });
     },
@@ -147,12 +131,12 @@ export default {
       });
     },
     handleGetCode() {
-      let time = 60
+      let time = 60;
       setInterval(() => {
-        time = time - 1
-        this.buttonDesc = time + "s"
+        time = time - 1;
+        this.buttonDesc = time + "s";
       }, 1000);
-      store.dispatch('sendCode',this.loginForm.account)
+      store.dispatch("sendCode", this.loginForm.account);
     }
   }
 };

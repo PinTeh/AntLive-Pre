@@ -118,6 +118,14 @@ const routes = [
             {
                 path:'system-manage-role',
                 component:()=>import("./pages/admin/system/role")
+            },
+            {
+                path:'live-detect',
+                component:()=>import("./pages/admin/live-detect")
+            },
+            {
+                path:'user-role-manage',
+                component:()=>import("./pages/admin/system/user-role")
             }
         ]
     },

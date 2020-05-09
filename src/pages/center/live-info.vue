@@ -1,6 +1,11 @@
 <template>
   <div class="live-info-div">
+
+    <div v-if="this.status == -1" class="no-auth-container">
+        您还没有进行身份认证，请认证后再尝试~
+    </div>
     <el-form
+      v-else
       label-position="right"
       label-width="80px"
       :model="formData"
@@ -55,6 +60,7 @@ export default {
         cover: "",
         cover_preview: ""
       },
+      status:-1,
       limit: 20,
       current_page: 1,
       category_list: []
@@ -71,6 +77,7 @@ export default {
       this.formData.cover = ret.cover;
       this.formData.cover_preview = ret.cover;
       this.formData.cid = ret.categoryId;
+      this.status = ret.status;
     });
   },
   methods: {
@@ -104,9 +111,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 .live-info-div {
-  height: 480px;
+  height: 500px;
+  .no-auth-container{
+    height:500px;
+    line-height: 500px;
+    font-size: 13px;
+    color:#666;
+  }
 }
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
@@ -132,4 +145,5 @@ export default {
   height: 158px;
   display: block;
 }
+
 </style>

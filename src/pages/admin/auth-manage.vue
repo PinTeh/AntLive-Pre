@@ -1,6 +1,6 @@
 <template>
   <div class="user-manage-container">
-        <div class="header-operator">
+    <div class="header-operator">
       <span>认证状态</span>
       <el-select
         v-model="authStatus"
@@ -46,27 +46,46 @@
           </el-image>
         </template>
       </el-table-column>
+       <el-table-column prop="handUrl" label="手持证件照" align="center">
+        <template slot-scope="scope">
+          <el-image
+            style="width: auto; height: 40px"
+            :src="scope.row.handUrl"
+            :preview-src-list="(scope.row.handUrl).split('_')"
+            fit="contain"
+          >
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
+        </template>
+      </el-table-column>
       <el-table-column prop="cardNo" label="身份证号" width="180" align="center"></el-table-column>
       <el-table-column prop="createTime" label="申请时间" align="center" width="200"></el-table-column>
       <el-table-column prop="status" label="当前认证" align="center">
-        <template slot-scope="scope">{{scope.row.status===0 ? '未认证':'已认证'}}</template>
-      </el-table-column>
-            <el-table-column prop="status" label="操作" align="center">
         <template slot-scope="scope">
-              <el-switch
-            :value="scope.row.status===1"
-            @change="handlePass(scope.row)"
-            >
-          </el-switch>
+          <span v-if="scope.row.status===0" >未认证</span>
+          <span v-else style="color:#00ca00">已认证</span>
         </template>
       </el-table-column>
-            
-      <!-- <el-table-column label="操作" align="center" >
+      <el-table-column prop="status" label="审批" align="center">
         <template slot-scope="scope">
-          <el-button @click="handlePass(scope.row)" v-if="scope.row.status===0" type="success" size="mini">通过</el-button>
-          <el-button @click="handlePass(scope.row)" v-else type="danger" size="mini">重置</el-button>
+          <el-switch :value="scope.row.status===1" @change="handlePass(scope.row)"></el-switch>
         </template>
-      </el-table-column> -->
+      </el-table-column>
+
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <el-popconfirm @onConfirm="handleDel(scope.row)" title="你确定要删除吗?">
+            <el-button
+              type="danger"
+              size="mini"
+              icon="el-icon-delete"
+               slot="reference"
+            ></el-button>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -90,14 +109,14 @@ export default {
       limit: 10,
       tableData: [],
       currentPage: 1,
-      authStatus:''
+      authStatus: ""
     };
   },
   mounted() {
     this.page();
   },
   methods: {
-    handlePass(v){
+    handlePass(v) {
       let ids = (v.id + "").split(",");
       if (v.status == 0) {
         Api.authPass(ids, "pass").then(() => {
@@ -111,7 +130,7 @@ export default {
     },
     handleSelectChange() {
       this.page();
-      console.log(this.authStatus)
+      console.log(this.authStatus);
     },
     handleSizeChange(val) {
       this.limit = val;
@@ -121,12 +140,24 @@ export default {
       this.currentPage = val;
       this.page();
     },
+    handleDel(row){
+      let ids = (row.id + "").split(",");
+      Api.authDel(ids).then((res)=>{
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.page()
+      })
+    },
     page() {
-      Api.adminAuthInfoList(this.currentPage, this.limit,this.authStatus).then(res => {
-        let ret = res.data.data;
-        this.tableData = ret.records;
-        this.total = ret.total;
-      });
+      Api.adminAuthInfoList(this.currentPage, this.limit, this.authStatus).then(
+        res => {
+          let ret = res.data.data;
+          this.tableData = ret.records;
+          this.total = ret.total;
+        }
+      );
     }
   }
 };

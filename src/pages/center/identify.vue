@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-steps :active="active" finish-status="success" simple style="margin-top: 10px">
+    <el-steps :active="active + 1" finish-status="success" simple style="margin-top: 10px">
   <el-step title="填写认证信息" icon="el-icon-edit"></el-step>
   <el-step title="等待官方认证" icon="el-icon-upload"></el-step>
   <el-step title="认证成功" icon="el-icon-success"></el-step>
     </el-steps>
     <div class="identify" style="height:445px;text-align:center;" v-loading="loading">
-      <div v-if="active==0">
+      <div v-if="active==-1">
         <el-row style="margin-top:0px;">
           <el-col :span="8">
             <el-upload
@@ -15,7 +15,6 @@
               :action="uploadAction + '?tag=foo'"
               :on-success="onSuccess"
               :on-error="onError"
-              :list-type="picture-card"
             >
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">
@@ -77,7 +76,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <div v-else-if="active==1" class="identify" style="height:445px;text-align:center;font-size:17px;color:#3f74a8">
+      <div v-else-if="active==0" class="identify" style="height:445px;text-align:center;font-size:17px;color:#3f74a8">
         <span style="line-height:400px"><i class="el-icon-help" style="margin-right:10px"></i>正在认证中</span>
       </div>
       <div v-else-if="active==1" class="identify" style="height:445px;text-align:center;font-size:17px;color:#139715">
@@ -103,12 +102,24 @@ export default {
         reverseUrl: ""
       },
       rules: {
-        name: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
-        no: [{ required: true, message: "请输入活动名称", trigger: "blur" }]
+        name: [{ required: true, message: "请输入真实名字", trigger: "blur" },
+        { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'change' }],
+        no: [{ required: true, message: "请输入身份证号", trigger: "blur" },
+        { len:18, message: '请输入合法的身份证号', trigger: 'change' }]
       },
       uploadAction: "http://localhost:9000/upload",
       active: 1
     };
+  },
+  mounted(){
+    Api.getAuthInfo().then((res)=>{
+      let ret = res.data.data;
+      if(ret==null){
+        this.active = -1;
+      }else{
+        this.active = ret.status;
+      }
+    })
   },
   methods: {
     onSuccess(response, file, fileList) {
@@ -137,9 +148,13 @@ export default {
     },
     submitForm() {
       this.loading = true;
-      Api.auth(this.form).then(() => {
+      Api.auth(this.form).then((res) => {
         this.loading = false;
-        this.active = 1;
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.active = 0;
       });
     }
   }

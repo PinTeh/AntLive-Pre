@@ -11,6 +11,8 @@ import store from './store/index'
 import Video from 'video.js'
 import 'video.js/dist/video-js.css'
 import 'videojs-flash'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 // import SocketIO from 'socket.io-client';
 // import VueSocketIO from 'vue-socket.io'
 
@@ -27,6 +29,7 @@ Vue.config.productionTip = false
 
 
 router.beforeEach((to,from,next)=>{
+  NProgress.start()
   if (to.matched.some(record => record.meta.requiresAdmin)) {
     // console.log(store.state.userInfo.role,"role")
     if (store.state.userInfo!=null && store.state.userInfo.role == 0) {
@@ -40,6 +43,10 @@ router.beforeEach((to,from,next)=>{
   } else {
     next() 
   }
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })
 
 new Vue({

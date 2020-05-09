@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-container">
+  <div class="admin-container" v-loading="loading" element-loading-background="transparent">
     <el-container style="height:100%;">
       <el-aside>
         <div class="el-aside-logo">
@@ -179,11 +179,15 @@ export default {
           title: "系统监控"
         }
       ],
-      menus: []
+      menus: [],
+      loading:true
     };
   },
   mounted() {
     this.initMenus();
+    setTimeout(() => {
+      this.loading = false;
+    }, 3000);
   },
   methods: {
     initMenus() {
@@ -194,9 +198,10 @@ export default {
         this.$router.push("/login").catch(()=>{})
         return;
       }
-      let roleId = userInfo.roleId;
-      Api.getMenuListByRole(roleId).then(res => {
+      let roleIds = userInfo.roleIds;
+      Api.getMenuListByRoleIds(roleIds).then(res => {
         this.menus = res.data.data;
+        this.loading = false;
       });
     },
     handleScreenfull() {
