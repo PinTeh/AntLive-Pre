@@ -1,9 +1,12 @@
 <template>
   <div>
+    <div style="padding:10px">
+          <el-alert v-if="reject.tag" :title="'上次审核失败原因：' + reject.reason" type="error"></el-alert>
+    </div>
     <el-steps :active="active + 1" finish-status="success" simple style="margin-top: 10px">
-  <el-step title="填写认证信息" icon="el-icon-edit"></el-step>
-  <el-step title="等待官方认证" icon="el-icon-upload"></el-step>
-  <el-step title="认证成功" icon="el-icon-success"></el-step>
+      <el-step title="填写认证信息" icon="el-icon-edit"></el-step>
+      <el-step title="等待官方认证" icon="el-icon-upload"></el-step>
+      <el-step title="认证成功" icon="el-icon-success"></el-step>
     </el-steps>
     <div class="identify" style="height:445px;text-align:center;" v-loading="loading">
       <div v-if="active==-1">
@@ -76,11 +79,23 @@
           </el-form-item>
         </el-form>
       </div>
-      <div v-else-if="active==0" class="identify" style="height:445px;text-align:center;font-size:17px;color:#3f74a8">
-        <span style="line-height:400px"><i class="el-icon-help" style="margin-right:10px"></i>正在认证中</span>
+      <div
+        v-else-if="active==0"
+        class="identify"
+        style="height:445px;text-align:center;font-size:17px;color:#3f74a8"
+      >
+        <span style="line-height:400px">
+          <i class="el-icon-help" style="margin-right:10px"></i>正在认证中
+        </span>
       </div>
-      <div v-else-if="active==1" class="identify" style="height:445px;text-align:center;font-size:17px;color:#139715">
-        <span style="line-height:400px"><i class="el-icon-help" style="margin-right:10px"></i>您已成功认证</span>
+      <div
+        v-else-if="active==1"
+        class="identify"
+        style="height:445px;text-align:center;font-size:17px;color:#139715"
+      >
+        <span style="line-height:400px">
+          <i class="el-icon-help" style="margin-right:10px"></i>您已成功认证
+        </span>
       </div>
     </div>
   </div>
@@ -102,24 +117,40 @@ export default {
         reverseUrl: ""
       },
       rules: {
-        name: [{ required: true, message: "请输入真实名字", trigger: "blur" },
-        { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'change' }],
-        no: [{ required: true, message: "请输入身份证号", trigger: "blur" },
-        { len:18, message: '请输入合法的身份证号', trigger: 'change' }]
+        name: [
+          { required: true, message: "请输入真实名字", trigger: "blur" },
+          { min: 1, max: 5, message: "长度在 1 到 5 个字符", trigger: "change" }
+        ],
+        no: [
+          { required: true, message: "请输入身份证号", trigger: "blur" },
+          { len: 18, message: "请输入合法的身份证号", trigger: "change" }
+        ]
       },
-      uploadAction: "http://localhost:9000/upload",
-      active: 1
+      uploadAction: "http://119.23.255.187:9000/upload",
+      active: 1,
+      reject: {
+        tag: false,
+        reason: ""
+      }
     };
   },
-  mounted(){
-    Api.getAuthInfo().then((res)=>{
+  mounted() {
+    Api.getAuthInfo().then(res => {
       let ret = res.data.data;
-      if(ret==null){
+      if (ret == null) {
         this.active = -1;
-      }else{
-        this.active = ret.status;
+      } else {
+        if (ret.status == 3) {
+          this.active = -1;
+          this.reject = {
+            tag: true,
+            reason: ret.rejectReason
+          };
+        } else {
+          this.active = ret.status;
+        }
       }
-    })
+    });
   },
   methods: {
     onSuccess(response, file, fileList) {
@@ -148,11 +179,11 @@ export default {
     },
     submitForm() {
       this.loading = true;
-      Api.auth(this.form).then((res) => {
+      Api.auth(this.form).then(res => {
         this.loading = false;
         this.$message({
           message: res.data.msg,
-          type: 'success'
+          type: "success"
         });
         this.active = 0;
       });

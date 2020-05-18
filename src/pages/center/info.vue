@@ -5,7 +5,7 @@
            <el-form-item label="头像">
                <el-upload
                 class="avatar-uploader"
-                action="http://localhost:9000/upload"
+                action="http://119.23.255.187:9000/upload"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
