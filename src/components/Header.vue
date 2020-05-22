@@ -25,12 +25,11 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="/center">个人中心</el-dropdown-item>
+            <el-dropdown-item v-if="hasAdminRole" command="/admin">管理后台</el-dropdown-item>
             <el-dropdown-item divided command="/logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </a>
-      <a class="nav-a" href="#" @click="handleClick">测试</a>
-      <a class="nav-a" href="#" @click="handleClickAdmin">管理</a>
     </div>
   </div>
 </template>
@@ -51,6 +50,12 @@ export default {
       return (
         this.$store.state.userInfo === "" || this.$store.state.userInfo === null
       );
+    },
+    hasAdminRole(){
+      return (
+        this.$store.state.userInfo!==null &&
+        this.$store.state.userInfo.roleIds.length > 0
+      );
     }
   },
   mounted() {
@@ -64,11 +69,6 @@ export default {
     handleClick() {
       this.$router.push({
         path: "/center"
-      }).catch(()=>{});
-    },
-    handleClickAdmin() {
-      this.$router.push({
-        path: "/admin"
       }).catch(()=>{});
     },
     handleLogin() {

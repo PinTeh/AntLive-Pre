@@ -126,6 +126,10 @@ const routes = [
             {
                 path:'user-role-manage',
                 component:()=>import("./pages/admin/system/user-role")
+            },
+            {
+                path:'snapshot-templates',
+                component:()=>import("./pages/admin/snapshot-templates")
             }
         ]
     },

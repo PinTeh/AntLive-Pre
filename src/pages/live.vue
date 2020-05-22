@@ -15,7 +15,16 @@
                 <p class="author-info-title">{{info.title}}</p>
                 <p class="author-info-name">{{info.userInfo.name}}</p>
               </div>
+              
               <div class="author-follow">
+                <el-button
+                  @click="handleBan"
+                  v-if="isLiveRole"
+                  round
+                  style="padding:8px 20px 8px 20px;font-size:13px;"
+                  type="danger"
+                >封禁</el-button>
+
                 <el-button
                   @click="handleFollow(false)"
                   v-if="isFollow"
@@ -117,10 +126,15 @@ export default {
   },
   computed: {
     isLogin() {
-      return this.$store.state.userInfo === "";
+      return this.$store.state.userInfo == null;
     },
     spliceLiveUrl(){
       return this.info.liveUrl+this.info.id+".flv"
+    },
+    isLiveRole(){
+      const roleLiveId = 2;
+      return this.$store.state.userInfo != null && 
+      this.$store.state.userInfo.roleIds.indexOf(roleLiveId) > -1;
     }
   },
   components: {
@@ -131,6 +145,10 @@ export default {
     this.init();
   },
   methods: {
+    handleBan(){
+      // eslint-disable-next-line no-unused-vars
+      let rid = this.info.id;
+    },
     handlePresent(id){
       Api.sendPresent({
         rid:this.info.id,
@@ -173,7 +191,7 @@ export default {
         this.presents = res.data.data;
       });
       this.initWebSocket(rid);
-      if (this.$store.state.userInfo === "") {
+      if (this.$store.state.userInfo == null) {
         this.input = "登录后才可以发送消息噢~";
       }
     },
@@ -298,6 +316,7 @@ export default {
 }
 .live-root {
   margin: 0 auto;
+  min-width: 1500px;
 }
 .live-content-div {
   text-align: left;
@@ -357,7 +376,7 @@ export default {
 }
 .author-follow {
   height: 80px;
-  width: 100px;
+  width: 200px;
   line-height: 80px;
   vertical-align: middle;
   text-align: center;

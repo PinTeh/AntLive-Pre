@@ -489,7 +489,7 @@ export default {
     },
     liveDetectList(page, limit){
         return request({
-            url: '/admin/live/detect/list',
+            url: '/admin/live/live/detect/list',
             method: 'get',
             params: {
                 page,
@@ -526,6 +526,19 @@ export default {
             params: {
                 days
             }
+        })
+    },
+    getSnapshotTempaltes(){
+        return request({
+            url: '/admin/live/snapshot/template/list',
+            method: 'get',
+        })
+    },
+    updateSnapshotTemplate(data){
+        return request({
+            url: '/admin/live/snapshot/template/update',
+            method: 'post',
+            data
         })
     }
 }

@@ -4,6 +4,8 @@ import { Message,MessageBox } from 'element-ui';
 import { getToken } from './auth'
 import store from '../store';
 import router from '../router'
+//import message from 'ant-design-vue/lib/message'
+//import 'ant-design-vue/lib/message/style/css'
 
 const instance = axios.create({
     baseURL: 'http://localhost:9000',
@@ -42,6 +44,7 @@ instance.interceptors.response.use(res => {
     }
 }, err => {
     Message.warning("请求异常")
+    //message.warning('请求异常');
     return Promise.reject(err)
 })
 

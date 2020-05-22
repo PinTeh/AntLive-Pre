@@ -13,18 +13,12 @@ import 'video.js/dist/video-js.css'
 import 'videojs-flash'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-// import SocketIO from 'socket.io-client';
-// import VueSocketIO from 'vue-socket.io'
 
 Vue.use(ElementUI)
 Vue.use(VueAxios,axios)
-// Vue.use(new VueSocketIO({
-//   debug: true,
-//   connection: SocketIO('http://127.0.0.1:9000/live/chat/1') 
-// }))
+
+
 Vue.prototype.$video = Video
-
-
 Vue.config.productionTip = false
 
 
