@@ -130,6 +130,10 @@ const routes = [
             {
                 path:'snapshot-templates',
                 component:()=>import("./pages/admin/snapshot-templates")
+            },
+            {
+                path:'ban-record',
+                component:()=>import("./pages/admin/ban-record")
             }
         ]
     },

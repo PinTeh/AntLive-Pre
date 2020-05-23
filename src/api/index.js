@@ -489,7 +489,7 @@ export default {
     },
     liveDetectList(page, limit){
         return request({
-            url: '/admin/live/live/detect/list',
+            url: '/admin/live/detect/list',
             method: 'get',
             params: {
                 page,
@@ -540,5 +540,12 @@ export default {
             method: 'post',
             data
         })
-    }
+    },
+    getBanRecordList(params){
+        return request({
+            url: '/admin/live/ban/record/list',
+            method: 'get',
+            params
+        })
+    },
 }
