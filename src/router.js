@@ -138,6 +138,16 @@ const routes = [
         ]
     },
     {
+        path: '/vod/:id',
+        name: 'vod',
+        component: ()=>import("./pages/vod"),
+    },
+    {
+        path: '/video',
+        name: 'video',
+        component: ()=>import("./pages/video-center"),
+    },
+    {
         path: '/center',
         name: 'center',
         component: UserCenter,
@@ -198,7 +208,14 @@ const routes = [
                 path: 'punishment',
                 component: Punishment
             },
-            
+            {
+                path: 'vod',
+                component: ()=>import("./pages/center/vod-upload")
+            },
+            {
+                path: 'vod-list',
+                component: ()=>import("./pages/center/vod-list")
+            },
         ]
     },
 ]

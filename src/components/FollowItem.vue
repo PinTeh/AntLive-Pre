@@ -2,8 +2,8 @@
   <div class="item-container">
       <el-image :src="item.cover" fit="cover" class="item-img"></el-image><br>
      <div style="text-align:left;margin-left:5px;">
-       <span style="line-height:30px;width:220px;">[{{item.name}}]{{item.title}}</span><br>
-      <i class="el-icon-user">{{item.name}}</i>
+       <span style="line-height:30px;width:220px;">{{item.name==null?'':'['+item.name+']'}}{{item.title}}</span><br>
+      <i class="el-icon-user" v-if="item.name!=null">{{item.name}}</i>
      </div>
   </div>
 </template>

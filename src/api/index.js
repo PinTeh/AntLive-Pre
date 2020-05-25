@@ -548,4 +548,38 @@ export default {
             params
         })
     },
+    getVodSignature(){
+        return request({
+            url: '/vod/signature',
+            method: 'post',
+        })
+    },
+    saveUploadVodInfo(data){
+        return request({
+            url: '/vod/video/info/save',
+            method: 'post',
+            data
+        })
+    },
+    getVodList(params){
+        return request({
+            url: '/vod/video/list',
+            method: 'get',
+            params
+        })
+    },
+    getVodNormalList(params){
+        return request({
+            url: '/vod/video/list/normal',
+            method: 'get',
+            params
+        })
+    },
+    getVodVideoInfo(params){
+        return request({
+            url: '/vod/video/info',
+            method: 'get',
+            params
+        })
+    }
 }

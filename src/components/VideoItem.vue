@@ -1,13 +1,11 @@
 <template>
   <el-card @click.native="handleClick" class="card" :body-style="{ padding: '0px' }" shadow="hover" style="position:relative">
-    <el-image fit="cover" class="image-cover" :src="room.cover">
-    </el-image>
-    <el-tag style="position:absolute;left:7px;top:7px;height:24px;line-height:24px;background-color: #ffffff6b;" type="success" effect="plain">直播</el-tag>
+    <el-image fit="cover" class="image-cover" :src="video.coverUrl"></el-image>
     <div style="padding: 14px;">
-      <span class="title">{{room.title}}</span>
+      <span class="title">{{video.title}}</span>
       <div class="bottom clearfix">
-        <img class="avatar" :src="room.userInfo.avatar" />
-        <time class="time">{{room.userInfo.name}}</time>
+        <img class="avatar" :src="video.userInfo.avatar" />
+        <time class="time">{{video.userInfo.name}}</time>
       </div>
     </div>
   </el-card>
@@ -15,17 +13,17 @@
 
 <script>
     export default {
-    name: "live-room",
-    props: ["room"],
+    name: "video-item",
+    props: ["video"],
     data() {
         return {
-        currentDate: new Date()
+          currentDate: new Date()
         };
     },
     methods: {
         handleClick() {
         this.$router.push({
-            path: "/live/" + this.room.id
+            path: "/vod/" + this.video.id
         });
         }
     }
