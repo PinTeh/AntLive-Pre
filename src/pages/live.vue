@@ -1,7 +1,7 @@
 <template>
   <el-container style="height:100%;">
     <el-header style="padding:0px">
-      <Header :notIndexPage="true"/>
+      <Header :notIndexPage="true" />
     </el-header>
     <el-main style="text-align:center;">
       <div class="live-root">
@@ -15,7 +15,7 @@
                 <p class="author-info-title">{{info.title}}</p>
                 <p class="author-info-name">{{info.userInfo.name}}</p>
               </div>
-              
+
               <div class="author-follow">
                 <el-button
                   @click="handleBan"
@@ -46,7 +46,7 @@
               <div class="not-live" style="color:#ff8e8e;" v-else>该直播间因违规已被封禁</div>
             </div>
             <div class="present-content">
-              <el-popconfirm
+              <!-- <el-popconfirm
                 v-for="item in presents"
                 :key="item.id"
                 confirmButtonText="是的"
@@ -57,13 +57,51 @@
                 @onConfirm="handlePresent(item.id)"
               >
                 <el-image
-                  
                   class="present-item"
                   :src="item.icon"
                   slot="reference"
                 ></el-image>
+              </el-popconfirm>-->
 
-              </el-popconfirm>
+              <el-popover
+                v-for="item in presents"
+                :key="item.id"
+                placement="top"
+                width="250"
+                v-model="visible"
+              >
+                <div style="height:30px;">
+                  <el-image style="width:30px;height:30px;" :src="item.icon"></el-image>
+                  {{item.name}}
+                  <span>（{{item.price}}开心果）</span>
+                </div>
+                <div style="text-align: left; margin: 20px 0 2px 0;background:666;">
+                  <div
+                    :class="sendCount==1?'price-item price-item-active':'price-item'"
+                    @click="sendCount = 1"
+                  >1</div>
+                  <div
+                    :class="sendCount==10?'price-item price-item-active':'price-item'"
+                    @click="sendCount = 10"
+                  >10</div>
+                  <div
+                    :class="sendCount==100?'price-item price-item-active':'price-item'"
+                    @click="sendCount = 100"
+                  >100</div>
+                  <el-button
+                    style="float:right"
+                    type="primary"
+                    size="mini"
+                    @click="handlePresent"
+                  >确定</el-button>
+                </div>
+                <el-image
+                  class="present-item"
+                  :src="item.icon"
+                  slot="reference"
+                  @click="handlePresentClick(item)"
+                ></el-image>
+              </el-popover>
             </div>
           </el-card>
         </div>
@@ -71,13 +109,8 @@
           <el-card :body-style="{ padding: '0px' }" shadow="never">
             <div class="rank"></div>
             <div class="danmu">
-              <ul
-                id="danmu-list"
-                class="infinite-list"
-                
-                style="overflow:auto"
-              >
-              <!-- v-infinite-scroll="load" -->
+              <ul id="danmu-list" class="infinite-list" style="overflow:auto">
+                <!-- v-infinite-scroll="load" -->
                 <li v-for="(i,index) in messageList" :key="index" class="infinite-list-item">
                   <span class="chat-name">{{i.name}}</span>:
                   <span class="chat-content">{{i.content}}</span>
@@ -107,34 +140,38 @@ export default {
   name: "index",
   data() {
     return {
-      input: '',
+      input: "",
       info: {
-        id: '',
-        title: '',
+        id: "",
+        title: "",
         userInfo: {
-          nick: '',
-          avatar: ''
+          nick: "",
+          avatar: ""
         },
-        liveUrl: '',
-        status:''
+        liveUrl: "",
+        status: ""
       },
       isFollow: false,
       presents: [],
-      socket: '',
-      messageList: []
+      socket: "",
+      messageList: [],
+      sendCount: 1,
+      currentPresent: {}
     };
   },
   computed: {
     isLogin() {
       return this.$store.state.userInfo == null;
     },
-    spliceLiveUrl(){
-      return this.info.liveUrl+this.info.id+".flv"
+    spliceLiveUrl() {
+      return this.info.liveUrl + this.info.id + ".flv";
     },
-    isLiveRole(){
+    isLiveRole() {
       const roleLiveId = 2;
-      return this.$store.state.userInfo != null && 
-      this.$store.state.userInfo.roleIds.indexOf(roleLiveId) > -1;
+      return (
+        this.$store.state.userInfo != null &&
+        this.$store.state.userInfo.roleIds.indexOf(roleLiveId) > -1
+      );
     }
   },
   components: {
@@ -145,28 +182,41 @@ export default {
     this.init();
   },
   methods: {
-    handleBan(){
+    handleBan() {
       // eslint-disable-next-line no-unused-vars
       let rid = this.info.id;
     },
-    handlePresent(id){
-      Api.sendPresent({
-        rid:this.info.id,
-        number:1,
-        pid:id
-      }).then((ret)=>{
-        if(ret.data.code!=0){
-          this.$notify.error({
-          title: '错误1',
-          message: '赠送失败'
-        });
-        }
-      }).catch(()=>{
-        this.$notify.error({
-          title: '错误2',
-          message: '赠送失败'
-        });
-      })
+    handlePresentClick(v) {
+      this.currentPresent = v;
+    },
+    handlePresent() {
+      this.$confirm("是否赠送"+this.sendCount+"个"+this.currentPresent.name+"?", "赠送确认", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "success ",
+        lockScroll:false
+      }).then(() => {
+        let data = {
+          rid: this.info.id,
+          number: this.sendCount,
+          pid: this.currentPresent.id
+        };
+        Api.sendPresent(data)
+          .then(ret => {
+            if (ret.data.code != 0) {
+              this.$notify.error({
+                title: "错误1",
+                message: "赠送失败"
+              });
+            }
+          })
+          .catch(() => {
+            this.$notify.error({
+              title: "错误2",
+              message: "赠送失败"
+            });
+          });
+      });
     },
     handleFollow(flag) {
       if (flag) {
@@ -233,7 +283,7 @@ export default {
         // this.socket = new WebSocket(
         //   "ws://127.0.0.1:9000/live/chat/" + rid + "/" + getToken()
         // );
-              this.socket = new WebSocket(
+        this.socket = new WebSocket(
           "ws://119.23.255.187:9000/live/chat/" + rid + "/" + getToken()
         );
         this.socket.onopen = this.open;
@@ -256,13 +306,13 @@ export default {
       console.log(msg, "msg");
       let message = JSON.parse(msg.data);
       console.log(message, "message");
-      if(message.op==='PRESENT'){
+      if (message.op === "PRESENT") {
         // 礼物特效
         let p = message.p;
-         this.$notify({
+        this.$notify({
           title: message.u.name,
-          message: '收到' + p.name + ' * ' + p.number,
-          type: 'success'
+          message: "收到" + p.name + " * " + p.number,
+          type: "success"
         });
       }
       this.messageList.push({
@@ -287,7 +337,29 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
+.price-item {
+  width: 45px;
+  height: 25px;
+  line-height: 25px;
+  border: 1px solid rgb(179, 179, 179);
+  border-radius: 10%;
+  display: inline-block;
+  text-align: center;
+  margin-right: 5px;
+}
+.price-item-active {
+  color: #fff;
+  background: rgb(250, 125, 23);
+  border: 1px solid rgb(255, 160, 72);
+  cursor: pointer;
+}
+.price-item:hover {
+  color: #fff;
+  background: rgb(250, 125, 23);
+  border: 1px solid rgb(255, 160, 72);
+  cursor: pointer;
+}
 .infinite-list {
   height: 430px;
   padding: 0;
@@ -339,7 +411,7 @@ export default {
 }
 .author-info-content {
   height: 80px;
-  background: rgb(247, 247, 247);
+  background: rgb(255, 255, 255);
   display: flex;
 }
 .author-info-avatar {
@@ -387,7 +459,7 @@ export default {
 }
 .present-content {
   height: 60px;
-  background: rgb(247, 247, 247);
+  background: rgb(255, 255, 255);
 }
 .rank {
   height: 130px;
@@ -428,11 +500,11 @@ export default {
   border: 1px solid rgb(243, 130, 0);
   cursor: pointer;
 }
-.not-live{
+.not-live {
   width: 100%;
   height: 100%;
   text-align: center;
-  color:rgb(218, 218, 218);
+  color: rgb(218, 218, 218);
   line-height: 500px;
 }
 </style>

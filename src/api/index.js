@@ -510,22 +510,18 @@ export default {
             data
         })
     },
-    getStatView(days) {
+    getStatView(params) {
         return request({
             url: '/admin/stat/view/list',
             method: 'get',
-            params: {
-                days
-            }
+            params
         })
     },
-    getStatSpeak(days) {
+    getStatSpeak(params) {
         return request({
             url: '/admin/stat/speak/list',
             method: 'get',
-            params: {
-                days
-            }
+            params
         })
     },
     getSnapshotTempaltes(){

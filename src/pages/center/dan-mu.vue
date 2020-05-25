@@ -42,7 +42,9 @@ export default {
       this.initData(false);
     },
     init(days) {
-      Api.getStatView(days).then(res => {
+      Api.getStatView({
+        days
+      }).then(res => {
         let data = res.data.data;
         this.plotData = [];
         data.map(v => {
@@ -65,8 +67,8 @@ export default {
           yField: "value",
           seriesField: "type",
           // forceFit:true,
-          renderer:"svg",
-          pixelRatio:2,
+          renderer: "svg",
+          pixelRatio: 2,
           point: {
             visible: true
           },
@@ -90,31 +92,35 @@ export default {
     initData(isOnlyChnageDays) {
       switch (this.subActiveName) {
         case "view":
-          Api.getStatView(this.days).then(res => {
+          Api.getStatView({
+            days: this.days
+          }).then(res => {
             let data = res.data.data;
             this.plotData = [];
             data.map(v => {
               this.packageViewObject(v);
             });
             if (!isOnlyChnageDays) {
-            this.plot.updateConfig({
-              description: {
-                visible: true,
-                text: "人气指数统计"
-              },
-              yField: "value",
-              seriesField: "type",
-              data: this.plotData
-            });
-            this.plot.render();
-          } else {
-            this.plot.changeData(this.plotData);
-          }
+              this.plot.updateConfig({
+                description: {
+                  visible: true,
+                  text: "人气指数统计"
+                },
+                yField: "value",
+                seriesField: "type",
+                data: this.plotData
+              });
+              this.plot.render();
+            } else {
+              this.plot.changeData(this.plotData);
+            }
           });
-          
+
           break;
         case "speak":
-          Api.getStatSpeak(this.days).then(res => {
+          Api.getStatSpeak({
+            days: this.days
+          }).then(res => {
             let data = res.data.data;
             if (!isOnlyChnageDays) {
               this.plot.updateConfig({
