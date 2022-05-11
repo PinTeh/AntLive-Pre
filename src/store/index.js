@@ -98,7 +98,7 @@ const store = new Vuex.Store({
         getCategorys({ commit }) {
             return new Promise((resolve, reject) => {
                 Api.getCategory(1, 100).then(res => {
-                    let categorys = res.data.data.records;
+                    let categorys = res.data.data.list;
                     commit('setCatrgorys', categorys)
                 }).catch(error => {
                     reject(error)

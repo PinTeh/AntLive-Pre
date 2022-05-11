@@ -228,11 +228,12 @@ export default {
     },
     getCategory(page,limit){
         return request({
-            url: '/category/list',
+            url: '/category/query',
             method: 'get',
             params: {
                 page,
-                limit            }
+                limit            
+            }
         })
     },
     getBillList(month, page, limit) {
