@@ -53,14 +53,16 @@ const store = new Vuex.Store({
         },
         login({ commit }, e) {
             return new Promise((resolve, reject) => {
-                Api.login(e.account, e.password).then((res) => {
-                    let ret = res.data;
-                    commit('setStateToken', ret.data.token)
-                    commit('setUserInfo', ret.data.user)
-                    commit('setAdminMenu', ret.data.menu)
-                    setToken(ret.data.token)
-                    setLocalUserInfo(JSON.stringify(ret.data.user))
-                    resolve()
+                Api.login(e.username, e.password).then((res) => {
+                    if(res.data.code == 0){
+                        let ret = res.data;
+                        commit('setStateToken', ret.data.token)
+                        commit('setUserInfo', ret.data.user)
+                        commit('setAdminMenu', ret.data.menu)
+                        setToken(ret.data.token)
+                        setLocalUserInfo(JSON.stringify(ret.data.user))
+                    }
+                    resolve(res)
                 }).catch(error => {
                     reject(error)
                 })
@@ -75,14 +77,13 @@ const store = new Vuex.Store({
                 resolve()
             })
         },
-        register({ commit }, e) {
+        register(_, e) {
             return new Promise((resolve, reject) => {
-                Api.register(e).then(() => {
-                    commit('')
+                Api.register(e).then((res) => {
+                    resolve(res)
                 }).catch(error => {
                     reject(error)
                 })
-                resolve()
             })
         },
         sendCode({ commit }, account) {

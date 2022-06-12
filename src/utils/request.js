@@ -42,9 +42,9 @@ instance.interceptors.response.use(res => {
     else if(ret.code == Code.ERROR){
         Message.error(ret.msg)
     }
+    return Promise.resolve(res)
 }, err => {
     Message.warning("请求异常")
-    //message.warning('请求异常');
     return Promise.reject(err)
 })
 

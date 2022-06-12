@@ -10,7 +10,7 @@
           </span>
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
-          <el-form-item prop="account" class="login-item">
+          <el-form-item prop="username" class="login-item">
             <!-- <span class="loginTips">
               <icon-svg icon-class="iconuser" />
             </span> -->
@@ -19,7 +19,7 @@
               class="area"
               type="text"
               placeholder="用户名"
-              v-model="loginForm.account"
+              v-model="loginForm.username"
             ></el-input>
           </el-form-item>
           <el-form-item prop="password" class="login-item">
@@ -80,11 +80,11 @@ export default {
     return {
       logo: logoImg,
       loginForm: {
-        account: "794409767@qq.com",
+        username: "794409767@qq.com",
         password: "123123"
       },
       rules: {
-        account: [
+        username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
         ],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }]
@@ -106,8 +106,10 @@ export default {
           let userinfo = this.loginForm;
           store
             .dispatch("login", userinfo)
-            .then(() => {
-              this.$router.push("/");
+            .then((res) => {
+              if(res.data.code == 0){
+                this.$router.push("/");
+              }
             });
         } else {
           return false;

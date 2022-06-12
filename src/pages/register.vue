@@ -9,13 +9,13 @@
           </span>
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
-          <el-form-item prop="account" class="login-item">
+          <el-form-item prop="username" class="login-item">
             <el-input
               @keyup.enter.native="submitForm('loginForm')"
               class="area"
               type="text"
-              placeholder="手机或者邮箱"
-              v-model="loginForm.account"
+              placeholder="登录用户名"
+              v-model="loginForm.username"
             ></el-input>
           </el-form-item>
           <el-form-item prop="nickName" class="login-item">
@@ -47,7 +47,7 @@
               v-model="loginForm.password_confirm"
             ></el-input>
           </el-form-item>
-          <el-form-item prop="code" class="login-item">
+          <el-form-item id="code_item" prop="code" class="login-item">
             <el-row :gutter="10">
               <el-col :span="16">
                 <el-input
@@ -83,24 +83,24 @@ export default {
     return {
       logo: logoImg,
       loginForm: {
-        account: "@qq.com",
-        password: "",
-        password_confirm: "",
+        username: "admin",
+        password: "123123",
+        password_confirm: "123123",
         code: "",
-        nickName: ""
+        nickName: "admin"
       },
       buttonDesc: "获取验证码",
       rules: {
-        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        username: [{ required: true, message: "请输入登录用户名", trigger: "blur" },
+                  { min: 5, max: 16, message: "长度在 5 到 16 个字符", trigger: "blur" }],
         nickName: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: "请输入别名", trigger: "blur" },
           { min: 5, max: 16, message: "长度在 5 到 16 个字符", trigger: "blur" }
         ],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
         password_confirm: [
           { required: true, message: "请输入确认密码", trigger: "blur" }
-        ],
-        code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+        ]
       }
     };
   },
@@ -117,9 +117,11 @@ export default {
       this.$refs[loginForm].validate(valid => {
         if (valid) {
           let userinfo = this.loginForm;
-          store.dispatch("register", userinfo).then(res => {
+          store.dispatch("register", userinfo)
+          .then(res => {
             if (res.data.code == 0) {
-              this.$router.push("/login");
+              this.showMessage("success","注册成功")
+              this.$router.push("/login")
             }
           });
         }
@@ -134,6 +136,9 @@ export default {
       let time = 60;
       setInterval(() => {
         time = time - 1;
+        if(time == 0){
+          return
+        }
         this.buttonDesc = time + "s";
       }, 1000);
       store.dispatch("sendCode", this.loginForm.account);
@@ -143,6 +148,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#code_item{
+  display: none;
+}
 .register {
   text-decoration: none;
   text-align: right;
