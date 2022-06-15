@@ -497,6 +497,24 @@ export default {
             }
         })
     },
+    applySecret() {
+        return request({
+            url: '/ant/live/applySecret',
+            method: 'post',
+        })
+    },
+    stopLive() {
+        return request({
+            url: '/ant/live/stopLive',
+            method: 'post',
+        })
+    },
+    getLiveStatus() {
+        return request({
+            url: '/ant/live/getLiveStatus',
+            method: 'get',
+        })
+    },
     openLive() {
         return request({
             url: '/tencent/live/open',

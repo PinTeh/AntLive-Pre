@@ -7,7 +7,6 @@
           <el-button v-for="item in categorys" :key="item.id" style="margin:0px 6px 5px 0px" plain size="mini" @click="handleCategoryClick(item)">{{item.name}}</el-button>
         </div>
         <a class="nav-a" href="#" style="float:left;" slot="reference">分类</a>
-        <a class="nav-a" href="#" style="float:left;" slot="reference" @click="handleVideoClick">视频</a>
       </el-popover>
 
       <a class="nav-a" v-if="this.isLogin" href="#" @click="handleLogin">登录</a>
@@ -66,12 +65,6 @@ export default {
     handleCategoryClick(v){
       this.visible = false;
       this.$emit("category-select",v)
-    },
-
-    handleVideoClick(){
-      this.$router.push({
-        path: "/video"
-      }).catch(()=>{});
     },
     handleClick() {
       this.$router.push({

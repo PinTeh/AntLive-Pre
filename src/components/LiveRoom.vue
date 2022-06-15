@@ -1,13 +1,14 @@
 <template>
   <el-card @click.native="handleClick" class="card" :body-style="{ padding: '0px' }" shadow="hover" style="position:relative">
-    <el-image fit="cover" class="image-cover" :src="room.cover">
+    <el-image fit="cover" class="image-cover" :src="require('@/assets/img/live_cover.png')">
+    <!-- <el-image fit="cover" class="image-cover" :src="room.cover"> -->
     </el-image>
     <el-tag style="position:absolute;left:7px;top:7px;height:24px;line-height:24px;background-color: #ffffff6b;" type="success" effect="plain">直播</el-tag>
     <div style="padding: 14px;">
       <span class="title">{{room.title}}</span>
       <div class="bottom clearfix">
         <img class="avatar" :src="room.userInfo.avatar" />
-        <time class="time">{{room.userInfo.name}}</time>
+        <span class="nick_name">{{room.userInfo.name}}</span>
       </div>
     </div>
   </el-card>
@@ -64,9 +65,9 @@
 .clearfix:after {
   clear: both;
 }
-.time {
+.nick_name {
   font-size: 13px;
-  color: #999;
+  color: rgb(112, 112, 112);
   vertical-align: top;
   line-height: 22px;
 }

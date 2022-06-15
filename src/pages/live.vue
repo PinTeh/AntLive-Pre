@@ -280,12 +280,12 @@ export default {
           console.log("wst执行手动关闭");
         }
         console.log("初始化ws");
-        // this.socket = new WebSocket(
-        //   "ws://127.0.0.1:9000/live/chat/" + rid + "/" + getToken()
-        // );
         this.socket = new WebSocket(
-          "ws://119.23.255.187:9000/live/chat/" + rid + "/" + getToken()
+          "ws://127.0.0.1:9000/live/chat/" + rid + "/" + getToken()
         );
+        // this.socket = new WebSocket(
+        //   "ws://119.23.255.187:9000/live/chat/" + rid + "/" + getToken()
+        // );
         this.socket.onopen = this.open;
         this.socket.onclose = this.onclose;
         this.socket.onerror = this.error;

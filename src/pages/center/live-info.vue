@@ -28,20 +28,10 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="直播封面">
-        <el-upload
-          class="avatar-uploader"
-          action="http://119.23.255.187:9000/upload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="formData.cover_preview" :src="formData.cover_preview" class="cover" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </el-form-item>
       <el-form-item>
-        <el-button @click="onSubmit">保存</el-button>
+        <div class="save_botton">
+            <el-button size="small" type="primary" @click="onSubmit">保存</el-button>
+        </div>
       </el-form-item>
     </el-form>
   </div>
@@ -60,7 +50,7 @@ export default {
         cover: "",
         cover_preview: ""
       },
-      status:-1,
+      status: -1,
       limit: 20,
       current_page: 1,
       category_list: []
@@ -68,7 +58,7 @@ export default {
   },
   mounted() {
     Api.getCategory(this.current_page, this.limit).then(r => {
-      this.category_list = r.data.data.records;
+      this.category_list = r.data.data.list;
     });
     Api.getRoomSettingInfo().then(res => {
       let ret = res.data.data;
@@ -112,7 +102,11 @@ export default {
 </script>
 
 <style lang="less">
+.save_botton{
+  text-align: left;
+}
 .live-info-div {
+  padding-top: 30px;
   height: 500px;
   .no-auth-container{
     height:500px;

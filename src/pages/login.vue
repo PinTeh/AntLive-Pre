@@ -3,11 +3,13 @@
     <transition name="form-fade" mode="in-out">
       <section class="form_contianer">
         <div class="titleArea rflex" @click="handleToHome">
-          <!-- <img class="logo" :src="logo" alt="小爱admin" /> -->
-          <span class="title">
-            Ant
-            <i>Live</i>
+          <!-- <img class="logo" :src="logo" alt="AntLive" /> -->
+          <div id="login_title">
+            <span class="title">
+            Ant<i>Live</i>
           </span>
+          </div>
+         
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
           <el-form-item prop="username" class="login-item">
@@ -80,7 +82,7 @@ export default {
     return {
       logo: logoImg,
       loginForm: {
-        username: "794409767@qq.com",
+        username: "admin",
         password: "123123"
       },
       rules: {
@@ -108,7 +110,8 @@ export default {
             .dispatch("login", userinfo)
             .then((res) => {
               if(res.data.code == 0){
-                this.$router.push("/");
+                this.$router.push("/")
+                this.showMessage("success", "欢迎回来，" + this.$store.state.userInfo.nickName+ " ～")
               }
             });
         } else {
@@ -220,7 +223,9 @@ export default {
     height: 60px;
   }
 }
-
+#login_title{
+  cursor: pointer;
+}
 .tiparea {
   display: none;
   text-align: left;
