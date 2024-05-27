@@ -12,11 +12,6 @@
         ><span style="font-size: 14px; color: #666">{{
           liveStatusObj.livePushUrl
         }}</span>
-        <p></p>
-        <span>密钥：</span
-        ><span style="font-size: 14px; color: #666">{{
-          liveStatusObj.livePushSecret
-        }}</span>
         <el-divider></el-divider>
         <el-button plain @click="handleLiveOpen">我要直播</el-button>
       </div>
@@ -44,9 +39,7 @@
           title="直播流将会被中断噢～"
           @onConfirm="handleLiveStop"
         >
-          <el-button slot="reference" type="danger" plain
-            >停止直播</el-button
-          >
+          <el-button slot="reference" type="danger" plain>停止直播</el-button>
         </el-popconfirm>
       </div>
     </el-card>
@@ -54,7 +47,7 @@
 </template>
 
 <script>
-import Api from "../../api";
+import Api from "../../api"
 export default {
   name: "live-settings",
   data() {
@@ -65,38 +58,38 @@ export default {
         livePushUrl: "--",
         livePushSecret: "点击下面我要直播申请密钥",
       },
-    };
+    }
   },
   mounted() {
-    this.initGetStatus();
+    this.initGetStatus()
   },
   methods: {
     initGetStatus() {
       Api.getLiveStatus().then((r) => {
         if (r.data.code == 0) {
-          this.liveStatusObj = r.data.data;
+          this.liveStatusObj = r.data.data
         }
-      });
+      })
     },
     handleLiveOpen() {
-      this.openLive();
+      this.openLive()
     },
     openLive() {
       Api.applySecret().then((r) => {
         if (r.data.code == 0) {
-          this.initGetStatus();
+          this.initGetStatus()
         }
-      });
+      })
     },
     handleLiveStop() {
       Api.stopLive().then((r) => {
         if (r.data.code == 0) {
-          this.initGetStatus();
+          this.initGetStatus()
         }
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style>
