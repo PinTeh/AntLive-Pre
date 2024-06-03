@@ -1,28 +1,32 @@
 <template>
   <div class="info">
-    <div class="portrait">
-      <img :src="portrait" width="80" height="80" />
-    </div>
-
+    <!-- <div class="info" :style="'background-image: url(' + bg + ')'"> -->
+    <img
+      class="portrait"
+      draggable="false"
+      :src="user.avatar"
+      width="80"
+      height="80"
+    />
     <div class="user-info">
       <div class="nick-level">
-        <div class="nick" v-text="nick"></div>
-        <div :class="'level level'+levelClass">
-          <i :class="'icons icon_level_'+levelClass"></i>
-          <span v-text="level"></span>
+        <div class="nick" v-text="user.nickName"></div>
+        <div :class="'level level' + levelClass">
+          <i :class="'icons icon_level_' + levelClass"></i>
+          <span v-text="user.level || 0"></span>
         </div>
       </div>
-
-      <div class="uid" v-text="'ID:'+uid"></div>
-
+      <div class="uid" v-text="'ID : ' + user.userId"></div>
       <div class="wealth">
         <div class="w-star">
-          <span v-text="starNumber"></span>
+          <el-tooltip effect="dark" content="开心果余额" placement="bottom">
+            <span v-text="user.balance || 0"></span>
+          </el-tooltip>
           <i class="icons star-sm"></i>
         </div>
         <span class="cut">|</span>
         <div class="w-diamond">
-          <span v-text="diamondNumber"></span>
+          <span v-text="user.diamondNumber || 0"></span>
           <i class="icons diamond-sm"></i>
         </div>
       </div>
@@ -32,36 +36,29 @@
 
 <script>
 export default {
-  name: "UserInfo",
+  name: 'UserInfo',
   data() {
     return {
-    };
+      bg: require('@/assets/img/cover.jpg'),
+    }
   },
-  props: ["nick", "level", "uid", "starNumber", "diamondNumber", "portrait"],
+  props: ['user'],
   computed: {
     levelClass() {
-      var level = this.level;
+      var level = this.level
       if (1 <= level && level <= 7) {
-        return 1;
+        return 1
       } else if (8 <= level && level <= 16) {
-        return 2;
-      } else if (16 <= level && level <= 31) {
-        return 3;
-      } else if (32 <= level && level <= 63) {
-        return 4;
-      } else if (64 <= level && level <= 127) {
-        return 5;
-      } else if (128 <= level && level <= 254) {
-        return 6;
+        return 2
       } else {
-        return 6;
+        return 6
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .info {
   background: #fff;
   height: 180px;
@@ -71,16 +68,13 @@ export default {
   width: 80px;
   height: 80px;
   overflow: hidden;
-  -webkit-border-radius: 40px;
-  -moz-border-radius: 40px;
-  -ms-border-radius: 40px;
-  -o-border-radius: 40px;
+  margin: 46px 20px 0 30px;
   border-radius: 40px;
-  background-color: #cccccc;
-  margin: 40px 18px 0 15px;
+  object-fit: cover;
+  // border: 1px solid rgba(205, 205, 205, 0.5);
 }
 .user-info {
-  margin: 38px 0 0 0;
+  margin-top: 46px;
   vertical-align: top;
 }
 .portrait,
@@ -99,6 +93,7 @@ export default {
 }
 .nick,
 .level {
+  font-weight: bold;
   vertical-align: middle;
 }
 .cut {
@@ -112,8 +107,6 @@ export default {
 }
 .uid {
   font-size: 13px;
-}
-.nick-level {
 }
 .level {
   padding: 0 6px;

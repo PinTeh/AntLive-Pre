@@ -8,7 +8,12 @@
             <i>Register</i>
           </span>
         </div>
-        <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
+        <el-form
+          :model="loginForm"
+          :rules="rules"
+          ref="loginForm"
+          class="loginForm"
+        >
           <el-form-item prop="username" class="login-item">
             <el-input
               @keyup.enter.native="submitForm('loginForm')"
@@ -18,12 +23,12 @@
               v-model="loginForm.username"
             ></el-input>
           </el-form-item>
-          <el-form-item prop="nickName" class="login-item">
+          <el-form-item prop="nickname" class="login-item">
             <el-input
               @keyup.enter.native="submitForm('loginForm')"
               class="area"
-              placeholder="别名"
-              v-model="loginForm.nickName"
+              placeholder="昵称"
+              v-model="loginForm.nickname"
             ></el-input>
           </el-form-item>
           <el-form-item prop="password" class="login-item">
@@ -44,7 +49,7 @@
               class="area"
               type="password"
               placeholder="确认密码"
-              v-model="loginForm.password_confirm"
+              v-model="loginForm.passwordConfirm"
             ></el-input>
           </el-form-item>
           <el-form-item id="code_item" prop="code" class="login-item">
@@ -59,15 +64,21 @@
                 ></el-input>
               </el-col>
               <el-col :span="8">
-                <el-button @click="handleGetCode">{{buttonDesc}}</el-button>
+                <el-button @click="handleGetCode">{{ buttonDesc }}</el-button>
               </el-col>
             </el-row>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">注册</el-button>
+            <el-button
+              type="primary"
+              :loading="loading"
+              @click="submitForm('loginForm')"
+              class="submit_btn"
+              >注册</el-button
+            >
           </el-form-item>
           <div class="register">
-            <router-link :to="{ path: '/login'}">登录已有账号</router-link>
+            <router-link :to="{ path: '/login' }">登录已有账号</router-link>
           </div>
         </el-form>
       </section>
@@ -76,33 +87,46 @@
 </template>
 
 <script>
-import logoImg from "@/assets/logo.png";
-import store from "../store";
+import logoImg from '@/assets/logo.png'
+import store from '../store'
 export default {
   data() {
     return {
+      loading: false,
       logo: logoImg,
       loginForm: {
-        username: "admin",
-        password: "123123",
-        password_confirm: "123123",
-        code: "",
-        nickName: "admin"
+        username: 'admin',
+        password: '123123',
+        passwordConfirm: '123123',
+        code: '',
+        nickname: 'admin',
       },
-      buttonDesc: "获取验证码",
+      buttonDesc: '获取验证码',
       rules: {
-        username: [{ required: true, message: "请输入登录用户名", trigger: "blur" },
-                  { min: 5, max: 16, message: "长度在 5 到 16 个字符", trigger: "blur" }],
-        nickName: [
-          { required: true, message: "请输入别名", trigger: "blur" },
-          { min: 5, max: 16, message: "长度在 5 到 16 个字符", trigger: "blur" }
+        username: [
+          { required: true, message: '请输入登录用户名', trigger: 'blur' },
+          {
+            min: 5,
+            max: 16,
+            message: '长度在 5 到 16 个字符',
+            trigger: 'blur',
+          },
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-        password_confirm: [
-          { required: true, message: "请输入确认密码", trigger: "blur" }
-        ]
-      }
-    };
+        nickname: [
+          { required: true, message: '请输入昵称', trigger: 'blur' },
+          {
+            min: 5,
+            max: 16,
+            message: '长度在 5 到 16 个字符',
+            trigger: 'blur',
+          },
+        ],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        passwordConfirm: [
+          { required: true, message: '请输入确认密码', trigger: 'blur' },
+        ],
+      },
+    }
   },
   mounted() {},
   methods: {
@@ -110,45 +134,46 @@ export default {
     showMessage(type, message) {
       this.$message({
         type: type,
-        message: message
-      });
+        message: message,
+      })
     },
     submitForm(loginForm) {
-      this.$refs[loginForm].validate(valid => {
+      this.loading = true
+      this.$refs[loginForm].validate((valid) => {
         if (valid) {
-          let userinfo = this.loginForm;
-          store.dispatch("register", userinfo)
-          .then(res => {
+          let userinfo = this.loginForm
+          store.dispatch('register', userinfo).then((res) => {
             if (res.data.code == 0) {
-              this.showMessage("success","注册成功")
-              this.$router.push("/login")
+              this.showMessage('success', '注册成功')
+              this.$router.push('/login')
             }
-          });
+            this.loading = false
+          })
         }
-      });
+      })
     },
     handleRegister() {
       this.$router.push({
-        path: "/register"
-      });
+        path: '/register',
+      })
     },
     handleGetCode() {
-      let time = 60;
+      let time = 60
       setInterval(() => {
-        time = time - 1;
-        if(time == 0){
+        time = time - 1
+        if (time == 0) {
           return
         }
-        this.buttonDesc = time + "s";
-      }, 1000);
-      store.dispatch("sendCode", this.loginForm.account);
-    }
-  }
-};
+        this.buttonDesc = time + 's'
+      }, 1000)
+      store.dispatch('sendCode', this.loginForm.account)
+    },
+  },
+}
 </script>
 
 <style lang="less" scoped>
-#code_item{
+#code_item {
   display: none;
 }
 .register {

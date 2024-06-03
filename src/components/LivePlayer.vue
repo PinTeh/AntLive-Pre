@@ -1,16 +1,20 @@
 <template>
-  <video style="width:100%;height:100%;" ref="videoPlayer" class="video-js"></video>
+  <video
+    style="width:100%;height:100%;"
+    ref="videoPlayer"
+    class="video-js"
+  ></video>
 </template>
 
 <script>
-import videojs from "video.js";
+import videojs from 'video.js'
 export default {
-  name: "live",
-  props: ["liveUrl"],
+  name: 'live',
+  props: ['liveUrl'],
   data() {
     return {
-      player: null
-    };
+      player: null,
+    }
   },
   watch: {
     liveUrl(newValue) {
@@ -22,31 +26,28 @@ export default {
           sources: [
             {
               src: newValue,
-              type: "rtmp/flv"
-            }
+              type: 'rtmp/flv',
+            },
           ],
           controlBar: {
             timeDivider: true, // 时间分割线
             durationDisplay: true, // 总时间
             progressControl: true, // 进度条
             remainingTimeDisplay: false, // 剩余时间
-            fullscreenToggle: true // 全屏按钮
-          }
+            fullscreenToggle: true, // 全屏按钮
+          },
         },
-        function onPlayerReady() {
-          
-        }
-      );
-    }
+        function onPlayerReady() {}
+      )
+    },
   },
   methods: {},
   beforeDestroy() {
     if (this.player) {
-      this.player.dispose();
+      this.player.dispose()
     }
-  }
-};
+  },
+}
 </script>
 
-<style>
-</style>
+<style></style>

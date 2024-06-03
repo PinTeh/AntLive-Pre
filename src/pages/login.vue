@@ -5,13 +5,15 @@
         <div class="titleArea rflex" @click="handleToHome">
           <!-- <img class="logo" :src="logo" alt="AntLive" /> -->
           <div id="login_title">
-            <span class="title">
-            Ant<i>Live</i>
-          </span>
+            <span class="title"> Ant<i>Live</i> </span>
           </div>
-         
         </div>
-        <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
+        <el-form
+          :model="loginForm"
+          :rules="rules"
+          ref="loginForm"
+          class="loginForm"
+        >
           <el-form-item prop="username" class="login-item">
             <!-- <span class="loginTips">
               <icon-svg icon-class="iconuser" />
@@ -37,10 +39,15 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登录</el-button>
+            <el-button
+              type="primary"
+              @click="submitForm('loginForm')"
+              class="submit_btn"
+              >登录</el-button
+            >
           </el-form-item>
           <div class="register">
-            <router-link :to="{ path: '/register'}">注册用户</router-link>
+            <router-link :to="{ path: '/register' }">注册用户</router-link>
           </div>
           <div class="tiparea">
             <p class="wxtip">温馨提示：</p>
@@ -67,31 +74,28 @@
         </el-form>
       </section>
     </transition>
-    <div class="bottom-div">
-      <p>Copyright 2020 PinTeh</p>
-    </div>
   </div>
 </template>
 
 <script>
-import store from "../store";
-import logoImg from "@/assets/logo.png";
+import store from '../store'
+import logoImg from '@/assets/logo.png'
 export default {
-  name:'login',
+  name: 'login',
   data() {
     return {
       logo: logoImg,
       loginForm: {
-        username: "admin",
-        password: "123123"
+        username: 'admin',
+        password: '123123',
       },
       rules: {
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: '请输入用户名', trigger: 'blur' },
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
-      }
-    };
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+      },
+    }
   },
   mounted() {},
   methods: {
@@ -99,52 +103,42 @@ export default {
     showMessage(type, message) {
       this.$message({
         type: type,
-        message: message
-      });
+        message: message,
+      })
     },
     submitForm(loginForm) {
-      this.$refs[loginForm].validate(valid => {
+      this.$refs[loginForm].validate((valid) => {
         if (valid) {
-          let userinfo = this.loginForm;
-          store
-            .dispatch("login", userinfo)
-            .then((res) => {
-              if(res.data.code == 0){
-                this.$router.push("/")
-                this.showMessage("success", "欢迎回来，" + this.$store.state.userInfo.nickName+ " ～")
-              }
-            });
+          let userinfo = this.loginForm
+          store.dispatch('login', userinfo).then((res) => {
+            if (res.data.code == 0) {
+              this.$router.push('/')
+              this.showMessage(
+                'success',
+                '欢迎回来，' + this.$store.state.userInfo.nickName + ' ～'
+              )
+            }
+          })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     handleRegister() {
       this.$router.push({
-        path: "/register"
-      });
+        path: '/register',
+      })
     },
     handleToHome() {
       this.$router.push({
-        path: "/"
-      });
-    }
-  }
-};
+        path: '/',
+      })
+    },
+  },
+}
 </script>
 
 <style lang="less" scoped>
-.bottom-div {
-  text-align: center;
-  height: 20px;
-  width: 100%;
-  bottom: 30px;
-  position: absolute;
-  p {
-    font-size: 14px;
-    color: #7e7e7e;
-  }
-}
 .register {
   text-decoration: none;
   text-align: right;
@@ -160,7 +154,7 @@ export default {
 .login_page {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 100px);
   // background: url(../assets/img/login.svg) no-repeat center center;
   background-size: 100% 100%;
 }
@@ -223,7 +217,7 @@ export default {
     height: 60px;
   }
 }
-#login_title{
+#login_title {
   cursor: pointer;
 }
 .tiparea {

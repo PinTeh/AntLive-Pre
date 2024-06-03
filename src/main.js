@@ -3,33 +3,37 @@ import App from './App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from './router'
-import ElementUI  from 'element-ui'
+import ElementUI from 'element-ui'
 import './plugins/element.js'
-import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/normlize.css'
+import './assets/css/iconfont.css'
+// import './assets/js/iconfont.js'
 import store from './store/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+require('promise.prototype.finally').shim()
+
 Vue.use(ElementUI)
-Vue.use(VueAxios,axios)
+Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
 
-router.beforeEach((to,from,next)=>{
+router.beforeEach((to, from, next) => {
   NProgress.start()
-  if (to.matched.some(record => record.meta.requiresAdmin)) {
+  if (to.matched.some((record) => record.meta.requiresAdmin)) {
     // console.log(store.state.userInfo.role,"role")
-    if (store.state.userInfo!=null && store.state.userInfo.role == 0) {
+    if (store.state.userInfo != null && store.state.userInfo.role == 0) {
       next({
         path: '/403',
-        query: { redirect: to.fullPath }
+        query: { redirect: to.fullPath },
       })
     } else {
       next()
     }
   } else {
-    next() 
+    next()
   }
 })
 
@@ -40,5 +44,5 @@ router.afterEach(() => {
 new Vue({
   store,
   router,
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount('#app')

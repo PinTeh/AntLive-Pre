@@ -10,9 +10,10 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
-    "element-ui": "^2.4.5",
+    "element-ui": "^2.15.13",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "promise.prototype.finally": "^3.1.4",
     "vod-js-sdk-v6": "^1.4.8",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",

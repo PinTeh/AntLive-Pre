@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "ant-live"; /* Project id 3931642 */
+  src: url('../font/iconfont.woff2?t=1677943937610') format('woff2'),
+       url('../font/iconfont.woff?t=1677943937610') format('woff'),
+       url('../font/iconfont.ttf?t=1677943937610') format('truetype');
+}
+
+.ant-live {
+  font-family: "ant-live" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-huo:before {
+  content: "\e6a0";
+}
+
+.icon-weixin:before {
+  content: "\e602";
+}
+
+.icon-Chrome:before {
+  content: "\e603";
+}
+
+.icon-bilibili:before {
+  content: "\e606";
+}
+
+.icon-Docker:before {
+  content: "\e60e";
+}
+

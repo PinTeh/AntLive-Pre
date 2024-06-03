@@ -19,7 +19,7 @@
           </el-card>
         </el-col>
         <el-col :span="12">
-          <el-card shadow="hover">
+          <el-card shadow="hover" style="height: 1000px">
             <p><i class="el-icon-money">今日收益</i></p>
             <p>￥415738.98</p>
           </el-card>
@@ -42,8 +42,8 @@
 
 <script>
 export default {
-  name: "dashboard"
-};
+  name: 'dashboard',
+}
 </script>
 
 <style>

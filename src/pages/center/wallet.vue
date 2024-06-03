@@ -1,13 +1,17 @@
 <template>
   <div style="height:auto;text-align:left;boder-box:box-sizing;">
-    <el-tabs v-model="activeName" style="margin:0px 20px 0 20px;" @tab-click="handleTabsClick">
+    <el-tabs
+      v-model="activeName"
+      style="margin:0px 20px 0 20px;"
+      @tab-click="handleTabsClick"
+    >
       <el-tab-pane label="账户余额" name="first">
         <div style="width:100%;padding:10px;margin-bottom:30px;">
           <span>开心果余额</span>
           <br />
           <div class="wallent-div">
             <i class="wallent-icon"></i>
-            <span class="wallet-balance">{{(balance)}}</span>
+            <span class="wallet-balance">{{ balance }}</span>
           </div>
 
           <div class="wallent-tips-div">
@@ -34,15 +38,18 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="账户充值" name="second" style="text-align:center;">
-        <div style="height:280px;width:850px;">
+        <div class="recharge-container">
           <RechargeItem
             v-for="item in rechargeData"
             :key="item.index"
-            @click.native="handleItemSelect(item.index,item.num)"
+            @click.native="handleItemSelect(item.index, item.num)"
             :num="item.num"
-            :select="checkIndex==item.index?true:false"
+            :select="checkIndex == item.index ? true : false"
           />
-          <RechargeItem @click.native="checkIndex = -1" :select="checkIndex==-1?true:false">
+          <!-- <RechargeItem
+            @click.native="checkIndex = -1"
+            :select="checkIndex == -1 ? true : false"
+          >
             <template v-slot:content>
               <el-input-number
                 type="number"
@@ -52,15 +59,16 @@
                 controls-position="right"
               ></el-input-number>
               <span>开心果</span>
-              <span style="display:block;margin-top:8px;">￥{{num/10}}.00</span>
+              <span style="display:block;margin-top:8px;"
+                >￥{{ num / 10 }}.00</span
+              >
             </template>
-          </RechargeItem>
+          </RechargeItem> -->
           <br />
         </div>
-        <el-button
-          @click="handleRecharge"
-          style="margin:0 auto;width:100px;position:relative;bottom:20px;"
-        >充值</el-button>
+        <el-button @click="handleRecharge" style="margin:0 auto; width:100px;"
+          >充值</el-button
+        >
       </el-tab-pane>
       <el-tab-pane label="账单记录" name="third">
         <div style="height:40px">
@@ -74,22 +82,52 @@
           ></el-date-picker>
         </div>
         <el-table :data="tableData" border style="width: 100%" size="small">
-          <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
-          <el-table-column width="180" prop="createTime" label="日期" align="center"></el-table-column>
-          <el-table-column prop="orderNo" label="流水号" align="center" width="230"></el-table-column>
-          <el-table-column prop="billChange" width="80" label="存入" align="center">
-            <template slot-scope="scope">{{scope.row.billChange>=0 ? scope.row.billChange:''}}</template>
-          </el-table-column>
-          <el-table-column prop="billChange" width="80" label="支出" align="center">
-            <template
-              slot-scope="scope"
-            >{{scope.row.billChange>=0 ? '':Math.abs(scope.row.billChange)}}</template>
+          <el-table-column
+            label="序号"
+            type="index"
+            align="center"
+            width="50"
+          ></el-table-column>
+          <el-table-column
+            width="180"
+            prop="createTime"
+            label="日期"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="orderNo"
+            label="流水号"
+            align="center"
+            width="230"
+          ></el-table-column>
+          <el-table-column
+            prop="billChange"
+            width="80"
+            label="收支"
+            align="center"
+          >
+            <template slot-scope="scope">{{
+              scope.row.billChange >= 0
+                ? '+' + scope.row.billChange
+                : scope.row.billChange
+            }}</template>
           </el-table-column>
           <el-table-column prop="type" width="80" label="类型" align="center">
-            <template slot-scope="scope">{{scope.row.type===0 ? '充值':'支出'}}</template>
+            <template slot-scope="scope">{{
+              scope.row.type === 0 ? '充值' : '支出'
+            }}</template>
           </el-table-column>
-          <el-table-column prop="balance" width="80" label="余额" align="center"></el-table-column>
-          <el-table-column prop="mark" label="备注" align="center"></el-table-column>
+          <el-table-column
+            prop="balance"
+            width="80"
+            label="余额"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="mark"
+            label="备注"
+            align="center"
+          ></el-table-column>
         </el-table>
         <el-pagination
           @size-change="handleSizeChange"
@@ -112,17 +150,44 @@
             size="small"
           ></el-date-picker>
         </div>
-        <el-table :data="withdrawalTableData" border style="width: 100%" size="small">
-          <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
+        <el-table
+          :data="withdrawalTableData"
+          border
+          style="width: 100%"
+          size="small"
+        >
+          <el-table-column
+            label="序号"
+            type="index"
+            align="center"
+            width="50"
+          ></el-table-column>
           <!-- <el-table-column prop="account" label="提现账号" align="center"></el-table-column> -->
-          <el-table-column prop="virtualAmount" label="提现开心果" align="center"></el-table-column>
-          <el-table-column prop="realAmount" label="折现（￥）" align="center"></el-table-column>
-          <el-table-column prop="type" label="平台" align="center"></el-table-column>
+          <el-table-column
+            prop="virtualAmount"
+            label="提现开心果"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="realAmount"
+            label="折现（￥）"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="type"
+            label="平台"
+            align="center"
+          ></el-table-column>
           <!-- <el-table-column prop="mark" label="备注" align="center"></el-table-column> -->
-          <el-table-column prop="createTime" label="申请时间" align="center" width="170"></el-table-column>
+          <el-table-column
+            prop="createTime"
+            label="申请时间"
+            align="center"
+            width="170"
+          ></el-table-column>
           <el-table-column prop="status" label="状态" align="center">
             <template slot-scope="scope">
-              <span v-if="scope.row.status===0 ">受理中</span>
+              <span v-if="scope.row.status === 0">受理中</span>
               <span style="color:green;" v-else>已完成</span>
             </template>
           </el-table-column>
@@ -136,14 +201,19 @@
           style="margin:10px 0px 10px 0px;text-align:center;"
         ></el-pagination>
       </el-tab-pane>
-      <el-tab-pane label="提现" name="fifth" v-loading="loading" element-loading-text="正在快马加鞭提现中">
+      <el-tab-pane
+        label="提现"
+        name="fifth"
+        v-loading="loading"
+        element-loading-text="正在快马加鞭提现中"
+      >
         <div>
           <div style="margin-left:20px">
             <span>开心果余额</span>
             <br />
             <div class="wallent-div">
               <i class="wallent-icon"></i>
-              <span class="wallet-balance">{{(balance)}}</span>
+              <span class="wallet-balance">{{ balance }}</span>
             </div>
           </div>
           <el-form
@@ -173,10 +243,10 @@
 </template>
 
 <script>
-import Api from "../../api";
-import RechargeItem from "../../components/RechargeItem";
+import Api from '../../api'
+import RechargeItem from '../../components/RechargeItem'
 export default {
-  name: "wallet",
+  name: 'wallet',
   data() {
     return {
       activeName: 'first',
@@ -197,141 +267,150 @@ export default {
       rechargeData: [
         {
           index: 0,
-          num: 100
+          num: 10,
         },
+
         {
           index: 1,
-          num: 640
+          num: 100,
         },
         {
           index: 2,
-          num: 1280
+          num: 640,
         },
         {
           index: 3,
-          num: 6480
+          num: 1280,
         },
         {
           index: 4,
-          num: 12960
-        }
+          num: 6480,
+        },
+        {
+          index: 5,
+          num: 12960,
+        },
       ],
       form: {
         name: '',
         acount: '',
-        virtualAmount: null
-      }
-    };
+        virtualAmount: null,
+      },
+    }
   },
   components: {
-    RechargeItem
+    RechargeItem,
   },
   methods: {
     // withdrawal
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     },
     handleWithdrawalClick() {
       if (this.form.virtualAmount > this.balance) {
-        return;
+        return
       }
-      this.loading = true;
-      Api.withdrawal(this.form).then(res => {
+      this.loading = true
+      Api.withdrawal(this.form).then((res) => {
         this.$message({
           message: res.data.msg,
-          type: "success"
-        });
-        this.loading = false;
-        this.balance -= this.form.virtualAmount;
-        this.resetForm("withdrawal-form");
-      });
+          type: 'success',
+        })
+        this.loading = false
+        this.balance -= this.form.virtualAmount
+        this.resetForm('withdrawal-form')
+      })
     },
     handleSizeChange(val) {
-      this.limit = val;
-      this.page();
+      this.limit = val
+      this.page()
     },
     handleCurrentChange(val) {
-      this.currentPage = val;
-      this.page();
+      this.currentPage = val
+      this.page()
     },
     handleWithdrawalCurrentChange(val) {
-      this.withdrawalCurrentPage = val;
-      this.witdrawalPage();
+      this.withdrawalCurrentPage = val
+      this.witdrawalPage()
     },
     handleRecharge() {
       let routeUrl = this.$router.resolve({
-        path: "/recharge",
-        query: { m: this.num }
-      });
-      window.open(routeUrl.href, "_blank");
+        path: '/recharge',
+        query: { m: this.num },
+      })
+      window.open(routeUrl.href, '_blank')
     },
     handleToRecharge() {
-      this.activeName = "second";
+      this.activeName = 'second'
     },
     handleToWithdrawal() {
-      this.activeName = "fifth";
+      this.activeName = 'fifth'
     },
     handleItemSelect(c, n) {
-      this.checkIndex = c;
-      this.num = n;
+      this.checkIndex = c
+      this.num = n
     },
     handleQueryChange(v) {
-      this.query_month = v;
-      this.page();
+      this.query_month = v
+      this.page()
     },
     handleWithdrawalQueryChange(v) {
-      this.withdrawal_query_month = v;
-      this.withdrawalPage();
+      this.withdrawal_query_month = v
+      this.withdrawalPage()
     },
     getBalance() {
-      Api.getBalance().then(r => {
-        this.balance = r.data.data;
-      });
+      Api.getBalance().then((r) => {
+        this.balance = r.data.data
+      })
     },
     page() {
       Api.getBillList(this.query_month, this.currentPage, this.limit).then(
-        r => {
-          let ret = r.data.data;
-          this.tableData = ret.records;
-          this.total = ret.total;
+        (r) => {
+          let ret = r.data.data
+          this.tableData = ret.records
+          this.total = ret.total
         }
-      );
+      )
     },
     withdrawalPage() {
-      Api.getWithdrawalList(this.withdrawal_query_month,this.currentPage, this.limit).then(r => {
-        let ret = r.data.data;
-        this.withdrawalTableData = ret.records;
-        this.whithdrawalTotal = ret.total;
-      });
+      Api.getWithdrawalList(
+        this.withdrawal_query_month,
+        this.currentPage,
+        this.limit
+      ).then((r) => {
+        let ret = r.data.data
+        this.withdrawalTableData = ret.records
+        this.whithdrawalTotal = ret.total
+      })
     },
     handleTabsClick(tab) {
-      this.loading = false;
+      this.loading = false
       switch (tab.name) {
-        case "first":
-          this.getBalance();
-          break;
-        case "third":
-          this.page();
-          break;
-        case "fourth":
-          this.withdrawalPage();
-          break;
+        case 'first':
+          this.getBalance()
+          break
+        case 'third':
+          this.page()
+          break
+        case 'fourth':
+          this.withdrawalPage()
+          break
         default:
-          break;
+          break
       }
-    }
+    },
   },
   mounted() {
-    this.getBalance();
+    this.getBalance()
     // this.page();
     // this.withdrawalPage();
   },
   filters: {
-    getBalance: v => {
-      return v * 1000;
-    }
-  }
-};
+    getBalance: (v) => {
+      return v * 1000
+    },
+  },
+}
 </script>
 
 <style>
@@ -343,14 +422,21 @@ export default {
 .wallet-balance {
   color: #fa7900;
   line-height: 25px;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 18px;
+  margin-left: 5px;
+}
+.recharge-container {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 .wallent-icon {
   display: inline-block;
   width: 25px;
   height: 25px;
-  background-image: url("../../assets/img/dou.png");
+  background-image: url('../../assets/img/dou.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 25px 25px;

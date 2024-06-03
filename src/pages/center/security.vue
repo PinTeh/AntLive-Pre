@@ -1,5 +1,5 @@
 <template>
-  <div style="height:500px;box-sizing: border-box;padding:15px">
+  <div v-loading="loading" style="height:500px;box-sizing: border-box;padding:15px">
     <el-row>
       <el-col :span="12">
         <SecurityItem :item="items[0]" :checked="checked[0]" @handleClick="handleEmailItemClick" />
@@ -35,6 +35,7 @@
 
 <script>
 import Api from "../../api";
+import UserApi from "../../api/user"
 import SecurityItem from "../../components/SecurityItem";
 export default {
   name: "security",
@@ -43,6 +44,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       items: [
         {
           id: 1,
@@ -81,9 +83,10 @@ export default {
     };
   },
   mounted() {
-    Api.getSecurityInfo().then(res => {
-      this.checked = res.data.data;
-    });
+    UserApi.getSecurityInfo().then(res => {
+      this.checked = res.data.data
+      this.loading = false
+    })
   },
   methods: {
     handle2Click() {

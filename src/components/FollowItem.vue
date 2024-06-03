@@ -1,39 +1,59 @@
 <template>
-  <div class="item-container">
-      <el-image :src="item.cover" fit="cover" class="item-img"></el-image><br>
-     <div style="text-align:left;margin-left:5px;">
-       <span style="line-height:30px;width:220px;">{{item.name==null?'':'['+item.name+']'}}{{item.title}}</span><br>
-      <i class="el-icon-user" v-if="item.name!=null">{{item.name}}</i>
-     </div>
+  <div class="item-container" @click="handleItemClick(item.roomId)">
+    <el-image :src="item.cover" fit="cover" class="item-img"></el-image><br />
+    <div class="item-span" style="text-align: left; margin-left: 5px">
+      <span
+        >{{ item.name == null ? '' : '[ ' + item.name + ' ] '
+        }}{{ item.title }}</span
+      ><br />
+      <i class="el-icon-user" v-if="item.name != null">{{ ' ' + item.name }}</i>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-    name:'follow-item',
-    data() {
-      return {
-        src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
-      }
+  name: 'follow-item',
+  data() {
+    return {}
+  },
+  props: ['item'],
+  methods: {
+    handleItemClick(roomId) {
+      this.$router.push({
+        path: '/live/' + roomId,
+      })
     },
-    props:['item']
+  },
 }
 </script>
 
-<style scoped>
-.item-container{
-    height:200px;
+<style lang="less" scoped>
+.item-container {
+  height: 200px;
+  width: 250px;
+  cursor: pointer;
+  margin: 50px 0px 0px 55px;
+  display: inline-block;
+  border: 1px solid rgba(233, 233, 233, 0.503);
+  border-radius: 2px;
+  .item-img {
     width: 250px;
-    /* background: red; */
-    /* float: left; */
-    cursor: pointer;
-    margin-left: 30px;
-    margin-top: 10px;
-    float: left;
+    height: 140px;
+    border-radius: 2px;
+  }
+  .item-span {
+    line-height: 25px;
+    color: rgb(59, 59, 59);
+  }
+  .item-span:hover {
+    color: rgb(45, 93, 183);
+    transition: all 0.3s;
+  }
 }
-.item-img{
-    width:250px;
-    height:140px;
-    border-radius: 3%;
+.item-container:hover {
+  border: 1px solid rgba(144, 144, 144, 0.503);
+  color: rgb(45, 93, 183);
+  transition: all 0.6s;
 }
 </style>

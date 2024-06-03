@@ -1,104 +1,100 @@
 <template>
-  <div class="center-div">
-    <Header :notIndexPage="true"></Header>
-    <div style="width:1200px;margin:0 auto;">
-      <el-container>
-        <el-header style="height:auto;">
-          <el-card @click.native="handleInfoClick" :body-style="{ padding: '0px' }" shadow="hover" style="cursor:pointer;">
-            <UserInfo
-              :nick="userInfo.nick||''"
-              :portrait="userInfo.portrait || ''"
-              :level="userInfo.ulevel || 0"
-              :uid="userInfo.uid || ''"
-              :starNumber="userInfo.point||0"
-              :diamondNumber="userInfo.gold||0"
-            ></UserInfo>
-          </el-card>
-        </el-header>
-        <el-container>
-          <el-card :body-style="{ padding: '0px' }" shadow="never">
-            <el-aside width="250px;">
-              <UserInfoNav />
-            </el-aside>
-          </el-card>
-          <el-main>
-            <el-card :body-style="{ padding: '0px', margin:'0px' }">
-              <router-view></router-view>
-            </el-card>
-          </el-main>
-        </el-container>
-      </el-container>
+  <div class="center-container-main">
+    <div class="center-user-info" @click="handleInfoClick">
+      <UserInfo :user="this.$store.state.userInfo"></UserInfo>
+    </div>
+    <div class="center-sub-container">
+      <div class="center-sub-nav">
+        <UserInfoNav />
+      </div>
+      <div class="center-sub-detail">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Api from '../api'
-import UserInfo from "../components/UserInfo";
-import UserInfoNav from "../components/UserInfoNav";
-import Header from "../components/Header";
+import UserInfo from '../components/UserInfo'
+import UserInfoNav from '../components/UserInfoNav'
 
 export default {
-  name: "user-center",
+  name: 'user-center',
   components: {
     UserInfo,
     UserInfoNav,
-    Header
   },
   data() {
     return {
       userInfo: {
         //保存用户信息
-        nick: "",
+        nick: '',
         ulevel: 89,
         uid: '',
         gold: 68,
         point: 99,
-        portrait: ''
-      }
-    };
-  },
-  mounted(){
-    Api.getUserInfo().then(res => {
-      let ret = res.data.data;
-      this.userInfo.nick = ret.nickName;
-      this.userInfo.uid = ret.id;
-      this.userInfo.ulevel = ret.id;
-      this.userInfo.portrait = ret.avatar;
-    })
-  },
-  filters:{
-    level_filter(v){
-      return "uid:" + v;
+        portrait: '',
+      },
     }
   },
-  methods:{
-    handleInfoClick(){
-      this.$router.push({
-        path:'/center/info'
-      }).catch(()=>{
-
-      })
-    }
-  }
-};
+  mounted() {},
+  filters: {
+    level_filter(v) {
+      return 'uid:' + v
+    },
+  },
+  methods: {
+    handleInfoClick() {
+      this.$router
+        .push({
+          path: '/center/info',
+        })
+        .catch(() => {})
+    },
+  },
+}
 </script>
 
-<style scoped>
-.center-div .el-header {
-  padding: 0px;
-}
-
-.center-div .el-container {
-  margin: 30px 0 30px 0;
-}
-
-.center-div .el-main {
-  text-align: center;
-  margin-left: 20px;
-  padding: 0px;
-}
-.center-div .el-menu {
-  border: none;
+<style lang="less" scoped>
+.center-container-main {
+  width: 1300px;
+  margin: 0 auto;
+  overflow: auto;
+  .center-user-info {
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+  .center-user-info:hover {
+    box-shadow: 5px 5px 20px #d1d1d1d1;
+    transition: all 0.6s;
+    cursor: pointer;
+  }
+  .center-sub-container {
+    width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    .center-sub-nav {
+      background: #fff;
+    }
+    .center-sub-detail {
+      width: 100%;
+      margin-left: 20px;
+      height: 600px;
+      background: #fff;
+      overflow: auto;
+    }
+  }
+  .el-container {
+    margin: 30px 0 30px 0;
+  }
+  .el-main {
+    text-align: center;
+    margin-left: 20px;
+    padding: 0px;
+  }
+  .el-menu {
+    border: none;
+  }
 }
 </style>

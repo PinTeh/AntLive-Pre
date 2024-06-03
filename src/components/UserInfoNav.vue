@@ -1,12 +1,11 @@
 <template>
   <el-menu
     :default-active="activeIndex"
-    class="el-menu-demo"
+    class="el-menu-nav"
     @select="handleSelect"
     :unique-opened="true"
-    
   >
-    <el-submenu index="1" >
+    <el-submenu index="1">
       <template slot="title">
         <!-- <i class="el-icon-location"></i> -->
         <span>个人中心</span>
@@ -45,25 +44,29 @@
 
 <script>
 export default {
-  name: "user-info-nav",
+  name: 'user-info-nav',
+  props: [''],
   data() {
     return {
-      activeIndex: "security"
-    };
+      activeIndex: 'security',
+    }
   },
   methods: {
     handleSelect(key, keyPath) {
-      this.$router.push({
-        path: "/center/" + keyPath[1]
-      }).catch(()=>{});
-    }
-  }
-};
+      this.$router
+        .push({
+          path: '/center/' + keyPath[1],
+        })
+        .catch(() => {})
+    },
+  },
+}
 </script>
 
 <style scoped>
-.el-menu {
+.el-menu-nav {
+  width: 200px;
   height: 550px;
-  min-width: 200px;
+  overflow: auto;
 }
 </style>

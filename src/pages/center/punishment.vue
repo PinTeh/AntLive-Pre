@@ -1,20 +1,20 @@
 <template>
-    <div class="punishment-container">
-        暂无违规记录，请继续保持~
-    </div>
+  <div class="container">
+    <el-empty class="empty" description="暂无违规记录，请继续保持~"></el-empty>
+  </div>
 </template>
 
 <script>
 export default {
-    name:'punishment'
+  name: 'punishment',
 }
 </script>
 
 <style lang="less">
-    .punishment-container{
-        height:500px;
-        line-height: 500px;
-        font-size: 13px;
-        color:#666;
-    }
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

@@ -15,152 +15,152 @@
 </template>
 
 <script>
-import Api from "../../api";
-import { Line } from "@antv/g2plot";
+import StatisticApi from '@/api/statistic'
+import { Line } from '@antv/g2plot'
 export default {
-  name: "dan-mu",
+  name: 'dan-mu',
   data() {
     return {
-      days: "7",
-      plot: "",
-      speakPlot: "",
+      days: '7',
+      plot: '',
+      speakPlot: '',
       plotData: [],
       speakPlotData: [],
-      subActiveName: "view"
-    };
+      subActiveName: 'view',
+    }
   },
   mounted() {
-    this.init(this.days);
+    this.init(this.days)
   },
   methods: {
     handleClick(tab) {
-      this.days = tab.name;
-      this.initData(true);
+      this.days = tab.name
+      this.initData(true)
     },
     handleSubClick(tab) {
-      this.subActiveName = tab.name;
-      this.initData(false);
+      this.subActiveName = tab.name
+      this.initData(false)
     },
     init(days) {
-      Api.getStatView({
-        days
-      }).then(res => {
-        let data = res.data.data;
-        this.plotData = [];
-        data.map(v => {
-          this.packageViewObject(v);
-        });
+      StatisticApi.getStatView({
+        days,
+      }).then((res) => {
+        let data = res.data.data
+        this.plotData = []
+        data.map((v) => {
+          this.packageViewObject(v)
+        })
 
-        this.plot = new Line("c1", {
+        this.plot = new Line('c1', {
           title: {
             visible: false,
-            text: "带数据点的折线图"
+            text: '带数据点的折线图',
           },
           description: {
             visible: true,
-            text: "人气指数统计"
+            text: '人气指数统计',
           },
           data: this.plotData,
           smooth: true,
-          padding: "auto",
-          xField: "date",
-          yField: "value",
-          seriesField: "type",
+          padding: 'auto',
+          xField: 'date',
+          yField: 'value',
+          seriesField: 'type',
           // forceFit:true,
-          renderer: "svg",
+          renderer: 'svg',
           pixelRatio: 2,
           point: {
-            visible: true
+            visible: true,
           },
           label: {
             visible: false,
-            type: "point"
+            type: 'point',
           },
 
           meta: {
             value: {
-              alias: "指数",
-              formatter: v => {
-                return `${v}p`;
-              }
-            }
-          }
-        });
-        this.plot.render();
-      });
+              alias: '指数',
+              formatter: (v) => {
+                return `${v}p`
+              },
+            },
+          },
+        })
+        this.plot.render()
+      })
     },
     initData(isOnlyChnageDays) {
       switch (this.subActiveName) {
-        case "view":
-          Api.getStatView({
-            days: this.days
-          }).then(res => {
-            let data = res.data.data;
-            this.plotData = [];
-            data.map(v => {
-              this.packageViewObject(v);
-            });
+        case 'view':
+          StatisticApi.getStatView({
+            days: this.days,
+          }).then((res) => {
+            let data = res.data.data
+            this.plotData = []
+            data.map((v) => {
+              this.packageViewObject(v)
+            })
             if (!isOnlyChnageDays) {
               this.plot.updateConfig({
                 description: {
                   visible: true,
-                  text: "人气指数统计"
+                  text: '人气指数统计',
                 },
-                yField: "value",
-                seriesField: "type",
-                data: this.plotData
-              });
-              this.plot.render();
+                yField: 'value',
+                seriesField: 'type',
+                data: this.plotData,
+              })
+              this.plot.render()
             } else {
-              this.plot.changeData(this.plotData);
+              this.plot.changeData(this.plotData)
             }
-          });
+          })
 
-          break;
-        case "speak":
-          Api.getStatSpeak({
-            days: this.days
-          }).then(res => {
-            let data = res.data.data;
+          break
+        case 'speak':
+          StatisticApi.getStatSpeak({
+            days: this.days,
+          }).then((res) => {
+            let data = res.data.data
             if (!isOnlyChnageDays) {
               this.plot.updateConfig({
                 description: {
                   visible: true,
-                  text: "弹幕指数统计"
+                  text: '弹幕指数统计',
                 },
-                yField: "number",
-                seriesField: "",
-                data
-              });
-              this.plot.render();
+                yField: 'number',
+                seriesField: '',
+                data,
+              })
+              this.plot.render()
             } else {
-              this.plot.changeData(data);
+              this.plot.changeData(data)
             }
-          });
-          break;
+          })
+          break
         default:
-          break;
+          break
       }
     },
     packageViewObject(v) {
-      var member = new Object();
-      var visitor = new Object();
-      var total = new Object();
-      member["value"] = v.memberNumber;
-      visitor["value"] = v.visitorNumber;
-      total["value"] = v.totalNumber;
-      member["date"] = v.date;
-      member["type"] = "会员人气";
-      visitor["date"] = v.date;
-      visitor["type"] = "游客人气";
-      total["date"] = v.date;
-      total["type"] = "总人气";
-      this.plotData.push(member);
-      this.plotData.push(visitor);
+      var member = new Object()
+      var visitor = new Object()
+      var total = new Object()
+      member['value'] = v.memberNumber
+      visitor['value'] = v.visitorNumber
+      total['value'] = v.totalNumber
+      member['date'] = v.date
+      member['type'] = '会员人气'
+      visitor['date'] = v.date
+      visitor['type'] = '游客人气'
+      total['date'] = v.date
+      total['type'] = '总人气'
+      this.plotData.push(member)
+      this.plotData.push(visitor)
       //this.plotData.push(total);
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="less">
